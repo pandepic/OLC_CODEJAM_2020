@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Menu>
+  <Font AssetName="latoblack" />
+
+  <Script>
+    <Name>GameplayMenuScript</Name>
+    <AssetName>GameplayMenuScript</AssetName>
+    <Class Name="GameplayMenu" />
+  </Script>
+
+  <Scene Name="mainScene">
+    <Frame Name="debugFrame">
+      <Position>
+        <X>0</X>
+        <Y>0</Y>
+      </Position>
+      <Size>
+        <Width>fill</Width>
+        <Height>fill</Height>
+      </Size>
+
+      <Widgets>
+        <Label Name="lblCamera" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>20</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>0</Y>
+          </Offset>
+        </Label>
+
+        <Label Name="lblWorld" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>50</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>0</Y>
+          </Offset>
+        </Label>
+
+        <Label Name="lblGeneral" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>80</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>0</Y>
+          </Offset>
+        </Label>
+      </Widgets>
+    </Frame>
+    <Frame Name="mainFrame">
+      <Position>
+        <X>0</X>
+        <Y>0</Y>
+      </Position>
+      <Size>
+        <Width>fill</Width>
+        <Height>fill</Height>
+      </Size>
+
+      <Widgets>
+        <Label Name="lblTitle">
+          <Text>WAR MACHINE - OLC Code Jam 2020</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>24</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>20</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+          <UpdateMethod></UpdateMethod>
+        </Label>
+      </Widgets>
+    </Frame>
+  </Scene>
+</Menu>

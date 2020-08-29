@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Assets>
+  <!-- Fonts -->
+  <Asset Name="latoblack" FilePath="Assets/UI/Lato-Bold.ttf" />
+  
+  <!-- UI Definitions -->
+  <Asset Name="UITemplates" FilePath="Assets/XML/ui_templates.xml" />
+  <Asset Name="MainMenuDefinition" FilePath="Assets/XML/main_menu.xml" />
+  <Asset Name="MainMenuScript" FilePath="Assets/Py/main_menu.py" />
+  <Asset Name="GameplayMenuDefinition" FilePath="Assets/XML/gameplay_menu.xml" />
+  <Asset Name="GameplayMenuScript" FilePath="Assets/Py/gameplay_menu.py" />
+  
+  <!-- UI Textures -->
+  <Asset Name="MenuBG" FilePath="Assets/UI/menu_bg.jpg" />
+  <Asset Name="StandardButton" FilePath="Assets/UI/standard_button.png" />
+  <Asset Name="StandardButton2" FilePath="Assets/UI/standard_button_2.png" />
+  
+  <!-- Sprites -->
+  <Asset Name="AsteroidsTexture" FilePath="Assets/Sprites/asteroids.png" />
+  <Asset Name="AsteroidsAtlas" FilePath="Assets/Sprites/asteroids.xml" />
+  <Asset Name="ShipsTexture" FilePath="Assets/Sprites/ships.png" />
+  <Asset Name="ShipsAtlas" FilePath="Assets/Sprites/ships.xml" />
+  
+</Assets>

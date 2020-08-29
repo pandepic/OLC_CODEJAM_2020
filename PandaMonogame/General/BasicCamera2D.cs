@@ -139,6 +139,11 @@ namespace PandaMonogame
                 SetViewPositionY((BoundingBox.Y + BoundingBox.Height) - _view.Height);
         }
 
+        public Vector2 ScreenToWorldPosition(Vector2 pos)
+        {
+            return Vector2.Transform(pos, Matrix.Invert(GetViewMatrix()));
+        }
+
         private void SetViewPositionX(int x)
         {
             SetViewPosition(x, _view.Y);

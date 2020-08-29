@@ -18,16 +18,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Py\gameplay_menu.py" />
+    <None Remove="Assets\Sprites\ships.png" />
+    <None Remove="Assets\Sprites\ships.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GameCore\GameCore.csproj" />
     <ProjectReference Include="..\PandaMonogame\PandaMonogame.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Assets\Sprites\" />
   </ItemGroup>
 
 </Project>

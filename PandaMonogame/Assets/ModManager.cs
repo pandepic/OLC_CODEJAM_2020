@@ -75,11 +75,11 @@ namespace PandaMonogame
             {
                 XDocument modList = XDocument.Load(fs);
 
-                List<Mod> xmlMods = (from XElement mod in modList.Root.Elements("mod")
+                List<Mod> xmlMods = (from XElement mod in modList.Root.Elements("Mod")
                                      select new Mod()
                                      {
-                                         Name = mod.Attribute("name").Value,
-                                         Ignore = bool.Parse(mod.Attribute("ignore").Value)
+                                         Name = mod.Attribute("Name").Value,
+                                         Ignore = bool.Parse(mod.Attribute("Ignore").Value)
                                      }).ToList();
 
                 _modDirectory = modDirectory;
@@ -122,13 +122,13 @@ namespace PandaMonogame
         {
             XDocument modListFile = new XDocument();
 
-            modListFile.Add(new XElement("mods"));
+            modListFile.Add(new XElement("Mods"));
 
             foreach (var mod in _loadedMods)
             {
-                XElement modElement = new XElement("mod");
-                modElement.SetAttributeValue("name", mod.Name);
-                modElement.SetAttributeValue("ignore", mod.Ignore.ToString());
+                XElement modElement = new XElement("Mod");
+                modElement.SetAttributeValue("Name", mod.Name);
+                modElement.SetAttributeValue("Ignore", mod.Ignore.ToString());
 
                 modListFile.Root.Add(modElement);
             } // foreach

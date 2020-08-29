@@ -54,5 +54,10 @@ namespace PandaMonogame
 
             return true;
         } // Vector2IntCompare
+
+        public static double RandomDouble(Random rng, double min, double max)
+        {
+            return rng.NextDouble() * (max - min) + min;
+        }
     }
 }
