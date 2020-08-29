@@ -29,6 +29,7 @@ namespace GameCore
 
             var asteroidTypeCount = WorldData.AsteroidTypes.Count;
 
+            // random asteroid field generation
             for (var x = 0; x < WorldWidth; x += AsteroidRegionWidth)
             {
                 for (var y = 0; y < WorldHeight; y += AsteroidRegionHeight)

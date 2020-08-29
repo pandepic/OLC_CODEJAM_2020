@@ -21,39 +21,15 @@
       </Size>
 
       <Widgets>
-        <Label Name="lblCamera" Template="DebugLabel">
+        <Label Name="lblDebug" Template="DebugLabel">
           <Text></Text>
           <Position>
             <X>left</X>
-            <Y>20</Y>
+            <Y>top</Y>
           </Position>
           <Offset>
             <X>25</X>
-            <Y>0</Y>
-          </Offset>
-        </Label>
-
-        <Label Name="lblWorld" Template="DebugLabel">
-          <Text></Text>
-          <Position>
-            <X>left</X>
-            <Y>50</Y>
-          </Position>
-          <Offset>
-            <X>25</X>
-            <Y>0</Y>
-          </Offset>
-        </Label>
-
-        <Label Name="lblGeneral" Template="DebugLabel">
-          <Text></Text>
-          <Position>
-            <X>left</X>
-            <Y>80</Y>
-          </Position>
-          <Offset>
-            <X>25</X>
-            <Y>0</Y>
+            <Y>25</Y>
           </Offset>
         </Label>
       </Widgets>

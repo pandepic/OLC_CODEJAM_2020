@@ -29,9 +29,11 @@ namespace GameCore
         {
             _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
 
-            _camera = new BasicCamera2D(new Rectangle(0, 0, graphics.PresentationParameters.BackBufferWidth, graphics.PresentationParameters.BackBufferHeight), Rectangle.Empty);
-
             _worldManager = new WorldManager();
+
+            _camera = new BasicCamera2D(
+                new Rectangle(0, 0, graphics.PresentationParameters.BackBufferWidth, graphics.PresentationParameters.BackBufferHeight),
+                new Rectangle(0, 0, _worldManager.WorldWidth, _worldManager.WorldHeight));
         }
 
         public override int Update(GameTime gameTime)
@@ -40,9 +42,10 @@ namespace GameCore
             var mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
             var worldPos = _camera.ScreenToWorldPosition(mousePosition);
 
-            _menu.GetWidget<PUIWLabel>("lblCamera").Text = _camera.GetViewRect().ToString() + " : " + _camera.Zoom;
-            _menu.GetWidget<PUIWLabel>("lblWorld").Text = "Asteroids: " + (_worldManager.Asteroids.LastActiveIndex + 1);
-            _menu.GetWidget<PUIWLabel>("lblGeneral").Text = worldPos.ToString() + " : " + _worldManager.PlayerEntity.Rotation;// + " : " + _worldManager.PlayerEntity.TargetRotation;
+            _menu.GetWidget<PUIWLabel>("lblDebug").Text = 
+                _camera.GetViewRect().ToString() + " : " + _camera.Zoom + "\n" +
+                "Asteroids: " + (_worldManager.Asteroids.LastActiveIndex + 1) + "\n" +
+                worldPos.ToString() + " : " + _worldManager.PlayerEntity.Rotation;
 
             _menu.Update(gameTime);
             _worldManager.Update(gameTime);

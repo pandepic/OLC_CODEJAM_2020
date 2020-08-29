@@ -12,7 +12,7 @@ namespace GameCore.Entities
     {
         public Player()
         {
-            Sprite = TexturePacker.GetSprite("ShipsAtlas", "Destroyer1");
+            Sprite = TexturePacker.GetSprite("ShipsAtlas", "Station2");
             Origin = new Vector2(Sprite.SourceRect.Width / 2, Sprite.SourceRect.Height / 2);
         }
     }

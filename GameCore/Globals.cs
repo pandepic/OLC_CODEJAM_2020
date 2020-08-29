@@ -26,6 +26,24 @@ namespace GameCore
         Exit
     };
 
+    /*
+        Mined resources:
+            - Metal
+            - Gas
+            - Water
+            - Crystal
+            - Uranium
+    */
+
+    public enum ResourceType
+    {
+        Uranium,
+        Ice,
+        Water,
+        Oxygen,
+
+    }
+
     public enum AsteroidType
     {
         Iron,
