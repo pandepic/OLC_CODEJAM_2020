@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameCore.AI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PandaMonogame;
 using PandaMonogame.Assets;
@@ -8,28 +9,25 @@ using System.Text;
 
 namespace GameCore.Entities
 {
-    public class Ship : IPoolable
+    public class Ship : Entity
     {
-        public TexturePackerSprite Sprite;
+        public Ship Owner = null;
+        public bool IsPlayerShip = false;
 
-        public float Rotation = 0.0f, TargetRotation = 0.0f;
-        public float Scale = 1.0f;
+        public float TargetRotation = 0.0f;
 
-        public Vector2 Position, Velocity, Origin, Destination;
+        public Vector2 Destination;
 
         public bool Moving = false;
         public float TurnSpeed = 50.0f;
         public float MoveSpeed = 50.0f;
-        public float BrakingSpeed = 25.0f;
 
-        public bool IsAlive { get; set; }
-
-        public void Reset()
-        {
-        }
+        public SimpleStateMachine StateMachine = new SimpleStateMachine();
 
         public void Update(GameTime gameTime)
         {
+            StateMachine.Update(gameTime);
+
             Position += Velocity * gameTime.DeltaTime();
 
             if (Moving)
@@ -96,6 +94,17 @@ namespace GameCore.Entities
                 angle = angle360;
 
             return angle;
+        }
+
+        public void StopMovement()
+        {
+            Moving = false;
+            Velocity = Vector2.Zero;
+        }
+
+        public void SetState(string name)
+        {
+            StateMachine.SetState(name);
         }
     }
 }

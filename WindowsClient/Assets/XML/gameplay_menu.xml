@@ -32,6 +32,18 @@
             <Y>25</Y>
           </Offset>
         </Label>
+
+        <Label Name="lblInventory" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>right</X>
+            <Y>top</Y>
+          </Position>
+          <Offset>
+            <X>-25</X>
+            <Y>25</Y>
+          </Offset>
+        </Label>
       </Widgets>
     </Frame>
     <Frame Name="mainFrame">

@@ -1,32 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PandaMonogame;
+using PandaMonogame.Assets;
+using SpriteFontPlus;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GameCore.Entities
 {
-    public class AsteroidTypeData
+    public class Asteroid : Entity
     {
-        public AsteroidType Type;
-        public Rectangle SourceRect;
-    }
-
-    public class Asteroid : IPoolable
-    {
-        public Texture2D Texture;
-        public Vector2 Position, Origin;
-        public AsteroidTypeData TypeData;
-        public float Rotation = 0.0f;
-        public float Scale = 1.0f;
         public float RotationSpeed = 0.0f;
 
-        public bool IsAlive { get; set; }
-
-        public void Reset()
-        {
-        }
+        public ResourceType ResourceType = ResourceType.None;
+        public int ResourceCount = 0;
 
         public void Update(GameTime gameTime)
         {
@@ -36,9 +24,9 @@ namespace GameCore.Entities
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                        Texture,
+                        Sprite.Texture,
                         Position,
-                        TypeData.SourceRect,
+                        Sprite.SourceRect,
                         Color.White,
                         Rotation,
                         Origin,
@@ -46,6 +34,14 @@ namespace GameCore.Entities
                         SpriteEffects.None,
                         0.0f
                         );
+
+            if (ResourceType != ResourceType.None)
+            {
+                Sprites.DefaultFont.Size = 22;
+                var resourceString = ResourceType.ToString();
+                var resourceStringSize = Sprites.DefaultFont.MeasureString(resourceString);
+                spriteBatch.DrawString(Sprites.DefaultFont, resourceString, Position - new Vector2(resourceStringSize.X / 2, resourceStringSize.Y / 2) - new Vector2(0, Origin.Y + 25), Color.White);
+            }
         }
     }
 }

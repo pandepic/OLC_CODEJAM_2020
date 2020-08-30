@@ -22,4 +22,26 @@
   <Asset Name="ShipsTexture" FilePath="Assets/Sprites/ships.png" />
   <Asset Name="ShipsAtlas" FilePath="Assets/Sprites/ships.xml" />
   
+  <!-- Backgrounds -->
+  <Asset Name="Background1" FilePath="Assets/Backgrounds/1.png" />
+  <Asset Name="Background2" FilePath="Assets/Backgrounds/2.png" />
+  <Asset Name="Background3" FilePath="Assets/Backgrounds/3.png" />
+  <Asset Name="Background4" FilePath="Assets/Backgrounds/4.png" />
+  <Asset Name="Background5" FilePath="Assets/Backgrounds/5.png" />
+  <Asset Name="Background6" FilePath="Assets/Backgrounds/6.png" />
+  <Asset Name="Background7" FilePath="Assets/Backgrounds/7.png" />
+  <Asset Name="Background8" FilePath="Assets/Backgrounds/8.png" />
+  
+  <!-- Planets -->
+  <Asset Name="Planet1" FilePath="Assets/Backgrounds/Planets/1.png" />
+  <Asset Name="Planet2" FilePath="Assets/Backgrounds/Planets/2.png" />
+  <Asset Name="Planet3" FilePath="Assets/Backgrounds/Planets/3.png" />
+  <Asset Name="Planet4" FilePath="Assets/Backgrounds/Planets/4.png" />
+  <Asset Name="Planet5" FilePath="Assets/Backgrounds/Planets/5.png" />
+  <Asset Name="Planet6" FilePath="Assets/Backgrounds/Planets/6.png" />
+  <Asset Name="Planet7" FilePath="Assets/Backgrounds/Planets/7.png" />
+  <Asset Name="Planet8" FilePath="Assets/Backgrounds/Planets/8.png" />
+  <Asset Name="Planet9" FilePath="Assets/Backgrounds/Planets/9.png" />
+  <Asset Name="Planet10" FilePath="Assets/Backgrounds/Planets/10.png" />
+  
 </Assets>

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameCore.AI;
+using GameCore.Entities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -23,17 +25,18 @@ namespace GameCore
         protected bool _mouseDragging = false;
         protected Vector2 _mouseDragPosition = Vector2.Zero;
 
+        protected bool _lockCamera = false;
         protected bool _showDebug = true;
 
         public override void Load(ContentManager Content, GraphicsDevice graphics)
         {
             _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
 
-            _worldManager = new WorldManager();
-
             _camera = new BasicCamera2D(
                 new Rectangle(0, 0, graphics.PresentationParameters.BackBufferWidth, graphics.PresentationParameters.BackBufferHeight),
-                new Rectangle(0, 0, _worldManager.WorldWidth, _worldManager.WorldHeight));
+                new Rectangle(0, 0, WorldManager.WorldWidth, WorldManager.WorldHeight));
+
+            _worldManager = new WorldManager(graphics, _camera);
         }
 
         public override int Update(GameTime gameTime)
@@ -41,11 +44,23 @@ namespace GameCore
             var mouseState = Mouse.GetState();
             var mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
             var worldPos = _camera.ScreenToWorldPosition(mousePosition);
+            var centerWorldPos = _camera.ScreenToWorldPosition(_worldManager.ScreenCenter);
 
-            _menu.GetWidget<PUIWLabel>("lblDebug").Text = 
+            if (_lockCamera)
+                _camera.CenterPosition(_worldManager.PlayerEntity.Position);
+
+            _menu.GetWidget<PUIWLabel>("lblDebug").Text =
                 _camera.GetViewRect().ToString() + " : " + _camera.Zoom + "\n" +
                 "Asteroids: " + (_worldManager.Asteroids.LastActiveIndex + 1) + "\n" +
-                worldPos.ToString() + " : " + _worldManager.PlayerEntity.Rotation;
+                worldPos.ToString() + " : " + _worldManager.PlayerEntity.Rotation + "\n" +
+                centerWorldPos.ToString();
+
+            var inventoryString = new StringBuilder();
+
+            foreach (var kvp in _worldManager.PlayerEntity.Inventory)
+                inventoryString.Append(kvp.Key.ToString() + ": " + kvp.Value.ToString() + "\n");
+
+            _menu.GetWidget<PUIWLabel>("lblInventory").Text = inventoryString.ToString();
 
             _menu.Update(gameTime);
             _worldManager.Update(gameTime);
@@ -56,11 +71,18 @@ namespace GameCore
         public override void Draw(GameTime gameTime, GraphicsDevice graphics, SpriteBatch spriteBatch)
         {
             graphics.Clear(Color.Black);
-            
+
+            // screen space
+            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
+            {
+                _worldManager.DrawScreen(spriteBatch);
+            }
+            spriteBatch.End();
+
             // world space
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp, transformMatrix: _camera.GetViewMatrix());
             {
-                _worldManager.Draw(spriteBatch);
+                _worldManager.DrawWorld(spriteBatch);
             }
             spriteBatch.End();
 
@@ -119,16 +141,36 @@ namespace GameCore
             {
                 if (_mouseDragging && button == MouseButtonID.Left)
                     _mouseDragging = false;
-                
+
                 if (button == MouseButtonID.Right)
                 {
-                    var worldPos = _camera.ScreenToWorldPosition(mousePosition);
-                    //_worldManager.PlayerEntity.Destination = worldPos;
-                    _worldManager.PlayerEntity.SetDestination(worldPos);
+                    Asteroid target = null;
+                    var mouseWorldPos = _camera.ScreenToWorldPosition(mousePosition);
 
-                    //_worldManager.PlayerEntity.Rotation = (float)Math.Atan2(
-                    //        (double)(worldPos.X - _worldManager.PlayerEntity.Position.X),
-                    //        (double)(_worldManager.PlayerEntity.Position.Y - worldPos.Y));
+                    for (var i = 0; i <= _worldManager.Asteroids.LastActiveIndex; i++)
+                    {
+                        var asteroid = _worldManager.Asteroids[i];
+
+                        if (asteroid.CollisionRect.Contains(mouseWorldPos))
+                        {
+                            target = asteroid;
+                        }
+                    }
+
+                    if (target != null)
+                    {
+                        if (target.ResourceType != ResourceType.None)
+                        {
+                            var state = _worldManager.TestMiner.StateMachine.GetState<MinerTravelingState>();
+                            state.Target = target;
+                            _worldManager.TestMiner.SetState("Traveling");
+                        }
+                    }
+                    else
+                    {
+                        _worldManager.PlayerEntity.StateMachine.GetState<PlayerTravelingState>().Target = mouseWorldPos;
+                        _worldManager.PlayerEntity.SetState("Traveling");
+                    }
                 }
             }
         }
@@ -146,12 +188,14 @@ namespace GameCore
                 _camera.Zoom += 0.2f;
                 if (_camera.Zoom > 4.0f)
                     _camera.Zoom = 4.0f;
+                _camera.CheckBoundingBox();
             }
             else
             {
                 _camera.Zoom -= 0.2f;
                 if (_camera.Zoom < 0.2f)
                     _camera.Zoom = 0.2f;
+                _camera.CheckBoundingBox();
             }
         }
 
@@ -173,6 +217,10 @@ namespace GameCore
                 _showDebug = !_showDebug;
                 _menu.GetFrame("debugFrame").Visible = _showDebug;
                 _menu.GetFrame("debugFrame").Active = _showDebug;
+            }
+            else if (key == Keys.Space)
+            {
+                _lockCamera = !_lockCamera;
             }
         }
 

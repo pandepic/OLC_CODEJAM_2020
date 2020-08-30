@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PandaMonogame
 {
@@ -129,14 +130,29 @@ namespace PandaMonogame
             if (BoundingBox.IsEmpty || BoundingBox == null)
                 return;
 
-            if (_view.X < BoundingBox.X)
-                SetViewPositionX(BoundingBox.X);
-            if (_view.X + _view.Width > BoundingBox.X + BoundingBox.Width)
-                SetViewPositionX((BoundingBox.X + BoundingBox.Width) - _view.Width);
-            if (_view.Y < BoundingBox.Y)
-                SetViewPositionY(BoundingBox.Y);
-            if ((_view.Y + _view.Height) > (BoundingBox.Y + BoundingBox.Height))
-                SetViewPositionY((BoundingBox.Y + BoundingBox.Height) - _view.Height);
+            var worldCameraXY = ScreenToWorldPosition(new Vector2(0, 0));
+            var worldCameraWH = ScreenToWorldPosition(new Vector2(BoundingBox.X + _view.Width, BoundingBox.Y + _view.Height));
+
+            if (worldCameraXY.X < BoundingBox.X)
+                _position.X += (worldCameraXY.X * -1.0f) + BoundingBox.X;
+            if (worldCameraXY.Y < BoundingBox.Y)
+                _position.Y += (worldCameraXY.Y * -1.0f) + BoundingBox.Y;
+            if (worldCameraWH.X > BoundingBox.Right)
+                _position.X -= (worldCameraWH.X - BoundingBox.Right);
+            if (worldCameraWH.Y > BoundingBox.Bottom)
+                _position.Y -= (worldCameraWH.Y - BoundingBox.Bottom);
+
+            _view.X = (int)_position.X;
+            _view.Y = (int)_position.Y;
+
+            //if (_view.X < BoundingBox.X)
+            //    SetViewPositionX(BoundingBox.X);
+            //if (_view.X + _view.Width > BoundingBox.X + BoundingBox.Width)
+            //    SetViewPositionX((BoundingBox.X + BoundingBox.Width) - _view.Width);
+            //if (_view.Y < BoundingBox.Y)
+            //    SetViewPositionY(BoundingBox.Y);
+            //if ((_view.Y + _view.Height) > (BoundingBox.Y + BoundingBox.Height))
+            //    SetViewPositionY((BoundingBox.Y + BoundingBox.Height) - _view.Height);
         }
 
         public Vector2 ScreenToWorldPosition(Vector2 pos)
