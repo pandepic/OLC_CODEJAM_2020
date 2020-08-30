@@ -26,7 +26,7 @@ namespace GameCore.AI
             if (Vector2.Distance(ParentShip.Position, Target) <= 25.0f)
             {
                 ParentShip.StopMovement();
-                Parent.SetState("Idle");
+                Parent.SetState<ShipIdleState>();
             }
         }
     }

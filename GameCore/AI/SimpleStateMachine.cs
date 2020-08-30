@@ -124,6 +124,18 @@ namespace GameCore.AI
             SetCurrentStateInternal(States[name]);
         }
 
+        public void Start<T>() where T : SimpleStateBase
+        {
+            foreach (var kvp in States)
+            {
+                if (kvp.Value is T)
+                {
+                    Start(kvp.Value.Name);
+                    return;
+                }
+            }
+        }
+
         public void Update(GameTime gameTime)
         {
             CurrentState?.Update(gameTime);

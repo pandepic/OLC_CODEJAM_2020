@@ -17,11 +17,11 @@ namespace GameCore.Entities
             StateMachine.RegisterState(new MinerReturningState(this));
             StateMachine.RegisterState(new MinerDepositingState(this));
             StateMachine.RegisterState(new ShipFollowingState(this));
+            StateMachine.RegisterState(new ShipPatrolFollowState(this));
 
-            var following = StateMachine.GetState<ShipFollowingState>();
-            following.Target = Owner;
-            following.FollowDistance = 250.0f;
-            StateMachine.Start("Following");
+            var patrolFollow = StateMachine.GetState<ShipPatrolFollowState>();
+            patrolFollow.Target = Owner;
+            StateMachine.Start<ShipPatrolFollowState>();
         }
     }
 }

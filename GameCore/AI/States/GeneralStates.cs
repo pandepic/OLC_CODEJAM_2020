@@ -65,4 +65,21 @@ namespace GameCore.AI
         {
         }
     }
+
+    public class ShipPatrolFollowState : ShipStateBase
+    {
+        public Ship Target;
+
+        public ShipPatrolFollowState(Ship parentShip) : base("PatrolFollow", parentShip) { }
+
+        public override void Begin()
+        {
+            ParentShip.SetDestination(Target.Position);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            ParentShip.SetDestination(Target.Position);
+        }
+    }
 }

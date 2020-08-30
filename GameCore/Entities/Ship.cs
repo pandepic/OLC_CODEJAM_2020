@@ -102,6 +102,11 @@ namespace GameCore.Entities
             Velocity = Vector2.Zero;
         }
 
+        public void SetState<T>() where T : SimpleStateBase
+        {
+            StateMachine.SetState<T>();
+        }
+
         public void SetState(string name)
         {
             StateMachine.SetState(name);

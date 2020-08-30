@@ -163,13 +163,13 @@ namespace GameCore
                         {
                             var state = _worldManager.TestMiner.StateMachine.GetState<MinerTravelingState>();
                             state.Target = target;
-                            _worldManager.TestMiner.SetState("Traveling");
+                            _worldManager.TestMiner.SetState<MinerTravelingState>();
                         }
                     }
                     else
                     {
                         _worldManager.PlayerEntity.StateMachine.GetState<PlayerTravelingState>().Target = mouseWorldPos;
-                        _worldManager.PlayerEntity.SetState("Traveling");
+                        _worldManager.PlayerEntity.SetState<PlayerTravelingState>();
                     }
                 }
             }

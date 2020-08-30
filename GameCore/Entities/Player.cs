@@ -25,7 +25,7 @@ namespace GameCore.Entities
             StateMachine.RegisterState(new ShipIdleState(this));
             StateMachine.RegisterState(new PlayerTravelingState(this));
 
-            StateMachine.Start("Idle");
+            StateMachine.Start<ShipIdleState>();
         }
     }
 }

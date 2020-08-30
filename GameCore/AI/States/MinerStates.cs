@@ -26,8 +26,8 @@ namespace GameCore.AI
             if (ParentShip.CollisionRect.Intersects(Target.CollisionRect))
             {
                 ParentShip.StopMovement();
-                Parent.SetState("Mining");
                 Parent.GetState<MinerMiningState>().Target = Target;
+                Parent.SetState<MinerMiningState>();
             }
             else
             {
@@ -51,7 +51,7 @@ namespace GameCore.AI
 
         public override void EndDuration()
         {
-            Parent.SetState("Returning");
+            Parent.SetState<MinerReturningState>();
         }
     }
 
@@ -76,7 +76,7 @@ namespace GameCore.AI
             if (ParentShip.CollisionRect.Intersects(Target.CollisionRect))
             {
                 ParentShip.StopMovement();
-                Parent.SetState("Depositing");
+                Parent.SetState<MinerDepositingState>();
             }
             else
             {
@@ -96,10 +96,9 @@ namespace GameCore.AI
 
         public override void EndDuration()
         {
-            var following = Parent.GetState<ShipFollowingState>();
-            following.Target = ParentShip.Owner;
-            following.FollowDistance = 250.0f;
-            Parent.SetState("Following");
+            var patrolFollow = Parent.GetState<ShipPatrolFollowState>();
+            patrolFollow.Target = ParentShip.Owner;
+            Parent.SetState<ShipPatrolFollowState>();
         }
     }
 }
