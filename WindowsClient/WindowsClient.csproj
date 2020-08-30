@@ -18,33 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Assets\Backgrounds\1.png" />
-    <None Remove="Assets\Backgrounds\2.png" />
-    <None Remove="Assets\Backgrounds\3.png" />
-    <None Remove="Assets\Backgrounds\4.png" />
-    <None Remove="Assets\Backgrounds\5.png" />
-    <None Remove="Assets\Backgrounds\6.png" />
-    <None Remove="Assets\Backgrounds\7.png" />
-    <None Remove="Assets\Backgrounds\8.png" />
-    <None Remove="Assets\Backgrounds\Planets\1.png" />
-    <None Remove="Assets\Backgrounds\Planets\10.png" />
-    <None Remove="Assets\Backgrounds\Planets\11.png" />
-    <None Remove="Assets\Backgrounds\Planets\12.png" />
-    <None Remove="Assets\Backgrounds\Planets\13.png" />
-    <None Remove="Assets\Backgrounds\Planets\2.png" />
-    <None Remove="Assets\Backgrounds\Planets\3.png" />
-    <None Remove="Assets\Backgrounds\Planets\4.png" />
-    <None Remove="Assets\Backgrounds\Planets\5.png" />
-    <None Remove="Assets\Backgrounds\Planets\6.png" />
-    <None Remove="Assets\Backgrounds\Planets\7.png" />
-    <None Remove="Assets\Backgrounds\Planets\8.png" />
-    <None Remove="Assets\Backgrounds\Planets\9.png" />
-    <None Remove="Assets\Py\gameplay_menu.py" />
-    <None Remove="Assets\Sprites\ships.png" />
-    <None Remove="Assets\Sprites\ships.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
   </ItemGroup>
 
