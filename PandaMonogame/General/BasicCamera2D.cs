@@ -155,6 +155,21 @@ namespace PandaMonogame
             //    SetViewPositionY((BoundingBox.Y + BoundingBox.Height) - _view.Height);
         }
 
+        public bool WorldRectInView(Rectangle rect)
+        {
+            var worldCamRectXY = ScreenToWorldPosition(new Vector2(_view.X, _view.Y));
+            var worldCamRectWH = ScreenToWorldPosition(new Vector2(_view.Width, _view.Height));
+            var worldCamRect = new Rectangle()
+            {
+                X = (int)worldCamRectXY.X,
+                Y = (int)worldCamRectXY.Y,
+                Width = (int)worldCamRectWH.X,
+                Height = (int)worldCamRectWH.Y,
+            };
+
+            return worldCamRect.Intersects(rect);
+        }
+
         public Vector2 ScreenToWorldPosition(Vector2 pos)
         {
             return Vector2.Transform(pos, Matrix.Invert(GetViewMatrix()));

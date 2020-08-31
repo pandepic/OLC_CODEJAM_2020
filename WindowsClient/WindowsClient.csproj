@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\XML\ship_types.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
   </ItemGroup>
 

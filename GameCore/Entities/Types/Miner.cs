@@ -1,4 +1,6 @@
 ﻿using GameCore.AI;
+using Microsoft.Xna.Framework;
+using PandaMonogame.Assets;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +9,18 @@ namespace GameCore.Entities
 {
     public class Miner : Ship
     {
-        public Miner(Ship owner)
+        public Inventory Inventory;
+        public Asteroid CurrentMiningTarget = null;
+
+        public Miner(Ship owner, Vector2 position)
         {
             Owner = owner;
+            Type = ShipType.Miner;
+            Position = position;
+
+            LoadData();
+
+            Inventory = new Inventory();
 
             StateMachine.RegisterState(new ShipIdleState(this));
             StateMachine.RegisterState(new MinerTravelingState(this));

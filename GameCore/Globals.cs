@@ -1,6 +1,7 @@
 ﻿using GameCore.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using PandaMonogame;
 using PandaMonogame.Assets;
 using SpriteFontPlus;
@@ -37,8 +38,36 @@ namespace GameCore
         Uranium
     }
 
+    public enum ShipType
+    {
+        None,
+        HomeShip,
+        Miner,
+        Repair
+    }
+
+    public enum TurretType
+    {
+        None,
+        SmallBurstLaser,
+        LargeBurstLaser,
+        SmallBeamLaser,
+        LargeBeamLaser,
+    }
+
+    public static class Screen
+    {
+        public static Vector2 GetMousePosition()
+        {
+            var mouseState = Mouse.GetState();
+            return new Vector2(mouseState.Position.X, mouseState.Position.Y);
+        }
+    }
+
     public static class WorldData
     {
+        public static Random RNG = new Random();
+
         public static List<ResourceType> ResourceTypes = new List<ResourceType>()
         {
             ResourceType.Metal,
@@ -71,6 +100,5 @@ namespace GameCore
 
             DefaultFont = ModManager.Instance.AssetManager.LoadDynamicSpriteFont("latoblack");
         }
-
     }
 }

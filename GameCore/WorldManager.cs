@@ -1,5 +1,4 @@
-﻿using Dcrew.Camera;
-using GameCore.Entities;
+﻿using GameCore.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PandaMonogame;
@@ -25,19 +24,23 @@ namespace GameCore
         public Texture2D Background;
         public Vector2 ScreenCenter;
 
-        protected BasicCamera2D _camera;
+        public BasicCamera2D Camera;
+        public UnitManager UnitManager;
+        GraphicsDevice Graphics;
 
         public Miner TestMiner;
 
         public WorldManager(GraphicsDevice graphics, BasicCamera2D camera)
         {
-            _camera = camera;
+            Graphics = graphics;
+            Camera = camera;
             ScreenCenter = new Vector2(graphics.PresentationParameters.BackBufferWidth / 2, graphics.PresentationParameters.BackBufferHeight / 2);
 
-            var rng = new Random();
+            // todo - set world seed
+            WorldData.RNG = new Random();
 
-            var planet = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Planet" + rng.Next(1, 11).ToString(), true);
-            var background = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Background" + rng.Next(1, 9).ToString(), true);
+            var planet = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Planet" + WorldData.RNG.Next(1, 11).ToString(), true);
+            var background = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Background" + WorldData.RNG.Next(1, 9).ToString(), true);
 
             Background = new RenderTarget2D(graphics, background.Width, background.Height);
             graphics.SetRenderTarget((RenderTarget2D)Background);
@@ -58,7 +61,6 @@ namespace GameCore
             graphics.SetRenderTarget(null);
 
             Asteroids = new ObjectPool<Asteroid>(10000);
-            //Ships = new ObjectPool<Ship>(1000);
             Ships = new List<Ship>();
 
             // random asteroid field generation
@@ -66,18 +68,18 @@ namespace GameCore
             {
                 for (var y = AsteroidRegionHeight; y < (WorldHeight - AsteroidRegionHeight); y += AsteroidRegionHeight)
                 {
-                    if (rng.Next(0, 10) < 2 && Asteroids.LastActiveIndex < (Asteroids.Size - 1))
+                    if (WorldData.RNG.Next(0, 10) < 2 && Asteroids.LastActiveIndex < (Asteroids.Size - 1))
                     {
                         var newAsteroid = Asteroids.New();
-                        newAsteroid.Sprite = TexturePacker.GetSprite("AsteroidsAtlas", "Asteroid" + rng.Next(1, WorldData.AsteroidTypes + 1).ToString());
-                        newAsteroid.Position = new Vector2(x + rng.Next(0, 150), y + rng.Next(0, 150));
+                        newAsteroid.Sprite = TexturePacker.GetSprite("AsteroidsAtlas", "Asteroid" + WorldData.RNG.Next(1, WorldData.AsteroidTypes + 1).ToString());
+                        newAsteroid.Position = new Vector2(x + WorldData.RNG.Next(0, 150), y + WorldData.RNG.Next(0, 150));
                         newAsteroid.Origin = new Vector2(newAsteroid.Sprite.SourceRect.Width / 2, newAsteroid.Sprite.SourceRect.Height / 2);
-                        newAsteroid.RotationSpeed = (float)PandaUtil.RandomDouble(rng, 0.0, 0.1);
+                        newAsteroid.RotationSpeed = (float)PandaUtil.RandomDouble(WorldData.RNG, 0.0, 0.1);
 
-                        if (rng.Next(0, 10) < 3)
+                        if (WorldData.RNG.Next(0, 10) < 3)
                         {
-                            newAsteroid.ResourceType = WorldData.ResourceTypes[rng.Next(0, WorldData.ResourceTypes.Count)];
-                            newAsteroid.ResourceCount = rng.Next(50000, 100000);
+                            newAsteroid.ResourceType = WorldData.ResourceTypes[WorldData.RNG.Next(0, WorldData.ResourceTypes.Count)];
+                            newAsteroid.ResourceCount = WorldData.RNG.Next(50000, 100000);
                         }
                     }
                 }
@@ -85,25 +87,11 @@ namespace GameCore
 
             PlayerEntity = new Player();
             PlayerEntity.Position = new Vector2(500, 500);
+        }
 
-            TestMiner = new Miner(PlayerEntity);
-            TestMiner.Position = new Vector2(1000, 1000);
-            TestMiner.Sprite = TexturePacker.GetSprite("ShipsAtlas", "Fighter1");
-            TestMiner.Origin = new Vector2(TestMiner.Sprite.SourceRect.Width / 2, TestMiner.Sprite.SourceRect.Height / 2);
-            TestMiner.MoveSpeed = 200.0f;
-            TestMiner.TurnSpeed = 75.0f;
-
-            Ships.Add(TestMiner);
-
-            //for (var i = 0; i < 25; i++)
-            //{
-            //    var newFighter = Ships.New();
-            //    newFighter.Sprite = TexturePacker.GetSprite("ShipsAtlas", "Fighter1");
-            //    newFighter.Origin = new Vector2(newFighter.Sprite.SourceRect.Width / 2, newFighter.Sprite.SourceRect.Height / 2);
-            //    newFighter.Position = new Vector2(rng.Next(2000, 5000), rng.Next(2000, 5000));
-            //    newFighter.MoveSpeed = 200.0f;
-            //    newFighter.TurnSpeed = 75.0f;
-            //}
+        ~WorldManager()
+        {
+            Background.Dispose();
         }
 
         public void Update(GameTime gameTime)
@@ -118,20 +106,33 @@ namespace GameCore
                 //Ships[i].SetDestination(PlayerEntity.Position);
                 Ships[i].Update(gameTime);
             }
-
+            
             PlayerEntity.Update(gameTime);
         }
 
         public void DrawWorld (SpriteBatch spriteBatch)
         {
+            var camPos = Camera.GetPosition();
+            var viewDistance = ((Graphics.PresentationParameters.BackBufferWidth * 1.1) / Camera.Zoom);
+
             for (var i = 0; i <= Asteroids.LastActiveIndex; i++)
             {
-                Asteroids[i].Draw(spriteBatch);
+                var asteroid = Asteroids[i];
+                var distance = Vector2.Distance(asteroid.Position, camPos);
+
+                // quick hack to do view culling
+                if (distance < viewDistance)
+                    asteroid.Draw(spriteBatch);
             }
 
             for (var i = 0; i < Ships.Count; i++)
             {
-                Ships[i].Draw(spriteBatch);
+                var ship = Ships[i];
+                var distance = Vector2.Distance(ship.Position, camPos);
+
+                // quick hack to do view culling
+                if (distance < viewDistance)
+                    ship.Draw(spriteBatch);
             }
 
             PlayerEntity.Draw(spriteBatch);
@@ -143,9 +144,9 @@ namespace GameCore
             var worldSize = new Vector2(WorldWidth, WorldHeight);
             var bgSize = new Vector2(Background.Width, Background.Height);
             var bgProportionalSize = (float)bgSize.X / (float)worldSize.X;
-            float bgZoom = 1.0f - ((1.0f - _camera.Zoom) * bgProportionalSize);
+            float bgZoom = 1.0f - ((1.0f - Camera.Zoom) * bgProportionalSize);
 
-            var screenPosWorld = _camera.ScreenToWorldPosition(Vector2.Zero);
+            var screenPosWorld = Camera.ScreenToWorldPosition(Vector2.Zero);
 
             var backgroundPos = ((screenPosWorld / worldSize) * bgSize) * bgZoom;
 

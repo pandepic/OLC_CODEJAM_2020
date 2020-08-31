@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PandaMonogame;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,7 +25,7 @@ namespace GameCore.AI
 
     public class SimpleStateTimedBase : SimpleStateBase
     {
-        public int Duration;
+        public float Duration;
 
         public SimpleStateTimedBase() { }
         public SimpleStateTimedBase(string name) : base(name) { }
@@ -36,7 +37,7 @@ namespace GameCore.AI
 
         public override void Update(GameTime gameTime)
         {
-            Duration -= gameTime.ElapsedGameTime.Milliseconds;
+            Duration -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (Duration <= 0)
                 EndDuration();
@@ -154,8 +155,6 @@ namespace GameCore.AI
 
             CurrentState = state;
             CurrentState.Begin();
-
-            Console.WriteLine("STATE SET: " + CurrentState.Name);
         }
     }
 }

@@ -14,6 +14,9 @@ namespace GameCore.AI
 
         public override void Begin()
         {
+            var ship = (Miner)ParentShip;
+            ship.CurrentMiningTarget = Target;
+
             ParentShip.SetDestination(Target.Position);
         }
 
@@ -51,6 +54,9 @@ namespace GameCore.AI
 
         public override void EndDuration()
         {
+            var ship = (Miner)ParentShip;
+            ship.Inventory.AddResource(Target.ResourceType, 5);
+
             Parent.SetState<MinerReturningState>();
         }
     }
@@ -96,9 +102,23 @@ namespace GameCore.AI
 
         public override void EndDuration()
         {
-            var patrolFollow = Parent.GetState<ShipPatrolFollowState>();
-            patrolFollow.Target = ParentShip.Owner;
-            Parent.SetState<ShipPatrolFollowState>();
+            var ship = (Miner)ParentShip;
+            var owner = (Player)ship.Owner;
+
+            ship.Inventory.GiveAll(owner.Inventory);
+            
+            if (ship.CurrentMiningTarget == null)
+            {
+                var patrolFollow = Parent.GetState<ShipPatrolFollowState>();
+                patrolFollow.Target = ParentShip.Owner;
+                Parent.SetState<ShipPatrolFollowState>();
+            }
+            else
+            {
+                var traveling = Parent.GetState<MinerTravelingState>();
+                traveling.Target = ship.CurrentMiningTarget;
+                Parent.SetState<MinerTravelingState>();
+            }
         }
     }
 }

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ShipTypes>
+  <!--
+  <Type Name="">
+    <MoveSpeed></MoveSpeed>
+    <TurnSpeed></TurnSpeed>
+    
+    <ArmourHP></ArmourHP>
+    <ShieldHP></ShieldHP>
+    <ShieldRegenRate></ShieldRegenRate>
+    
+    <BuildCost Metal="100" Gas="50" />
+    <BuildTime></BuildTime>
+  </Type>
+  -->
+
+  <Type Name="HomeShip" Sprite="Station2">
+    <MoveSpeed>50</MoveSpeed>
+    <TurnSpeed>50</TurnSpeed>
+
+    <ArmourHP>10000</ArmourHP>
+    <ShieldHP>10000</ShieldHP>
+    <ShieldRegenRate>20</ShieldRegenRate>
+  </Type>
+  
+  <Type Name="Miner" Sprite="Fighter1">
+    <MoveSpeed>200</MoveSpeed>
+    <TurnSpeed>75</TurnSpeed>
+
+    <ArmourHP>100</ArmourHP>
+    <ShieldHP>100</ShieldHP>
+    <ShieldRegenRate>2</ShieldRegenRate>
+
+    <BuildCost Metal="100" Gas="50" />
+    <BuildTime>5000</BuildTime>
+  </Type>
+</ShipTypes>

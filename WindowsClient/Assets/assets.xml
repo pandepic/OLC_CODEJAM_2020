@@ -4,6 +4,9 @@
   <!-- Fonts -->
   <Asset Name="latoblack" FilePath="Assets/UI/Lato-Bold.ttf" />
   
+  <!-- Entity Data -->
+  <Asset Name="ShipTypes" FilePath="Assets/XML/ship_types.xml" />
+  
   <!-- UI Definitions -->
   <Asset Name="UITemplates" FilePath="Assets/XML/ui_templates.xml" />
   <Asset Name="MainMenuDefinition" FilePath="Assets/XML/main_menu.xml" />

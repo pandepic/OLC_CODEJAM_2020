@@ -1,6 +1,8 @@
 ﻿using GameCore;
+using GameCore.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using PandaMonogame;
 using System;
 using System.Collections.Generic;
@@ -53,6 +55,9 @@ namespace WindowsClient
 
             SettingsManager.Instance.Load("Assets\\settings.xml");
 
+            IsFixedTimeStep = false;
+            _graphics.SynchronizeWithVerticalRetrace = false;
+
             _graphics.PreferredBackBufferWidth = SettingsManager.Instance.GetSetting<int>("window", "width");
             _graphics.PreferredBackBufferHeight = SettingsManager.Instance.GetSetting<int>("window", "height");
             _graphics.ApplyChanges();
@@ -65,6 +70,7 @@ namespace WindowsClient
 
             Sprites.Load(GraphicsDevice);
             WorldData.Load();
+            EntityData.Load();
 
             //ChangeGameState((int)GameStateType.Startup);
             ChangeGameState((int)GameStateType.Menu);

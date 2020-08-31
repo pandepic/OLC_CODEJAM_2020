@@ -12,19 +12,31 @@ namespace GameCore.Entities
     public class Ship : Entity
     {
         public Ship Owner = null;
+        public ShipType Type = ShipType.None;
         public bool IsPlayerShip = false;
 
         public float TargetRotation = 0.0f;
-
         public Vector2 Destination;
 
         public bool Moving = false;
-        public float TurnSpeed = 50.0f;
-        public float MoveSpeed = 50.0f;
+        public float TurnSpeed = 0.0f;
+        public float MoveSpeed = 0.0f;
 
         public SimpleStateMachine StateMachine = new SimpleStateMachine();
 
-        public void Update(GameTime gameTime)
+        public bool Selected = false;
+        public Color SelectionColour = Color.Red;
+
+        public void LoadData()
+        {
+            var data = EntityData.ShipTypes[Type];
+            Sprite = TexturePacker.GetSprite("ShipsAtlas", data.Sprite);
+            Origin = new Vector2(Sprite.SourceRect.Width / 2, Sprite.SourceRect.Height / 2);
+            MoveSpeed = data.MoveSpeed;
+            TurnSpeed = data.TurnSpeed;
+        }
+
+        public virtual void Update(GameTime gameTime)
         {
             StateMachine.Update(gameTime);
 
@@ -57,13 +69,13 @@ namespace GameCore.Entities
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
                         Sprite.Texture,
                         Position,
                         Sprite.SourceRect,
-                        Color.White,
+                        (Selected ? SelectionColour : Color.White),
                         MathHelper.ToRadians(Rotation),
                         Origin,
                         Scale,
@@ -105,6 +117,11 @@ namespace GameCore.Entities
         public void SetState<T>() where T : SimpleStateBase
         {
             StateMachine.SetState<T>();
+        }
+
+        public T GetState<T>() where T : SimpleStateBase
+        {
+            return StateMachine.GetState<T>();
         }
 
         public void SetState(string name)

@@ -21,6 +21,7 @@ namespace GameCore
 
         protected BasicCamera2D _camera;
         protected WorldManager _worldManager;
+        protected UnitManager _unitManager;
 
         protected bool _mouseDragging = false;
         protected Vector2 _mouseDragPosition = Vector2.Zero;
@@ -37,13 +38,15 @@ namespace GameCore
                 new Rectangle(0, 0, WorldManager.WorldWidth, WorldManager.WorldHeight));
 
             _worldManager = new WorldManager(graphics, _camera);
+            _unitManager = new UnitManager(graphics, _camera, _worldManager, _menu);
+
+            _worldManager.PlayerEntity.UnitManager = _unitManager;
         }
 
         public override int Update(GameTime gameTime)
         {
-            var mouseState = Mouse.GetState();
-            var mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
-            var worldPos = _camera.ScreenToWorldPosition(mousePosition);
+            var mousePosition = Screen.GetMousePosition();
+            var mouseWorldPos = _camera.ScreenToWorldPosition(mousePosition);
             var centerWorldPos = _camera.ScreenToWorldPosition(_worldManager.ScreenCenter);
 
             if (_lockCamera)
@@ -52,18 +55,19 @@ namespace GameCore
             _menu.GetWidget<PUIWLabel>("lblDebug").Text =
                 _camera.GetViewRect().ToString() + " : " + _camera.Zoom + "\n" +
                 "Asteroids: " + (_worldManager.Asteroids.LastActiveIndex + 1) + "\n" +
-                worldPos.ToString() + " : " + _worldManager.PlayerEntity.Rotation + "\n" +
+                mouseWorldPos.ToString() + " : " + _worldManager.PlayerEntity.Rotation + "\n" +
                 centerWorldPos.ToString();
 
             var inventoryString = new StringBuilder();
 
-            foreach (var kvp in _worldManager.PlayerEntity.Inventory)
+            foreach (var kvp in _worldManager.PlayerEntity.Inventory.Resources)
                 inventoryString.Append(kvp.Key.ToString() + ": " + kvp.Value.ToString() + "\n");
 
             _menu.GetWidget<PUIWLabel>("lblInventory").Text = inventoryString.ToString();
 
             _menu.Update(gameTime);
             _worldManager.Update(gameTime);
+            _unitManager.Update(gameTime);
 
             return _nextGameState;
         }
@@ -83,6 +87,7 @@ namespace GameCore
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp, transformMatrix: _camera.GetViewMatrix());
             {
                 _worldManager.DrawWorld(spriteBatch);
+                _unitManager.DrawWorld(spriteBatch);
             }
             spriteBatch.End();
 
@@ -90,14 +95,14 @@ namespace GameCore
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
             {
                 _menu.Draw(spriteBatch);
+                _unitManager.DrawScreen(spriteBatch);
             }
             spriteBatch.End();
         }
 
         public override void OnMouseMoved(Vector2 originalPosition, GameTime gameTime)
         {
-            var mouseState = Mouse.GetState();
-            var mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
+            var mousePosition = Screen.GetMousePosition();
 
             _menu.OnMouseMoved(originalPosition, gameTime);
 
@@ -110,68 +115,72 @@ namespace GameCore
                     _camera.OffsetPosition(-difference);
                     _mouseDragPosition = mousePosition;
                 }
+
+                _unitManager.OnMouseMoved(originalPosition, gameTime);
             }
         }
 
         public override void OnMouseDown(MouseButtonID button, GameTime gameTime)
         {
-            var mouseState = Mouse.GetState();
-            var mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
+            var mousePosition = Screen.GetMousePosition();
 
             _menu.OnMouseDown(button, gameTime);
 
             if (!_menu.Focused)
             {
-                if (!_mouseDragging && button == MouseButtonID.Left)
+                if (!_mouseDragging && button == MouseButtonID.Middle)
                 {
                     _mouseDragging = true;
                     _mouseDragPosition = mousePosition;
                 }
+
+                _unitManager.OnMouseDown(button, gameTime);
             }
         }
 
         public override void OnMouseClicked(MouseButtonID button, GameTime gameTime)
         {
-            var mouseState = Mouse.GetState();
-            var mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
+            var mousePosition = Screen.GetMousePosition();
 
             _menu.OnMouseClicked(button, gameTime);
 
             if (!_menu.Focused)
             {
-                if (_mouseDragging && button == MouseButtonID.Left)
+                if (_mouseDragging && button == MouseButtonID.Middle)
                     _mouseDragging = false;
 
-                if (button == MouseButtonID.Right)
-                {
-                    Asteroid target = null;
-                    var mouseWorldPos = _camera.ScreenToWorldPosition(mousePosition);
+                _unitManager.OnMouseClicked(button, gameTime);
 
-                    for (var i = 0; i <= _worldManager.Asteroids.LastActiveIndex; i++)
-                    {
-                        var asteroid = _worldManager.Asteroids[i];
+                //if (button == MouseButtonID.Right)
+                //{
+                //    Asteroid target = null;
+                //    var mouseWorldPos = _camera.ScreenToWorldPosition(mousePosition);
 
-                        if (asteroid.CollisionRect.Contains(mouseWorldPos))
-                        {
-                            target = asteroid;
-                        }
-                    }
+                //    for (var i = 0; i <= _worldManager.Asteroids.LastActiveIndex; i++)
+                //    {
+                //        var asteroid = _worldManager.Asteroids[i];
 
-                    if (target != null)
-                    {
-                        if (target.ResourceType != ResourceType.None)
-                        {
-                            var state = _worldManager.TestMiner.StateMachine.GetState<MinerTravelingState>();
-                            state.Target = target;
-                            _worldManager.TestMiner.SetState<MinerTravelingState>();
-                        }
-                    }
-                    else
-                    {
-                        _worldManager.PlayerEntity.StateMachine.GetState<PlayerTravelingState>().Target = mouseWorldPos;
-                        _worldManager.PlayerEntity.SetState<PlayerTravelingState>();
-                    }
-                }
+                //        if (asteroid.CollisionRect.Contains(mouseWorldPos))
+                //        {
+                //            target = asteroid;
+                //        }
+                //    }
+
+                //    if (target != null)
+                //    {
+                //        if (target.ResourceType != ResourceType.None)
+                //        {
+                //            var state = _worldManager.TestMiner.StateMachine.GetState<MinerTravelingState>();
+                //            state.Target = target;
+                //            _worldManager.TestMiner.SetState<MinerTravelingState>();
+                //        }
+                //    }
+                //    else
+                //    {
+                //        _worldManager.PlayerEntity.StateMachine.GetState<PlayerTravelingState>().Target = mouseWorldPos;
+                //        _worldManager.PlayerEntity.SetState<PlayerTravelingState>();
+                //    }
+                //}
             }
         }
 
@@ -221,6 +230,15 @@ namespace GameCore
             else if (key == Keys.Space)
             {
                 _lockCamera = !_lockCamera;
+            }
+            else if (key == Keys.P)
+            {
+                _worldManager.PlayerEntity.Inventory.AddResource(ResourceType.Metal, 100);
+                _worldManager.PlayerEntity.Inventory.AddResource(ResourceType.Gas, 50);
+            }
+            else if (key == Keys.O)
+            {
+                _worldManager.PlayerEntity.BuildShip(ShipType.Miner);
             }
         }
 
