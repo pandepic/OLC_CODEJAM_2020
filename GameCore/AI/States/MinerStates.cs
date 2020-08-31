@@ -79,7 +79,7 @@ namespace GameCore.AI
 
         public override void Update(GameTime gameTime)
         {
-            if (ParentShip.CollisionRect.Intersects(Target.CollisionRect))
+            if (Vector2.Distance(ParentShip.Position, Target.Position) <= 100)
             {
                 ParentShip.StopMovement();
                 Parent.SetState<MinerDepositingState>();

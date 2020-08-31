@@ -28,15 +28,17 @@ namespace GameCore
         public Rectangle DragRectWorldSpace = Rectangle.Empty;
 
         public List<Ship> SelectedShips;
+        public Dictionary<ShipType, List<Ship>> SelectedShipTypes;
+        StringBuilder SBSelection = new StringBuilder();
 
-        public UnitManager(GraphicsDevice graphics, BasicCamera2D camera, WorldManager worldManager, PUIMenu menu)
+        public UnitManager(GraphicsDevice graphics, BasicCamera2D camera, PUIMenu menu)
         {
             Camera = camera;
             Graphics = graphics;
-            WorldManager = worldManager;
             Menu = menu;
 
             SelectedShips = new List<Ship>();
+            SelectedShipTypes = new Dictionary<ShipType, List<Ship>>();
             SelectHomeShip();
 
             DragSelectTexture = new RenderTarget2D(graphics, graphics.PresentationParameters.BackBufferWidth, graphics.PresentationParameters.BackBufferHeight);
@@ -57,6 +59,14 @@ namespace GameCore
 
         public void DrawScreen(SpriteBatch spriteBatch)
         {
+            SBSelection.Clear();
+            foreach (var kvp in SelectedShipTypes)
+            {
+                SBSelection.Append("[" + kvp.Key.ToString() + " x" + kvp.Value.Count.ToString() + "] ");
+            }
+
+            Menu.GetWidget<PUIWLabel>("lblSelection").Text = SBSelection.ToString();
+
             if (Dragging)
                 spriteBatch.Draw(DragSelectTexture, DragRect, DragRect, Color.White);
         }
@@ -92,6 +102,21 @@ namespace GameCore
                     SelectedShips.Add(ship);
                     ship.Selected = true;
                 }
+            }
+
+            UpdateSelectedShipTypes();
+        }
+
+        public void UpdateSelectedShipTypes()
+        {
+            SelectedShipTypes.Clear();
+
+            foreach (var ship in SelectedShips)
+            {
+                if (!SelectedShipTypes.ContainsKey(ship.Type))
+                    SelectedShipTypes.Add(ship.Type, new List<Ship>());
+
+                SelectedShipTypes[ship.Type].Add(ship);
             }
         }
 
@@ -195,17 +220,7 @@ namespace GameCore
                 }
                 else
                 {
-                    var selectedTypes = new Dictionary<ShipType, List<Ship>>();
-
-                    foreach (var ship in SelectedShips)
-                    {
-                        if (!selectedTypes.ContainsKey(ship.Type))
-                            selectedTypes.Add(ship.Type, new List<Ship>());
-
-                        selectedTypes[ship.Type].Add(ship);
-                    }
-
-                    foreach (var kvp in selectedTypes)
+                    foreach (var kvp in SelectedShipTypes)
                     {
                         switch (kvp.Key)
                         {

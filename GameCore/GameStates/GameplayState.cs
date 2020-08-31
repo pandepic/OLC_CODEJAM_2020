@@ -37,8 +37,8 @@ namespace GameCore
                 new Rectangle(0, 0, graphics.PresentationParameters.BackBufferWidth, graphics.PresentationParameters.BackBufferHeight),
                 new Rectangle(0, 0, WorldManager.WorldWidth, WorldManager.WorldHeight));
 
-            _worldManager = new WorldManager(graphics, _camera);
-            _unitManager = new UnitManager(graphics, _camera, _worldManager, _menu);
+            _unitManager = new UnitManager(graphics, _camera, _menu);
+            _worldManager = new WorldManager(graphics, _camera, _unitManager);
 
             _worldManager.PlayerEntity.UnitManager = _unitManager;
         }
@@ -150,37 +150,6 @@ namespace GameCore
                     _mouseDragging = false;
 
                 _unitManager.OnMouseClicked(button, gameTime);
-
-                //if (button == MouseButtonID.Right)
-                //{
-                //    Asteroid target = null;
-                //    var mouseWorldPos = _camera.ScreenToWorldPosition(mousePosition);
-
-                //    for (var i = 0; i <= _worldManager.Asteroids.LastActiveIndex; i++)
-                //    {
-                //        var asteroid = _worldManager.Asteroids[i];
-
-                //        if (asteroid.CollisionRect.Contains(mouseWorldPos))
-                //        {
-                //            target = asteroid;
-                //        }
-                //    }
-
-                //    if (target != null)
-                //    {
-                //        if (target.ResourceType != ResourceType.None)
-                //        {
-                //            var state = _worldManager.TestMiner.StateMachine.GetState<MinerTravelingState>();
-                //            state.Target = target;
-                //            _worldManager.TestMiner.SetState<MinerTravelingState>();
-                //        }
-                //    }
-                //    else
-                //    {
-                //        _worldManager.PlayerEntity.StateMachine.GetState<PlayerTravelingState>().Target = mouseWorldPos;
-                //        _worldManager.PlayerEntity.SetState<PlayerTravelingState>();
-                //    }
-                //}
             }
         }
 

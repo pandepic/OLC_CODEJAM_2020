@@ -11,10 +11,11 @@ namespace GameCore
 {
     public class WorldManager
     {
+        public static int StartingMiners = 2;
         public static int WorldWidth = 50000;
         public static int WorldHeight = 50000;
-        public int AsteroidRegionWidth = 250;
-        public int AsteroidRegionHeight = 250;
+        public static int AsteroidRegionWidth = 250;
+        public static int AsteroidRegionHeight = 250;
 
         public ObjectPool<Asteroid> Asteroids;
         public List<Ship> Ships;
@@ -28,10 +29,10 @@ namespace GameCore
         public UnitManager UnitManager;
         GraphicsDevice Graphics;
 
-        public Miner TestMiner;
-
-        public WorldManager(GraphicsDevice graphics, BasicCamera2D camera)
+        public WorldManager(GraphicsDevice graphics, BasicCamera2D camera, UnitManager unitManager)
         {
+            UnitManager = unitManager;
+            UnitManager.WorldManager = this;
             Graphics = graphics;
             Camera = camera;
             ScreenCenter = new Vector2(graphics.PresentationParameters.BackBufferWidth / 2, graphics.PresentationParameters.BackBufferHeight / 2);
@@ -87,6 +88,11 @@ namespace GameCore
 
             PlayerEntity = new Player();
             PlayerEntity.Position = new Vector2(500, 500);
+
+            for (var i = 0; i < StartingMiners; i++)
+            {
+                UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
+            }
         }
 
         ~WorldManager()
