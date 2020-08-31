@@ -29,7 +29,7 @@ namespace GameCore
 
         public List<Ship> SelectedShips;
         public Dictionary<ShipType, List<Ship>> SelectedShipTypes;
-        StringBuilder SBSelection = new StringBuilder();
+        public StringBuilder SBSelection = new StringBuilder();
 
         public UnitManager(GraphicsDevice graphics, BasicCamera2D camera, PUIMenu menu)
         {
@@ -134,9 +134,33 @@ namespace GameCore
             }
 
             if (newShip != null)
+            {
+                if (owner != null && owner.IsPlayerShip == true)
+                {
+                    newShip.IsPlayerShip = true;
+                    WorldManager.PlayerShips.Add(newShip);
+                }
+                else
+                {
+                    WorldManager.EnemyShips.Add(newShip);
+                }
+
                 WorldManager.Ships.Add(newShip);
+            }
 
         } // SpawnShip
+
+        public void DestroyShip(Ship ship)
+        {
+            WorldManager.PlayerShips.Remove(ship);
+            WorldManager.EnemyShips.Remove(ship);
+            WorldManager.Ships.Remove(ship);
+
+            if (ship.Type == ShipType.HomeShip)
+            {
+                // todo : GAME OVER
+            }
+        }
 
         public void OnMouseMoved(Vector2 originalPosition, GameTime gameTime)
         {

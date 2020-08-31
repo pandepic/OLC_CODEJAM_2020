@@ -35,6 +35,15 @@
   <Asset Name="Background7" FilePath="Assets/Backgrounds/7.png" />
   <Asset Name="Background8" FilePath="Assets/Backgrounds/8.png" />
   
+  <!-- Background Elements -->
+  <Asset Name="BackgroundElement1" FilePath="Assets/Backgrounds/Elements/1.png" />
+  <Asset Name="BackgroundElement2" FilePath="Assets/Backgrounds/Elements/2.png" />
+  <Asset Name="BackgroundElement3" FilePath="Assets/Backgrounds/Elements/3.png" />
+  <Asset Name="BackgroundElement4" FilePath="Assets/Backgrounds/Elements/4.png" />
+  <Asset Name="BackgroundElement5" FilePath="Assets/Backgrounds/Elements/5.png" />
+  <Asset Name="BackgroundElement6" FilePath="Assets/Backgrounds/Elements/6.png" />
+  <Asset Name="BackgroundElement7" FilePath="Assets/Backgrounds/Elements/7.png" />
+  
   <!-- Planets -->
   <Asset Name="Planet1" FilePath="Assets/Backgrounds/Planets/1.png" />
   <Asset Name="Planet2" FilePath="Assets/Backgrounds/Planets/2.png" />

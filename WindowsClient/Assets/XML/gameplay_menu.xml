@@ -10,7 +10,7 @@
   </Script>
 
   <Scene Name="mainScene">
-    <Frame Name="debugFrame">
+    <Frame Name="debugFrame" Visible="false" Active="false">
       <Position>
         <X>0</X>
         <Y>0</Y>
@@ -24,36 +24,12 @@
         <Label Name="lblDebug" Template="DebugLabel">
           <Text></Text>
           <Position>
-            <X>left</X>
-            <Y>top</Y>
-          </Position>
-          <Offset>
-            <X>25</X>
-            <Y>25</Y>
-          </Offset>
-        </Label>
-
-        <Label Name="lblInventory" Template="DebugLabel">
-          <Text></Text>
-          <Position>
             <X>right</X>
             <Y>top</Y>
           </Position>
           <Offset>
             <X>-25</X>
             <Y>25</Y>
-          </Offset>
-        </Label>
-
-        <Label Name="lblSelection" Template="DebugLabel">
-          <Text></Text>
-          <Position>
-            <X>left</X>
-            <Y>bottom</Y>
-          </Position>
-          <Offset>
-            <X>25</X>
-            <Y>-25</Y>
           </Offset>
         </Label>
       </Widgets>
@@ -79,6 +55,30 @@
           </Position>
           <Color>#FFFFFF</Color>
           <UpdateMethod></UpdateMethod>
+        </Label>
+
+        <Label Name="lblInventory" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>top</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>25</Y>
+          </Offset>
+        </Label>
+
+        <Label Name="lblSelection" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-25</Y>
+          </Offset>
         </Label>
       </Widgets>
     </Frame>

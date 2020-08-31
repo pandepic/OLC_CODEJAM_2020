@@ -55,8 +55,10 @@ namespace WindowsClient
 
             SettingsManager.Instance.Load("Assets\\settings.xml");
 
+#if DEBUG
             IsFixedTimeStep = false;
             _graphics.SynchronizeWithVerticalRetrace = false;
+#endif
 
             _graphics.PreferredBackBufferWidth = SettingsManager.Instance.GetSetting<int>("window", "width");
             _graphics.PreferredBackBufferHeight = SettingsManager.Instance.GetSetting<int>("window", "height");

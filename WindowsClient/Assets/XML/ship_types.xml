@@ -20,18 +20,34 @@
 
     <ArmourHP>10000</ArmourHP>
     <ShieldHP>10000</ShieldHP>
-    <ShieldRegenRate>20</ShieldRegenRate>
+    <ShieldRegenRate>50</ShieldRegenRate>
   </Type>
   
-  <Type Name="Miner" Sprite="Fighter1">
+  <Type Name="Miner" Sprite="Alien1">
     <MoveSpeed>200</MoveSpeed>
     <TurnSpeed>75</TurnSpeed>
 
-    <ArmourHP>100</ArmourHP>
-    <ShieldHP>100</ShieldHP>
+    <ArmourHP>50</ArmourHP>
+    <ShieldHP>50</ShieldHP>
     <ShieldRegenRate>2</ShieldRegenRate>
 
     <BuildCost Metal="100" Gas="50" />
     <BuildTime>5000</BuildTime>
+  </Type>
+
+  <Type Name="Fighter" Sprite="Fighter1">
+    <MoveSpeed>225</MoveSpeed>
+    <TurnSpeed>85</TurnSpeed>
+
+    <ArmourHP>100</ArmourHP>
+    <ShieldHP>100</ShieldHP>
+    <ShieldRegenRate>5</ShieldRegenRate>
+
+    <BuildCost Metal="200" Gas="100" />
+    <BuildTime>5000</BuildTime>
+
+    <Weapons>
+      <Weapon Type="BurstLaser" Range="500" Cooldown="500" Damage="10" />
+    </Weapons>
   </Type>
 </ShipTypes>

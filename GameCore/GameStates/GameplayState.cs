@@ -27,7 +27,17 @@ namespace GameCore
         protected Vector2 _mouseDragPosition = Vector2.Zero;
 
         protected bool _lockCamera = false;
-        protected bool _showDebug = true;
+        protected bool _showDebug = false;
+
+        protected float ScrollSpeed = 1500.0f;
+
+        protected List<float> _zoomLevels = new List<float>()
+        {
+            0.2f,
+            0.4f,
+            1.0f,
+        };
+        protected int _currentZoomLevel = 0;
 
         public override void Load(ContentManager Content, GraphicsDevice graphics)
         {
@@ -37,10 +47,14 @@ namespace GameCore
                 new Rectangle(0, 0, graphics.PresentationParameters.BackBufferWidth, graphics.PresentationParameters.BackBufferHeight),
                 new Rectangle(0, 0, WorldManager.WorldWidth, WorldManager.WorldHeight));
 
+            _currentZoomLevel = _zoomLevels.IndexOf(1.0f);
+            _camera.Zoom = _zoomLevels[_currentZoomLevel];
+
             _unitManager = new UnitManager(graphics, _camera, _menu);
             _worldManager = new WorldManager(graphics, _camera, _unitManager);
-
             _worldManager.PlayerEntity.UnitManager = _unitManager;
+
+            _camera.CenterPosition(_worldManager.PlayerEntity.Position);
         }
 
         public override int Update(GameTime gameTime)
@@ -55,7 +69,7 @@ namespace GameCore
             _menu.GetWidget<PUIWLabel>("lblDebug").Text =
                 _camera.GetViewRect().ToString() + " : " + _camera.Zoom + "\n" +
                 "Asteroids: " + (_worldManager.Asteroids.LastActiveIndex + 1) + "\n" +
-                mouseWorldPos.ToString() + " : " + _worldManager.PlayerEntity.Rotation + "\n" +
+                mouseWorldPos.ToString() + "\n" +
                 centerWorldPos.ToString();
 
             var inventoryString = new StringBuilder();
@@ -163,16 +177,22 @@ namespace GameCore
 
             if (direction == MouseScrollDirection.Up)
             {
-                _camera.Zoom += 0.2f;
-                if (_camera.Zoom > 4.0f)
-                    _camera.Zoom = 4.0f;
+                _currentZoomLevel += 1;
+
+                if (_currentZoomLevel >= _zoomLevels.Count)
+                    _currentZoomLevel = _zoomLevels.Count - 1;
+
+                _camera.Zoom = _zoomLevels[_currentZoomLevel];
                 _camera.CheckBoundingBox();
             }
             else
             {
-                _camera.Zoom -= 0.2f;
-                if (_camera.Zoom < 0.2f)
-                    _camera.Zoom = 0.2f;
+                _currentZoomLevel -= 1;
+
+                if (_currentZoomLevel < 0)
+                    _currentZoomLevel = 0;
+
+                _camera.Zoom = _zoomLevels[_currentZoomLevel];
                 _camera.CheckBoundingBox();
             }
         }
@@ -213,7 +233,34 @@ namespace GameCore
 
         public override void OnKeyDown(Keys key, GameTime gameTime, CurrentKeyState currentKeyState)
         {
-            _menu.OnKeyDown(key, gameTime, currentKeyState);
+            if (_menu.Focused)
+            {
+                _menu.OnKeyDown(key, gameTime, currentKeyState);
+                return;
+            }
+
+            switch (key)
+            {
+                case Keys.W:
+                case Keys.Up:
+                    _camera.OffsetPosition(new Vector2(0, -ScrollSpeed / _camera.Zoom) * gameTime.DeltaTime());
+                    break;
+
+                case Keys.S:
+                case Keys.Down:
+                    _camera.OffsetPosition(new Vector2(0, ScrollSpeed / _camera.Zoom) * gameTime.DeltaTime());
+                    break;
+
+                case Keys.A:
+                case Keys.Left:
+                    _camera.OffsetPosition(new Vector2(-ScrollSpeed / _camera.Zoom, 0) * gameTime.DeltaTime());
+                    break;
+
+                case Keys.D:
+                case Keys.Right:
+                    _camera.OffsetPosition(new Vector2(ScrollSpeed / _camera.Zoom, 0) * gameTime.DeltaTime());
+                    break;
+            }
         }
 
         public override void OnTextInput(TextInputEventArgs e, GameTime gameTime, CurrentKeyState currentKeyState)

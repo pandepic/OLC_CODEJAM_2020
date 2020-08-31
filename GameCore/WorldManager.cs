@@ -16,9 +16,13 @@ namespace GameCore
         public static int WorldHeight = 50000;
         public static int AsteroidRegionWidth = 250;
         public static int AsteroidRegionHeight = 250;
+        public static Vector2 PlayerStartPosition = new Vector2(5000, 5000);
 
         public ObjectPool<Asteroid> Asteroids;
-        public List<Ship> Ships;
+        public List<Ship> Ships = new List<Ship>();
+        public List<Ship> PlayerShips = new List<Ship>();
+        public List<Ship> EnemyShips = new List<Ship>();
+        public List<Ship> DeadShips = new List<Ship>();
         public Player PlayerEntity;
 
         //public Texture2D Planet, Background;
@@ -40,16 +44,20 @@ namespace GameCore
             // todo - set world seed
             WorldData.RNG = new Random();
 
+            var bg = 1;// WorldData.RNG.Next(1, 9);
+
             var planet = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Planet" + WorldData.RNG.Next(1, 11).ToString(), true);
-            var background = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Background" + WorldData.RNG.Next(1, 9).ToString(), true);
+            var background = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Background" + bg.ToString(), true);
 
             Background = new RenderTarget2D(graphics, background.Width, background.Height);
+
             graphics.SetRenderTarget((RenderTarget2D)Background);
+            graphics.Clear(Color.Transparent);
+
             using (SpriteBatch spriteBatch = new SpriteBatch(graphics))
             {
-                graphics.Clear(Color.Transparent);
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                spriteBatch.Draw(background, Vector2.Zero, Color.White);
+                spriteBatch.Draw(background, Vector2.Zero, Color.White); // todo : fix bg not lining up at right edge
                 spriteBatch.Draw(planet,
                     new Vector2()
                     {
@@ -62,7 +70,6 @@ namespace GameCore
             graphics.SetRenderTarget(null);
 
             Asteroids = new ObjectPool<Asteroid>(10000);
-            Ships = new List<Ship>();
 
             // random asteroid field generation
             for (var x = AsteroidRegionWidth; x < (WorldWidth - AsteroidRegionWidth); x += AsteroidRegionWidth)
@@ -75,7 +82,8 @@ namespace GameCore
                         newAsteroid.Sprite = TexturePacker.GetSprite("AsteroidsAtlas", "Asteroid" + WorldData.RNG.Next(1, WorldData.AsteroidTypes + 1).ToString());
                         newAsteroid.Position = new Vector2(x + WorldData.RNG.Next(0, 150), y + WorldData.RNG.Next(0, 150));
                         newAsteroid.Origin = new Vector2(newAsteroid.Sprite.SourceRect.Width / 2, newAsteroid.Sprite.SourceRect.Height / 2);
-                        newAsteroid.RotationSpeed = (float)PandaUtil.RandomDouble(WorldData.RNG, 0.0, 0.1);
+                        newAsteroid.RotationSpeed = (float)PandaUtil.RandomDouble(WorldData.RNG, 0, 8);
+                        newAsteroid.Rotation = WorldData.RNG.Next(0, 360);
 
                         if (WorldData.RNG.Next(0, 10) < 3)
                         {
@@ -87,7 +95,8 @@ namespace GameCore
             }
 
             PlayerEntity = new Player();
-            PlayerEntity.Position = new Vector2(500, 500);
+            PlayerEntity.Position = PlayerStartPosition;
+            PlayerShips.Add(PlayerEntity);
 
             for (var i = 0; i < StartingMiners; i++)
             {
@@ -107,19 +116,27 @@ namespace GameCore
                 Asteroids[i].Update(gameTime);
             }
 
+            DeadShips.Clear();
+
             for (var i = 0; i < Ships.Count; i++)
             {
-                //Ships[i].SetDestination(PlayerEntity.Position);
-                Ships[i].Update(gameTime);
+                var ship = Ships[i];
+                ship.Update(gameTime);
+
+                if (ship.CurrentArmourHP <= 0)
+                    DeadShips.Add(ship);
             }
+
+            foreach (var ship in DeadShips)
+                UnitManager.DestroyShip(ship);
             
             PlayerEntity.Update(gameTime);
         }
 
         public void DrawWorld (SpriteBatch spriteBatch)
         {
-            var camPos = Camera.GetPosition();
-            var viewDistance = ((Graphics.PresentationParameters.BackBufferWidth * 1.1) / Camera.Zoom);
+            var camPos = Camera.GetPosition() + Camera.GetOrigin();
+            var viewDistance = Graphics.PresentationParameters.BackBufferWidth / Camera.Zoom;
 
             for (var i = 0; i <= Asteroids.LastActiveIndex; i++)
             {
@@ -146,7 +163,7 @@ namespace GameCore
 
         public void DrawScreen(SpriteBatch spriteBatch)
         {
-            //var worldSize = new Vector2(WorldWidth * 1.5f, WorldHeight * 1.5f);
+            // todo : fix bg not lining up at right edge
             var worldSize = new Vector2(WorldWidth, WorldHeight);
             var bgSize = new Vector2(Background.Width, Background.Height);
             var bgProportionalSize = (float)bgSize.X / (float)worldSize.X;

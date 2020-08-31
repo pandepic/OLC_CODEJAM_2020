@@ -43,16 +43,21 @@ namespace GameCore
         None,
         HomeShip,
         Miner,
-        Repair
+        Repair,
+        Fighter
     }
 
-    public enum TurretType
+    public enum ShipStance
+    {
+        Passive,
+        Defensive,
+        Aggressive,
+    }
+
+    public enum WeaponType
     {
         None,
-        SmallBurstLaser,
-        LargeBurstLaser,
-        SmallBeamLaser,
-        LargeBeamLaser,
+        BurstLaser,
     }
 
     public static class Screen
@@ -89,6 +94,7 @@ namespace GameCore
         public static Texture2D AsteroidsTexture = null;
         public static Texture2D ShipsTexture = null;
         public static DynamicSpriteFont DefaultFont = null;
+        public static Color EnemyColour = Color.MediumPurple;
 
         public static void Load(GraphicsDevice graphics)
         {

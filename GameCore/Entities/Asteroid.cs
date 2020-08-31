@@ -28,7 +28,7 @@ namespace GameCore.Entities
                         Position,
                         Sprite.SourceRect,
                         Color.White,
-                        Rotation,
+                        MathHelper.ToRadians(Rotation),
                         Origin,
                         Scale,
                         SpriteEffects.None,

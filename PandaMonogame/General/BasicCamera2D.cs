@@ -40,11 +40,12 @@ namespace PandaMonogame
                 var delta = gameTime.DeltaTime();
 
                 _position += Velocity * delta;
-                _view.X = (int)_position.X;
-                _view.Y = (int)_position.Y;
-
-                CheckBoundingBox();
             }
+
+            _view.X = (int)_position.X;
+            _view.Y = (int)_position.Y;
+
+            CheckBoundingBox();
         }
 
         public Rectangle GetViewRect()
@@ -66,6 +67,11 @@ namespace PandaMonogame
             return _position;
         }
 
+        public Vector2 GetOrigin()
+        {
+            return _origin;
+        }
+
         public Rectangle GetBoundingBox()
         {
             return BoundingBox;
@@ -76,27 +82,24 @@ namespace PandaMonogame
             if (position == null)
                 return;
 
-            SetViewPosition(
-                (int)position.X,
-                (int)position.Y
-            );
+            _position = position;
 
             CheckBoundingBox();
         }
 
         public void OffsetPosition(int x, int y)
         {
-            SetViewPosition(
-                _view.X + x,
-                _view.Y + y
-            );
+            _position.X += x;
+            _position.Y += y;
 
             CheckBoundingBox();
         }
 
         public void OffsetPosition(Vector2 vector)
         {
-            OffsetPosition((int)vector.X, (int)vector.Y);
+            //OffsetPosition((int)vector.X, (int)vector.Y);
+            _position += vector;
+            CheckBoundingBox();
         }
 
         public void CenterPosition(Vector2 position)
@@ -104,10 +107,8 @@ namespace PandaMonogame
             if (position == null)
                 return;
 
-            SetViewPosition(
-                (int)position.X - _view.Width / 2,
-                (int)position.Y - _view.Height / 2
-            );
+            _position.X = position.X - _view.Width / 2;
+            _position.Y = position.Y - _view.Height / 2;
 
             CheckBoundingBox();
         }
@@ -117,10 +118,8 @@ namespace PandaMonogame
             if (entity == null)
                 return;
 
-            SetViewPosition(
-                (int)entity.Position.X + entity.Width / 2 - _view.Width / 2,
-                (int)entity.Position.Y + entity.Height / 2 - _view.Height / 2
-            );
+            _position.X = entity.Position.X + entity.Width / 2 - _view.Width / 2;
+            _position.Y = entity.Position.Y + entity.Height / 2 - _view.Height / 2;
 
             CheckBoundingBox();
         }
@@ -173,24 +172,6 @@ namespace PandaMonogame
         public Vector2 ScreenToWorldPosition(Vector2 pos)
         {
             return Vector2.Transform(pos, Matrix.Invert(GetViewMatrix()));
-        }
-
-        private void SetViewPositionX(int x)
-        {
-            SetViewPosition(x, _view.Y);
-        }
-
-        private void SetViewPositionY(int y)
-        {
-            SetViewPosition(_view.X, y);
-        }
-
-        private void SetViewPosition(int x, int y)
-        {
-            _view.X = x;
-            _view.Y = y;
-            _position.X = _view.X;
-            _position.Y = _view.Y;
         }
     }
 }

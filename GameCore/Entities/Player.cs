@@ -31,6 +31,7 @@ namespace GameCore.Entities
         public Player()
         {
             Type = ShipType.HomeShip;
+            IsPlayerShip = true;
 
             LoadData();
 

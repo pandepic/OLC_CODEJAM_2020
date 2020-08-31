@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PandaMonogame;
 using PandaMonogame.Assets;
+using SpriteFontPlus;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,10 +23,17 @@ namespace GameCore.Entities
         public float TurnSpeed = 0.0f;
         public float MoveSpeed = 0.0f;
 
+        public float BaseArmourHP, CurrentArmourHP;
+        public float BaseShieldHP, CurrentShieldHP;
+        public float BaseShieldRegenRate, CurrentShieldRegenRate;
+
         public SimpleStateMachine StateMachine = new SimpleStateMachine();
 
+        public List<Weapon> Weapons = new List<Weapon>();
+        public float MinWeaponRange = -1, MaxWeaponRange = -1;
+
         public bool Selected = false;
-        public Color SelectionColour = Color.Red;
+        public Color SelectionColour = Color.Yellow;
 
         public void LoadData()
         {
@@ -34,13 +42,37 @@ namespace GameCore.Entities
             Origin = new Vector2(Sprite.SourceRect.Width / 2, Sprite.SourceRect.Height / 2);
             MoveSpeed = data.MoveSpeed;
             TurnSpeed = data.TurnSpeed;
+            
+            BaseArmourHP = data.ArmourHP;
+            BaseShieldHP = data.ShieldHP;
+            BaseShieldRegenRate = data.ShieldRegenRate;
+
+            CurrentArmourHP = BaseArmourHP;
+            CurrentShieldHP = BaseShieldHP;
+            CurrentShieldRegenRate = BaseShieldRegenRate;
+
+            Weapons = data.Weapons;
+
+            foreach (var weapon in Weapons)
+            {
+                if (MinWeaponRange == -1 || weapon.Range < MinWeaponRange)
+                    MinWeaponRange = weapon.Range;
+                if (MaxWeaponRange == -1 || weapon.Range > MaxWeaponRange)
+                    MaxWeaponRange = weapon.Range;
+            }
         }
 
         public virtual void Update(GameTime gameTime)
         {
+            var delta = gameTime.DeltaTime();
+
             StateMachine.Update(gameTime);
 
-            Position += Velocity * gameTime.DeltaTime();
+            Position += Velocity * delta;
+
+            CurrentShieldHP += CurrentShieldRegenRate * delta;
+            if (CurrentShieldHP > BaseShieldHP)
+                CurrentShieldHP = BaseShieldHP;
 
             if (Moving)
             {
@@ -75,13 +107,31 @@ namespace GameCore.Entities
                         Sprite.Texture,
                         Position,
                         Sprite.SourceRect,
-                        (Selected ? SelectionColour : Color.White),
+                        (Selected ? SelectionColour : (IsPlayerShip ? Color.White : Sprites.EnemyColour)),
                         MathHelper.ToRadians(Rotation),
                         Origin,
                         Scale,
                         SpriteEffects.None,
                         0.0f
                         );
+
+            var shipString = "";
+
+            var armourPercent = CurrentArmourHP / BaseArmourHP * 100.0f;
+            var shieldPercent = CurrentShieldHP / BaseShieldHP * 100.0f;
+
+            if (armourPercent < 100.0f)
+                shipString += "A: " + armourPercent.ToString("0") + "%";
+            if (shieldPercent < 100.0f)
+                shipString += (shipString.Length > 0 ? " " : "") + "S: " + shieldPercent.ToString("0") + "%";
+
+            Sprites.DefaultFont.Size = 20;
+
+            if (shipString.Length > 0)
+            {
+                var shipStringSize = Sprites.DefaultFont.MeasureString(shipString);
+                spriteBatch.DrawString(Sprites.DefaultFont, shipString, Position - new Vector2(shipStringSize.X / 2, shipStringSize.Y / 2) - new Vector2(0, Origin.Y + 25), Color.White);
+            }
         }
 
         public void SetDestination(Vector2 destination)

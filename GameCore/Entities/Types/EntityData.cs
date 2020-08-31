@@ -20,12 +20,8 @@ namespace GameCore.Entities
 
         public Dictionary<ResourceType, int> BuildCost;
         public int BuildTime;
-    }
 
-    public struct TurretTypeData
-    {
-        public float Cooldown;
-        public float Damage;
+        public List<Weapon> Weapons;
     }
 
     public static class EntityData
@@ -50,6 +46,7 @@ namespace GameCore.Entities
                         ShieldHP = float.Parse(el.Element("ShieldHP").Value),
                         ShieldRegenRate = float.Parse(el.Element("ShieldRegenRate").Value),
                         BuildCost = new Dictionary<ResourceType, int>(),
+                        Weapons = new List<Weapon>(),
                     };
 
                     var elBuildCost = el.Element("BuildCost");
@@ -67,6 +64,22 @@ namespace GameCore.Entities
 
                     if (elBuildTime != null)
                         newType.BuildTime = int.Parse(elBuildTime.Value);
+
+                    var elWeapons = el.Element("Weapons");
+
+                    if (elWeapons != null)
+                    {
+                        foreach (var elWeapon in elWeapons.Elements("Weapon"))
+                        {
+                            newType.Weapons.Add(new Weapon()
+                            {
+                                Type = elWeapon.Attribute("Type").Value.ToEnum<WeaponType>(),
+                                Range = float.Parse(elWeapon.Attribute("Range").Value),
+                                Cooldown = float.Parse(elWeapon.Attribute("Cooldown").Value),
+                                Damage = float.Parse(elWeapon.Attribute("Damage").Value),
+                            });
+                        }
+                    }
 
                     ShipTypes.Add(newType.Type, newType);
                 }
