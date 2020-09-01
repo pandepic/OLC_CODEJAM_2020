@@ -135,14 +135,14 @@ namespace GameCore
 
             foreach (var ship in DeadShips)
                 UnitManager.DestroyShip(ship);
-            
+
             PlayerEntity.Update(gameTime);
         }
 
         public void DrawWorld (SpriteBatch spriteBatch)
         {
             var camPos = Camera.GetPosition() + Camera.GetOrigin();
-            var viewDistance = Graphics.PresentationParameters.BackBufferWidth / Camera.Zoom;
+            var viewDistance = Graphics.PresentationParameters.BackBufferWidth / (Camera.Zoom * Camera.GetZoomFromZ(Camera.Z, 0f));
 
             for (var i = 0; i <= Asteroids.LastActiveIndex; i++)
             {
@@ -167,29 +167,21 @@ namespace GameCore
             }
         }
 
-        public void DrawScreen(SpriteBatch spriteBatch)
+        public void DrawScreen(SpriteBatch spriteBatch, float z)
         {
-            // todo : fix bg not lining up at right edge
-            var worldSize = new Vector2(WorldWidth, WorldHeight);
-            var bgSize = new Vector2(Background.Width, Background.Height);
-            var bgProportionalSize = (float)bgSize.X / (float)worldSize.X;
-            float bgZoom = 1.0f - ((1.0f - Camera.Zoom) * bgProportionalSize);
-
-            var screenPosWorld = Camera.ScreenToWorldPosition(Vector2.Zero);
-
-            var backgroundPos = ((screenPosWorld / worldSize) * bgSize) * bgZoom;
-
+            // 5f is furthest Z defined in _zLevels;
+            float backRatio = 1f / (5f - z + 1);
+            Vector2 screenHalf = new Vector2(Graphics.PresentationParameters.BackBufferWidth / 2, Graphics.PresentationParameters.BackBufferHeight / 2);
+            Vector2 topLeft = new Vector2(-screenHalf.X / backRatio, -screenHalf.Y / backRatio);
+            Vector2 bottomRight = new Vector2(WorldWidth + screenHalf.X / backRatio, WorldHeight + screenHalf.Y / backRatio);
+            int width = (int)(bottomRight.X - topLeft.X);
+            int height = (int)(bottomRight.Y - topLeft.Y);
+            int maxSize = Math.Max(width, height); // Preserve square.
             spriteBatch.Draw(
-                        Background,
-                        -backgroundPos,
-                        null,
-                        Color.White,
-                        0.0f,
-                        Vector2.Zero,
-                        bgZoom,
-                        SpriteEffects.None,
-                        0.0f
-                        );
+                Background,
+                new Rectangle((int)topLeft.X, (int)topLeft.Y, maxSize, maxSize),
+                Color.White
+            );
         }
     }
 }
