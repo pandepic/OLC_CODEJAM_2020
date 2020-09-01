@@ -23,6 +23,11 @@ namespace GameCore.AI
     public class ShipIdleState : ShipStateBase
     {
         public ShipIdleState(Ship parentShip) : base("Idle", parentShip) { }
+
+        public override void Begin()
+        {
+            ParentShip.StopMovement();
+        }
     }
 
     public class ShipFollowingState : ShipStateBase
@@ -71,6 +76,23 @@ namespace GameCore.AI
         public Ship Target;
 
         public ShipPatrolFollowState(Ship parentShip) : base("PatrolFollow", parentShip) { }
+
+        public override void Begin()
+        {
+            ParentShip.SetDestination(Target.Position);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            ParentShip.SetDestination(Target.Position);
+        }
+    }
+
+    public class SmallShipAttackingState : ShipStateBase
+    {
+        public Ship Target;
+
+        public SmallShipAttackingState(Ship parentShip) : base("Attacking", parentShip) { }
 
         public override void Begin()
         {

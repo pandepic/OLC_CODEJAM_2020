@@ -35,13 +35,13 @@ namespace GameCore.Entities
                         0.0f
                         );
 
-            if (ResourceType != ResourceType.None)
-            {
-                Sprites.DefaultFont.Size = 22;
-                var resourceString = ResourceType.ToString();
-                var resourceStringSize = Sprites.DefaultFont.MeasureString(resourceString);
-                spriteBatch.DrawString(Sprites.DefaultFont, resourceString, Position - new Vector2(resourceStringSize.X / 2, resourceStringSize.Y / 2) - new Vector2(0, Origin.Y + 25), Color.White);
-            }
+            //if (ResourceType != ResourceType.None)
+            //{
+            //    Sprites.DefaultFont.Size = (int)(18.0f / GameplayState.Camera.Zoom);
+            //    var resourceString = ResourceType.ToString();
+            //    var resourceStringSize = Sprites.DefaultFont.MeasureString(resourceString);
+            //    spriteBatch.DrawString(Sprites.DefaultFont, resourceString, Position - new Vector2(resourceStringSize.X / 2, resourceStringSize.Y / 2) - new Vector2(0, Origin.Y + 25), Color.White);
+            //}
         }
     }
 }

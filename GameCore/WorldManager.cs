@@ -33,7 +33,11 @@ namespace GameCore
         public UnitManager UnitManager;
         GraphicsDevice Graphics;
 
-        public WorldManager(GraphicsDevice graphics, BasicCamera2D camera, UnitManager unitManager)
+        public WorldManager()
+        {
+        }
+
+        public void Setup(GraphicsDevice graphics, BasicCamera2D camera, UnitManager unitManager)
         {
             UnitManager = unitManager;
             UnitManager.WorldManager = this;
@@ -102,6 +106,8 @@ namespace GameCore
             {
                 UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
             }
+
+            UnitManager.SpawnShip(ShipType.Fighter, new Vector2(4000, 4000), null);
         }
 
         ~WorldManager()
@@ -148,6 +154,8 @@ namespace GameCore
                     asteroid.Draw(spriteBatch);
             }
 
+            PlayerEntity.Draw(spriteBatch);
+
             for (var i = 0; i < Ships.Count; i++)
             {
                 var ship = Ships[i];
@@ -157,8 +165,6 @@ namespace GameCore
                 if (distance < viewDistance)
                     ship.Draw(spriteBatch);
             }
-
-            PlayerEntity.Draw(spriteBatch);
         }
 
         public void DrawScreen(SpriteBatch spriteBatch)

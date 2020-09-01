@@ -12,9 +12,12 @@ namespace GameCore.Entities
 {
     public class Ship : Entity
     {
-        public Ship Owner = null;
         public ShipType Type = ShipType.None;
+        public ShipStance Stance = ShipStance.Passive;
+
+        public Ship Owner = null;
         public bool IsPlayerShip = false;
+        public bool IsDead = false;
 
         public float TargetRotation = 0.0f;
         public Vector2 Destination;
@@ -31,6 +34,8 @@ namespace GameCore.Entities
 
         public List<Weapon> Weapons = new List<Weapon>();
         public float MinWeaponRange = -1, MaxWeaponRange = -1;
+
+        public Ship EnemyTarget = null;
 
         public bool Selected = false;
         public Color SelectionColour = Color.Yellow;
@@ -114,24 +119,6 @@ namespace GameCore.Entities
                         SpriteEffects.None,
                         0.0f
                         );
-
-            var shipString = "";
-
-            var armourPercent = CurrentArmourHP / BaseArmourHP * 100.0f;
-            var shieldPercent = CurrentShieldHP / BaseShieldHP * 100.0f;
-
-            if (armourPercent < 100.0f)
-                shipString += "A: " + armourPercent.ToString("0") + "%";
-            if (shieldPercent < 100.0f)
-                shipString += (shipString.Length > 0 ? " " : "") + "S: " + shieldPercent.ToString("0") + "%";
-
-            Sprites.DefaultFont.Size = 20;
-
-            if (shipString.Length > 0)
-            {
-                var shipStringSize = Sprites.DefaultFont.MeasureString(shipString);
-                spriteBatch.DrawString(Sprites.DefaultFont, shipString, Position - new Vector2(shipStringSize.X / 2, shipStringSize.Y / 2) - new Vector2(0, Origin.Y + 25), Color.White);
-            }
         }
 
         public void SetDestination(Vector2 destination)

@@ -36,8 +36,8 @@
   </Type>
 
   <Type Name="Fighter" Sprite="Fighter1">
-    <MoveSpeed>225</MoveSpeed>
-    <TurnSpeed>85</TurnSpeed>
+    <MoveSpeed>250</MoveSpeed>
+    <TurnSpeed>120</TurnSpeed>
 
     <ArmourHP>100</ArmourHP>
     <ShieldHP>100</ShieldHP>

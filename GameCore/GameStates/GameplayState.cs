@@ -19,9 +19,9 @@ namespace GameCore
 
         protected PUIMenu _menu = new PUIMenu();
 
-        protected BasicCamera2D _camera;
-        protected WorldManager _worldManager;
-        protected UnitManager _unitManager;
+        public static BasicCamera2D Camera;
+        public static WorldManager WorldManager;
+        public static UnitManager UnitManager;
 
         protected bool _mouseDragging = false;
         protected Vector2 _mouseDragPosition = Vector2.Zero;
@@ -34,7 +34,7 @@ namespace GameCore
         protected List<float> _zoomLevels = new List<float>()
         {
             0.2f,
-            0.4f,
+            0.5f,
             1.0f,
         };
         protected int _currentZoomLevel = 0;
@@ -43,45 +43,48 @@ namespace GameCore
         {
             _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
 
-            _camera = new BasicCamera2D(
+            Camera = new BasicCamera2D(
                 new Rectangle(0, 0, graphics.PresentationParameters.BackBufferWidth, graphics.PresentationParameters.BackBufferHeight),
                 new Rectangle(0, 0, WorldManager.WorldWidth, WorldManager.WorldHeight));
 
-            _currentZoomLevel = _zoomLevels.IndexOf(1.0f);
-            _camera.Zoom = _zoomLevels[_currentZoomLevel];
+            _currentZoomLevel = _zoomLevels.IndexOf(0.5f);
+            Camera.Zoom = _zoomLevels[_currentZoomLevel];
 
-            _unitManager = new UnitManager(graphics, _camera, _menu);
-            _worldManager = new WorldManager(graphics, _camera, _unitManager);
-            _worldManager.PlayerEntity.UnitManager = _unitManager;
+            UnitManager = new UnitManager();
+            WorldManager = new WorldManager();
 
-            _camera.CenterPosition(_worldManager.PlayerEntity.Position);
+            UnitManager.Setup(graphics, Camera, _menu);
+            WorldManager.Setup(graphics, Camera, UnitManager);
+            WorldManager.PlayerEntity.UnitManager = UnitManager;
+
+            Camera.CenterPosition(WorldManager.PlayerEntity.Position);
         }
 
         public override int Update(GameTime gameTime)
         {
             var mousePosition = Screen.GetMousePosition();
-            var mouseWorldPos = _camera.ScreenToWorldPosition(mousePosition);
-            var centerWorldPos = _camera.ScreenToWorldPosition(_worldManager.ScreenCenter);
+            var mouseWorldPos = Camera.ScreenToWorldPosition(mousePosition);
+            var centerWorldPos = Camera.ScreenToWorldPosition(WorldManager.ScreenCenter);
 
             if (_lockCamera)
-                _camera.CenterPosition(_worldManager.PlayerEntity.Position);
+                Camera.CenterPosition(WorldManager.PlayerEntity.Position);
 
             _menu.GetWidget<PUIWLabel>("lblDebug").Text =
-                _camera.GetViewRect().ToString() + " : " + _camera.Zoom + "\n" +
-                "Asteroids: " + (_worldManager.Asteroids.LastActiveIndex + 1) + "\n" +
+                Camera.GetViewRect().ToString() + " : " + Camera.Zoom + "\n" +
+                "Asteroids: " + (WorldManager.Asteroids.LastActiveIndex + 1) + "\n" +
                 mouseWorldPos.ToString() + "\n" +
                 centerWorldPos.ToString();
 
             var inventoryString = new StringBuilder();
 
-            foreach (var kvp in _worldManager.PlayerEntity.Inventory.Resources)
+            foreach (var kvp in WorldManager.PlayerEntity.Inventory.Resources)
                 inventoryString.Append(kvp.Key.ToString() + ": " + kvp.Value.ToString() + "\n");
 
             _menu.GetWidget<PUIWLabel>("lblInventory").Text = inventoryString.ToString();
 
             _menu.Update(gameTime);
-            _worldManager.Update(gameTime);
-            _unitManager.Update(gameTime);
+            WorldManager.Update(gameTime);
+            UnitManager.Update(gameTime);
 
             return _nextGameState;
         }
@@ -93,15 +96,15 @@ namespace GameCore
             // screen space
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
             {
-                _worldManager.DrawScreen(spriteBatch);
+                WorldManager.DrawScreen(spriteBatch);
             }
             spriteBatch.End();
 
             // world space
-            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp, transformMatrix: _camera.GetViewMatrix());
+            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp, transformMatrix: Camera.GetViewMatrix());
             {
-                _worldManager.DrawWorld(spriteBatch);
-                _unitManager.DrawWorld(spriteBatch);
+                WorldManager.DrawWorld(spriteBatch);
+                UnitManager.DrawWorld(spriteBatch);
             }
             spriteBatch.End();
 
@@ -109,7 +112,7 @@ namespace GameCore
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
             {
                 _menu.Draw(spriteBatch);
-                _unitManager.DrawScreen(spriteBatch);
+                UnitManager.DrawScreen(spriteBatch);
             }
             spriteBatch.End();
         }
@@ -125,12 +128,12 @@ namespace GameCore
                 if (_mouseDragging)
                 {
                     var difference = mousePosition - _mouseDragPosition;
-                    difference /= _camera.Zoom;
-                    _camera.OffsetPosition(-difference);
+                    difference /= Camera.Zoom;
+                    Camera.OffsetPosition(-difference);
                     _mouseDragPosition = mousePosition;
                 }
 
-                _unitManager.OnMouseMoved(originalPosition, gameTime);
+                UnitManager.OnMouseMoved(originalPosition, gameTime);
             }
         }
 
@@ -148,7 +151,7 @@ namespace GameCore
                     _mouseDragPosition = mousePosition;
                 }
 
-                _unitManager.OnMouseDown(button, gameTime);
+                UnitManager.OnMouseDown(button, gameTime);
             }
         }
 
@@ -163,7 +166,7 @@ namespace GameCore
                 if (_mouseDragging && button == MouseButtonID.Middle)
                     _mouseDragging = false;
 
-                _unitManager.OnMouseClicked(button, gameTime);
+                UnitManager.OnMouseClicked(button, gameTime);
             }
         }
 
@@ -182,8 +185,8 @@ namespace GameCore
                 if (_currentZoomLevel >= _zoomLevels.Count)
                     _currentZoomLevel = _zoomLevels.Count - 1;
 
-                _camera.Zoom = _zoomLevels[_currentZoomLevel];
-                _camera.CheckBoundingBox();
+                Camera.Zoom = _zoomLevels[_currentZoomLevel];
+                Camera.CheckBoundingBox();
             }
             else
             {
@@ -192,8 +195,8 @@ namespace GameCore
                 if (_currentZoomLevel < 0)
                     _currentZoomLevel = 0;
 
-                _camera.Zoom = _zoomLevels[_currentZoomLevel];
-                _camera.CheckBoundingBox();
+                Camera.Zoom = _zoomLevels[_currentZoomLevel];
+                Camera.CheckBoundingBox();
             }
         }
 
@@ -218,16 +221,17 @@ namespace GameCore
             }
             else if (key == Keys.Space)
             {
-                _lockCamera = !_lockCamera;
+                //_lockCamera = !_lockCamera;
+                Camera.CenterPosition(WorldManager.PlayerEntity.Position);
             }
             else if (key == Keys.P)
             {
-                _worldManager.PlayerEntity.Inventory.AddResource(ResourceType.Metal, 100);
-                _worldManager.PlayerEntity.Inventory.AddResource(ResourceType.Gas, 50);
+                WorldManager.PlayerEntity.Inventory.AddResource(ResourceType.Metal, 100);
+                WorldManager.PlayerEntity.Inventory.AddResource(ResourceType.Gas, 50);
             }
             else if (key == Keys.O)
             {
-                _worldManager.PlayerEntity.BuildShip(ShipType.Miner);
+                WorldManager.PlayerEntity.BuildShip(ShipType.Miner);
             }
         }
 
@@ -243,22 +247,22 @@ namespace GameCore
             {
                 case Keys.W:
                 case Keys.Up:
-                    _camera.OffsetPosition(new Vector2(0, -ScrollSpeed / _camera.Zoom) * gameTime.DeltaTime());
+                    Camera.OffsetPosition(new Vector2(0, -ScrollSpeed / Camera.Zoom) * gameTime.DeltaTime());
                     break;
 
                 case Keys.S:
                 case Keys.Down:
-                    _camera.OffsetPosition(new Vector2(0, ScrollSpeed / _camera.Zoom) * gameTime.DeltaTime());
+                    Camera.OffsetPosition(new Vector2(0, ScrollSpeed / Camera.Zoom) * gameTime.DeltaTime());
                     break;
 
                 case Keys.A:
                 case Keys.Left:
-                    _camera.OffsetPosition(new Vector2(-ScrollSpeed / _camera.Zoom, 0) * gameTime.DeltaTime());
+                    Camera.OffsetPosition(new Vector2(-ScrollSpeed / Camera.Zoom, 0) * gameTime.DeltaTime());
                     break;
 
                 case Keys.D:
                 case Keys.Right:
-                    _camera.OffsetPosition(new Vector2(ScrollSpeed / _camera.Zoom, 0) * gameTime.DeltaTime());
+                    Camera.OffsetPosition(new Vector2(ScrollSpeed / Camera.Zoom, 0) * gameTime.DeltaTime());
                     break;
             }
         }

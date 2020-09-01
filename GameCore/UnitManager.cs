@@ -31,7 +31,11 @@ namespace GameCore
         public Dictionary<ShipType, List<Ship>> SelectedShipTypes;
         public StringBuilder SBSelection = new StringBuilder();
 
-        public UnitManager(GraphicsDevice graphics, BasicCamera2D camera, PUIMenu menu)
+        public UnitManager()
+        {
+        }
+
+        public void Setup(GraphicsDevice graphics, BasicCamera2D camera, PUIMenu menu)
         {
             Camera = camera;
             Graphics = graphics;
@@ -69,6 +73,51 @@ namespace GameCore
 
             if (Dragging)
                 spriteBatch.Draw(DragSelectTexture, DragRect, DragRect, Color.White);
+
+            Sprites.DefaultFont.Size = 18;
+
+            for (var i = 0; i <= WorldManager.Asteroids.LastActiveIndex; i++)
+            {
+                var asteroid = WorldManager.Asteroids.Buffer[i];
+
+                if (asteroid.ResourceType == ResourceType.None)
+                    continue;
+
+                var resourceString = asteroid.ResourceType.ToString();
+                var resourceStringSize = Sprites.DefaultFont.MeasureString(resourceString);
+                var textPosition = asteroid.Position - new Vector2(resourceStringSize.X / 2, resourceStringSize.Y / 2) - new Vector2(0, asteroid.Origin.Y + 50);
+                textPosition = Vector2.Transform(textPosition, Camera.GetViewMatrix());
+
+                spriteBatch.DrawString(Sprites.DefaultFont, resourceString, textPosition, Color.White);
+            }
+
+            WorldManager.Ships.Add(WorldManager.PlayerEntity);
+
+            for (var i = 0; i < WorldManager.Ships.Count; i++)
+            {
+                var ship = WorldManager.Ships[i];
+
+                var shipString = "";
+
+                var armourPercent = ship.CurrentArmourHP / ship.BaseArmourHP * 100.0f;
+                var shieldPercent = ship.CurrentShieldHP / ship.BaseShieldHP * 100.0f;
+
+                if (armourPercent < 100.0f)
+                    shipString += "A: " + armourPercent.ToString("0") + "%";
+                if (shieldPercent < 100.0f)
+                    shipString += (shipString.Length > 0 ? " " : "") + "S: " + shieldPercent.ToString("0") + "%";
+
+                if (shipString.Length > 0)
+                {
+                    var shipStringSize = Sprites.DefaultFont.MeasureString(shipString);
+                    var textPosition = (ship.Position - new Vector2(shipStringSize.X / 2, shipStringSize.Y / 2) - new Vector2(0, ship.Origin.Y + 50));
+                    textPosition = Vector2.Transform(textPosition, Camera.GetViewMatrix());
+
+                    spriteBatch.DrawString(Sprites.DefaultFont, shipString, textPosition, Color.White);
+                }
+            }
+
+            WorldManager.Ships.Remove(WorldManager.PlayerEntity);
         }
 
         public void DrawWorld(SpriteBatch spriteBatch)
@@ -131,22 +180,28 @@ namespace GameCore
                         newShip = new Miner(owner, position);
                     }
                     break;
+
+                case ShipType.Fighter:
+                    {
+                        newShip = new Fighter(owner, position);
+                    }
+                    break;
             }
 
-            if (newShip != null)
+            if (newShip == null)
+                return;
+
+            if (owner != null && owner.IsPlayerShip == true)
             {
-                if (owner != null && owner.IsPlayerShip == true)
-                {
-                    newShip.IsPlayerShip = true;
-                    WorldManager.PlayerShips.Add(newShip);
-                }
-                else
-                {
-                    WorldManager.EnemyShips.Add(newShip);
-                }
-
-                WorldManager.Ships.Add(newShip);
+                newShip.IsPlayerShip = true;
+                WorldManager.PlayerShips.Add(newShip);
             }
+            else
+            {
+                WorldManager.EnemyShips.Add(newShip);
+            }
+
+            WorldManager.Ships.Add(newShip);
 
         } // SpawnShip
 
