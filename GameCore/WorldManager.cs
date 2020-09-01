@@ -135,14 +135,14 @@ namespace GameCore
 
             foreach (var ship in DeadShips)
                 UnitManager.DestroyShip(ship);
-            
+
             PlayerEntity.Update(gameTime);
         }
 
         public void DrawWorld (SpriteBatch spriteBatch)
         {
             var camPos = Camera.GetPosition() + Camera.GetOrigin();
-            var viewDistance = Graphics.PresentationParameters.BackBufferWidth / Camera.Zoom;
+            var viewDistance = Graphics.PresentationParameters.BackBufferWidth / (Camera.Zoom * Camera.GetZoomFromZ(Camera.Z, 0f));
 
             for (var i = 0; i <= Asteroids.LastActiveIndex; i++)
             {
@@ -169,27 +169,11 @@ namespace GameCore
 
         public void DrawScreen(SpriteBatch spriteBatch)
         {
-            // todo : fix bg not lining up at right edge
-            var worldSize = new Vector2(WorldWidth, WorldHeight);
-            var bgSize = new Vector2(Background.Width, Background.Height);
-            var bgProportionalSize = (float)bgSize.X / (float)worldSize.X;
-            float bgZoom = 1.0f - ((1.0f - Camera.Zoom) * bgProportionalSize);
-
-            var screenPosWorld = Camera.ScreenToWorldPosition(Vector2.Zero);
-
-            var backgroundPos = ((screenPosWorld / worldSize) * bgSize) * bgZoom;
-
             spriteBatch.Draw(
-                        Background,
-                        -backgroundPos,
-                        null,
-                        Color.White,
-                        0.0f,
-                        Vector2.Zero,
-                        bgZoom,
-                        SpriteEffects.None,
-                        0.0f
-                        );
+                Background,
+                new Rectangle(0, 0, WorldWidth, WorldHeight),
+                Color.White
+            );
         }
     }
 }

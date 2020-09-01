@@ -31,13 +31,13 @@ namespace GameCore
 
         protected float ScrollSpeed = 1500.0f;
 
-        protected List<float> _zoomLevels = new List<float>()
+        protected List<float> _zLevels = new List<float>()
         {
-            0.2f,
-            0.5f,
             1.0f,
+            2.0f,
+            5.0f
         };
-        protected int _currentZoomLevel = 0;
+        protected int _currentZLevel = 0;
 
         public override void Load(ContentManager Content, GraphicsDevice graphics)
         {
@@ -47,8 +47,8 @@ namespace GameCore
                 new Rectangle(0, 0, graphics.PresentationParameters.BackBufferWidth, graphics.PresentationParameters.BackBufferHeight),
                 new Rectangle(0, 0, WorldManager.WorldWidth, WorldManager.WorldHeight));
 
-            _currentZoomLevel = _zoomLevels.IndexOf(0.5f);
-            Camera.Zoom = _zoomLevels[_currentZoomLevel];
+            _currentZLevel = _zLevels.IndexOf(2.0f);
+            Camera.Z = _zLevels[_currentZLevel];
 
             UnitManager = new UnitManager();
             WorldManager = new WorldManager();
@@ -94,7 +94,7 @@ namespace GameCore
             graphics.Clear(Color.Black);
 
             // screen space
-            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp, transformMatrix: Camera.GetViewMatrix(-15));
             {
                 WorldManager.DrawScreen(spriteBatch);
             }
@@ -178,24 +178,24 @@ namespace GameCore
                 return;
             }
 
-            if (direction == MouseScrollDirection.Up)
+            if (direction == MouseScrollDirection.Down)
             {
-                _currentZoomLevel += 1;
+                _currentZLevel += 1;
 
-                if (_currentZoomLevel >= _zoomLevels.Count)
-                    _currentZoomLevel = _zoomLevels.Count - 1;
+                if (_currentZLevel >= _zLevels.Count)
+                    _currentZLevel = _zLevels.Count - 1;
 
-                Camera.Zoom = _zoomLevels[_currentZoomLevel];
+                Camera.Z = _zLevels[_currentZLevel];
                 Camera.CheckBoundingBox();
             }
             else
             {
-                _currentZoomLevel -= 1;
+                _currentZLevel -= 1;
 
-                if (_currentZoomLevel < 0)
-                    _currentZoomLevel = 0;
+                if (_currentZLevel < 0)
+                    _currentZLevel = 0;
 
-                Camera.Zoom = _zoomLevels[_currentZoomLevel];
+                Camera.Z = _zLevels[_currentZLevel];
                 Camera.CheckBoundingBox();
             }
         }

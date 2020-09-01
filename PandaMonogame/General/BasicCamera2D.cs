@@ -8,13 +8,14 @@ namespace PandaMonogame
     {
         public float Rotation { get; set; } = 0f;
         public float Zoom { get; set; } = 1f;
+        public float Z { get; set; } = 1f;
 
         public Rectangle BoundingBox { get; set; } = Rectangle.Empty;
         protected Rectangle _view = Rectangle.Empty;
 
         protected Vector2 _origin = Vector2.Zero;
         protected Vector2 _position = Vector2.Zero;
-        
+
         public Vector2 Velocity = Vector2.Zero;
 
         public BasicCamera2D() { }
@@ -52,14 +53,29 @@ namespace PandaMonogame
         {
             return _view;
         }
-        
+
+        public float GetZFromZoom(float zoom, float targetZ)
+        {
+            return 1 / zoom + targetZ;
+        }
+        public float GetZoomFromZ(float z, float targetZ)
+        {
+            if (z - targetZ == 0)
+            {
+                return 0;
+            }
+            return 1 / (z - targetZ);
+        }
+
         public Matrix GetViewMatrix(float z = 0f)
         {
-            return  Matrix.CreateTranslation(new Vector3(-_position, z)) *
-                    Matrix.CreateTranslation(new Vector3(-_origin, z)) *
-                    Matrix.CreateScale(Zoom, Zoom, 1) *
+            float zoomZ = GetZoomFromZ(Z, z);
+            return  Matrix.CreateTranslation(new Vector3(-_position, 0.0f)) *
+                    Matrix.CreateTranslation(new Vector3(-_origin, 0.0f)) *
                     Matrix.CreateRotationZ(Rotation) *
-                    Matrix.CreateTranslation(new Vector3(_origin, z));
+                    Matrix.CreateScale(Zoom, Zoom, 1) *
+                    Matrix.CreateScale(zoomZ, zoomZ, 1) *
+                    Matrix.CreateTranslation(new Vector3(_origin, 0.0f));
         }
 
         public Vector2 GetPosition()
@@ -129,17 +145,14 @@ namespace PandaMonogame
             if (BoundingBox.IsEmpty || BoundingBox == null)
                 return;
 
-            var worldCameraXY = ScreenToWorldPosition(new Vector2(0, 0));
-            var worldCameraWH = ScreenToWorldPosition(new Vector2(BoundingBox.X + _view.Width, BoundingBox.Y + _view.Height));
-
-            if (worldCameraXY.X < BoundingBox.X)
-                _position.X += (worldCameraXY.X * -1.0f) + BoundingBox.X;
-            if (worldCameraXY.Y < BoundingBox.Y)
-                _position.Y += (worldCameraXY.Y * -1.0f) + BoundingBox.Y;
-            if (worldCameraWH.X > BoundingBox.Right)
-                _position.X -= (worldCameraWH.X - BoundingBox.Right);
-            if (worldCameraWH.Y > BoundingBox.Bottom)
-                _position.Y -= (worldCameraWH.Y - BoundingBox.Bottom);
+            if (_position.X < BoundingBox.Left)
+                _position.X = BoundingBox.Left;
+            if (_position.Y < BoundingBox.Top)
+                _position.Y = BoundingBox.Top;
+            if (_position.X > BoundingBox.Right)
+                _position.X = BoundingBox.Right;
+            if (_position.Y > BoundingBox.Bottom)
+                _position.Y = BoundingBox.Bottom;
 
             _view.X = (int)_position.X;
             _view.Y = (int)_position.Y;
