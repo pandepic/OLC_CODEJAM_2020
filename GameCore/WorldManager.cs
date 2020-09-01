@@ -167,11 +167,19 @@ namespace GameCore
             }
         }
 
-        public void DrawScreen(SpriteBatch spriteBatch)
+        public void DrawScreen(SpriteBatch spriteBatch, float z)
         {
+            // 5f is furthest Z defined in _zLevels;
+            float backRatio = 1f / (5f - z + 1);
+            Vector2 screenHalf = new Vector2(Graphics.PresentationParameters.BackBufferWidth / 2, Graphics.PresentationParameters.BackBufferHeight / 2);
+            Vector2 topLeft = new Vector2(-screenHalf.X / backRatio, -screenHalf.Y / backRatio);
+            Vector2 bottomRight = new Vector2(WorldWidth + screenHalf.X / backRatio, WorldHeight + screenHalf.Y / backRatio);
+            int width = (int)(bottomRight.X - topLeft.X);
+            int height = (int)(bottomRight.Y - topLeft.Y);
+            int maxSize = Math.Max(width, height); // Preserve square.
             spriteBatch.Draw(
                 Background,
-                new Rectangle(0, 0, WorldWidth, WorldHeight),
+                new Rectangle((int)topLeft.X, (int)topLeft.Y, maxSize, maxSize),
                 Color.White
             );
         }

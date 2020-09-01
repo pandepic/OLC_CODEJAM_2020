@@ -94,9 +94,10 @@ namespace GameCore
             graphics.Clear(Color.Black);
 
             // screen space
-            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp, transformMatrix: Camera.GetViewMatrix(-15));
+            float backgroundZ = -50f; // Background distance.
+            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp, transformMatrix: Camera.GetViewMatrix(backgroundZ));
             {
-                WorldManager.DrawScreen(spriteBatch);
+                WorldManager.DrawScreen(spriteBatch, backgroundZ);
             }
             spriteBatch.End();
 
