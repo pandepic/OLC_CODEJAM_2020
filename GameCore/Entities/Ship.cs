@@ -12,6 +12,11 @@ namespace GameCore.Entities
 {
     public class Ship : Entity
     {
+        public Sprite ShieldSprite;
+        public float ShieldRadius;
+        public bool IsShieldActive;
+        public float ShieldCooldown;
+
         public ShipType Type = ShipType.None;
         public ShipStance Stance = ShipStance.Passive;
 
@@ -56,7 +61,19 @@ namespace GameCore.Entities
             CurrentShieldHP = BaseShieldHP;
             CurrentShieldRegenRate = BaseShieldRegenRate;
 
-            Weapons = data.Weapons;
+            Weapons = new List<Weapon>();
+
+            foreach (var weapon in data.Weapons)
+            {
+                Weapons.Add(new Weapon()
+                {
+                    Type = weapon.Type,
+                    Range = weapon.Range,
+                    Cooldown = weapon.Cooldown,
+                    Damage = weapon.Damage,
+                    CurrentCooldown = weapon.Cooldown,
+                });
+            }
 
             foreach (var weapon in Weapons)
             {
@@ -65,19 +82,86 @@ namespace GameCore.Entities
                 if (MaxWeaponRange == -1 || weapon.Range > MaxWeaponRange)
                     MaxWeaponRange = weapon.Range;
             }
+
+            ShieldSprite = new Sprite(Sprites.ShieldTexture);
+            ShieldSprite.Colour = Color.Turquoise;
+            ShieldSprite.Colour.A = 0;
+            ActivateShield();
+
+            float shipSize = (Sprite.SourceRect.Width > Sprite.SourceRect.Height ? Sprite.SourceRect.Width : Sprite.SourceRect.Height);
+            shipSize *= 1.4f;
+
+            ShieldSprite.Scale = shipSize / ShieldSprite.Width;
+            ShieldRadius = ShieldSprite.Width * ShieldSprite.Scale;
+        }
+
+        public void ActivateShield()
+        {
+            ShieldSprite.BeginFadeEffect(100, 2000);
+            IsShieldActive = true;
+        }
+
+        public void DeactivateShield()
+        {
+            ShieldSprite.BeginFadeEffect(0, 2000);
+            IsShieldActive = false;
+            ShieldCooldown = 2000;
+        }
+
+        public void TakeDamage(float amount)
+        {
+            var shieldDamage = amount;
+            var armourDamage = 0.0f;
+
+            if (shieldDamage > CurrentShieldHP)
+            {
+                armourDamage = shieldDamage - CurrentShieldHP;
+                shieldDamage = CurrentShieldHP;
+            }
+
+            CurrentShieldHP -= shieldDamage;
+            CurrentArmourHP -= armourDamage;
         }
 
         public virtual void Update(GameTime gameTime)
         {
             var delta = gameTime.DeltaTime();
 
+            ShieldSprite.Update(gameTime);
             StateMachine.Update(gameTime);
 
             Position += Velocity * delta;
 
-            CurrentShieldHP += CurrentShieldRegenRate * delta;
-            if (CurrentShieldHP > BaseShieldHP)
-                CurrentShieldHP = BaseShieldHP;
+            foreach (var weapon in Weapons)
+            {
+                weapon.CurrentCooldown -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (weapon.CurrentCooldown <= 0)
+                    weapon.CurrentCooldown = 0;
+            }
+
+            if (!IsShieldActive)
+            {
+                ShieldCooldown -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+                if (ShieldCooldown <= 0)
+                {
+                    ShieldCooldown = 0;
+                    ActivateShield();
+                }
+            }
+            else
+            {
+                if (CurrentShieldHP <= 0)
+                {
+                    DeactivateShield();
+                }
+                else
+                {
+                    CurrentShieldHP += CurrentShieldRegenRate * delta;
+                    if (CurrentShieldHP > BaseShieldHP)
+                        CurrentShieldHP = BaseShieldHP;
+                }
+            }
 
             if (Moving)
             {
@@ -104,7 +188,7 @@ namespace GameCore.Entities
                 forwardVector = Vector2.TransformNormal(forwardVector, rotaterMatrix);
                 Velocity = forwardVector * MoveSpeed;
             }
-        }
+        } // Update
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
@@ -119,6 +203,8 @@ namespace GameCore.Entities
                         SpriteEffects.None,
                         0.0f
                         );
+
+            ShieldSprite.Draw(spriteBatch, Position);
         }
 
         public void SetDestination(Vector2 destination)

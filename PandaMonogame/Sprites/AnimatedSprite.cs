@@ -38,7 +38,7 @@ namespace PandaMonogame
             FrameWidth = frameWidth;
             FrameHeight = frameHeight;
 
-            _center = Vector2.Zero;
+            Center = Vector2.Zero;
 
             TotalFrames = (texture.Width / frameWidth) * (texture.Height / frameHeight);
 
@@ -126,10 +126,10 @@ namespace PandaMonogame
             if (frame < 1 || frame > TotalFrames)
                 return;
 
-            _sourceRect.X = ((frame - 1) % (Texture.Width / FrameWidth)) * FrameWidth;
-            _sourceRect.Y = ((frame - 1) / (Texture.Width / FrameWidth)) * FrameHeight;
-            _sourceRect.Width = FrameWidth;
-            _sourceRect.Height = FrameHeight;
+            SourceRect.X = ((frame - 1) % (Texture.Width / FrameWidth)) * FrameWidth;
+            SourceRect.Y = ((frame - 1) / (Texture.Width / FrameWidth)) * FrameHeight;
+            SourceRect.Width = FrameWidth;
+            SourceRect.Height = FrameHeight;
 
             CurrentFrame = frame;
         }

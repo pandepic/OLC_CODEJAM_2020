@@ -47,7 +47,7 @@
     <BuildTime>5000</BuildTime>
 
     <Weapons>
-      <Weapon Type="BurstLaser" Range="500" Cooldown="500" Damage="10" />
+      <Weapon Type="BurstLaser" Range="200" Cooldown="500" Damage="10" />
     </Weapons>
   </Type>
 </ShipTypes>

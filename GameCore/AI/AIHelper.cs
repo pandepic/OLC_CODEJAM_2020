@@ -1,10 +1,10 @@
-﻿using GameCore.AI;
+﻿using GameCore.Entities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameCore.Entities
+namespace GameCore.AI
 {
     public static class AIHelper
     {
@@ -21,6 +21,9 @@ namespace GameCore.Entities
             {
                 var possibleTarget = targetList[i];
                 var testDistance = Vector2.Distance(ship.Position, possibleTarget.Position);
+
+                if (possibleTarget.Type == ShipType.HomeShip)
+                    continue;
 
                 if (newTarget == null || testDistance < distance)
                 {

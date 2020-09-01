@@ -39,24 +39,15 @@ namespace PandaMonogame
 
         public SpriteEffects SpriteEffectsFlip { get; set; } = SpriteEffects.None;
 
-        protected Color _colour = Color.White;
-        public Color Colour
-        {
-            get { return _colour; }
-            set { _colour = value; }
-        }
+        public Color Colour = Color.White;
 
-        protected Vector2 _position = Vector2.Zero;
-        public Vector2 Position { get => _position; set => _position = value; }
+        public Vector2 Position = Vector2.Zero;
 
-        protected Vector2 _drawPosition = Vector2.Zero;
-        public Vector2 DrawPosition { get => _drawPosition; set => _drawPosition = value; }
+        public Vector2 DrawPosition = Vector2.Zero;
 
-        protected Vector2 _center = Vector2.Zero;
-        public Vector2 Center { get => _center; set => _center = value; }
+        public Vector2 Center = Vector2.Zero;
 
-        protected Rectangle _sourceRect = Rectangle.Empty;
-        public Rectangle SourceRect { get => _sourceRect; set => _sourceRect = value; }
+        public Rectangle SourceRect = Rectangle.Empty;
 
         protected FadeDirection _fadeDirection = FadeDirection.None;
         protected float _targetTransparency;
@@ -124,14 +115,14 @@ namespace PandaMonogame
                 if (IsFlashing == true && _flashingDrawFlag == false)
                     return;
 
-                _drawPosition.X = (int)Position.X;
-                _drawPosition.Y = (int)Position.Y;
+                DrawPosition.X = (int)Position.X;
+                DrawPosition.Y = (int)Position.Y;
 
                 spriteBatch.Draw(
                         Texture,
                         DrawPosition,
                         SourceRect,
-                        Colour,
+                        Color.FromNonPremultiplied(Colour.R, Colour.G, Colour.B, Colour.A),
                         Rotation,
                         Center,
                         Scale,
@@ -148,7 +139,7 @@ namespace PandaMonogame
 
         public virtual void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
-            _position = position;
+            Position = position;
             Draw(spriteBatch);
         }
 
@@ -165,7 +156,7 @@ namespace PandaMonogame
 
         public void SetTransparency(byte alpha)
         {
-            _colour.A = alpha;
+            Colour.A = alpha;
         }
 
         public void BeginFlashingEffect(float interval, float duration)
@@ -236,7 +227,7 @@ namespace PandaMonogame
             if (_scaleDirection == ScaleDirection.None)
                 return;
 
-            Scale += (_scaleChangePerSecond * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000.0f)) * (float)_scaleDirection;
+            Scale += (_scaleChangePerSecond * gameTime.DeltaTime()) * (float)_scaleDirection;
 
             if (_scaleDirection == ScaleDirection.ScaleUp && Scale >= _targetScale)
             {
@@ -279,7 +270,7 @@ namespace PandaMonogame
             if (_rotationDirection == RotationDirection.None)
                 return;
 
-            float change = _rotationChangePerSecond * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000.0f);
+            float change = _rotationChangePerSecond * gameTime.DeltaTime();
 
             if (_rotationAmount - change < 0)
                 change = _rotationAmount;
@@ -323,7 +314,7 @@ namespace PandaMonogame
             if (_fadeDirection == FadeDirection.None)
                 return;
 
-            _fadeTransparency += (_fadeChangePerSecond * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000.0f)) * (float)_fadeDirection;
+            _fadeTransparency += (_fadeChangePerSecond * gameTime.DeltaTime()) * (float)_fadeDirection;
 
             if (_fadeDirection == FadeDirection.FadeIn && _fadeTransparency >= _targetTransparency)
             {
@@ -338,7 +329,7 @@ namespace PandaMonogame
                 IsFading = false;
             }
 
-            _colour.A = (byte)_fadeTransparency;
+            Colour.A = (byte)_fadeTransparency;
         }
 
         public bool PointInsideSprite(Vector2 position, Vector2 point)

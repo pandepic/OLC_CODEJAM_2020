@@ -102,6 +102,15 @@ namespace GameCore.AI
         public override void Update(GameTime gameTime)
         {
             ParentShip.SetDestination(Target.Position);
+
+            foreach (var weapon in ParentShip.Weapons)
+            {
+                if (Vector2.Distance(Target.Position, ParentShip.Position) <= weapon.Range && weapon.CurrentCooldown <= 0)
+                {
+                    Target.TakeDamage(weapon.Damage);
+                    weapon.CurrentCooldown = weapon.Cooldown;
+                }
+            }
         }
     }
 }

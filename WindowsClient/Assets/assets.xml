@@ -25,6 +25,9 @@
   <Asset Name="ShipsTexture" FilePath="Assets/Sprites/ships.png" />
   <Asset Name="ShipsAtlas" FilePath="Assets/Sprites/ships.xml" />
   
+  <!-- Particle Effects -->
+  <Asset Name="Shield" FilePath="Assets/Sprites/shield.png" />
+  
   <!-- Backgrounds -->
   <Asset Name="Background1" FilePath="Assets/Backgrounds/1.png" />
   <Asset Name="Background2" FilePath="Assets/Backgrounds/2.png" />

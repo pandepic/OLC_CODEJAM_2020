@@ -10,5 +10,7 @@ namespace GameCore.Entities
         public float Range;
         public float Cooldown;
         public float Damage;
+
+        public float CurrentCooldown;
     }
 }

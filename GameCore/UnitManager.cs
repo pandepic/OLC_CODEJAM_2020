@@ -146,6 +146,9 @@ namespace GameCore
 
             foreach (var ship in WorldManager.Ships)
             {
+                if (!ship.IsPlayerShip)
+                    continue;
+
                 if (ship.CollisionRect.Intersects(DragRectWorldSpace))
                 {
                     SelectedShips.Add(ship);
@@ -207,6 +210,7 @@ namespace GameCore
 
         public void DestroyShip(Ship ship)
         {
+            ship.IsDead = true;
             WorldManager.PlayerShips.Remove(ship);
             WorldManager.EnemyShips.Remove(ship);
             WorldManager.Ships.Remove(ship);

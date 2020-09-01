@@ -159,6 +159,7 @@ namespace WindowsClient
 
                 case (int)GameStateType.Settings:
                     {
+                        return;
                     }
                     break;
             }

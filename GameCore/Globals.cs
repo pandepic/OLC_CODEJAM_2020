@@ -91,6 +91,7 @@ namespace GameCore
 
     public static class Sprites
     {
+        public static Texture2D ShieldTexture = null;
         public static Texture2D AsteroidsTexture = null;
         public static Texture2D ShipsTexture = null;
         public static DynamicSpriteFont DefaultFont = null;
@@ -103,6 +104,7 @@ namespace GameCore
 
             AsteroidsTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "AsteroidsTexture");
             ShipsTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "ShipsTexture");
+            ShieldTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Shield", true);
 
             DefaultFont = ModManager.Instance.AssetManager.LoadDynamicSpriteFont("latoblack");
         }
