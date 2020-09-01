@@ -1,4 +1,5 @@
 ﻿using GameCore.AI;
+using GameCore.Combat;
 using GameCore.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -22,6 +23,7 @@ namespace GameCore
         public static BasicCamera2D Camera;
         public static WorldManager WorldManager;
         public static UnitManager UnitManager;
+        public static ProjectileManager ProjectileManager;
 
         protected bool _mouseDragging = false;
         protected Vector2 _mouseDragPosition = Vector2.Zero;
@@ -52,10 +54,10 @@ namespace GameCore
 
             UnitManager = new UnitManager();
             WorldManager = new WorldManager();
+            ProjectileManager = new ProjectileManager();
 
-            UnitManager.Setup(graphics, Camera, _menu);
-            WorldManager.Setup(graphics, Camera, UnitManager);
-            WorldManager.PlayerEntity.UnitManager = UnitManager;
+            UnitManager.Setup(graphics, _menu);
+            WorldManager.Setup(graphics);
 
             Camera.CenterPosition(WorldManager.PlayerEntity.Position);
         }

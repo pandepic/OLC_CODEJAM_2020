@@ -22,6 +22,7 @@ namespace GameCore.Entities
         public int BuildTime;
 
         public List<Weapon> Weapons;
+        public List<ShipType> TargetPriorities;
     }
 
     public static class EntityData
@@ -77,8 +78,19 @@ namespace GameCore.Entities
                                 Range = float.Parse(elWeapon.Attribute("Range").Value),
                                 Cooldown = float.Parse(elWeapon.Attribute("Cooldown").Value),
                                 Damage = float.Parse(elWeapon.Attribute("Damage").Value),
+                                MaxAngle = float.Parse(elWeapon.Attribute("MaxAngle").Value),
                             });
                         }
+                    }
+
+                    newType.TargetPriorities = new List<ShipType>();
+
+                    var elTargetPriorities = el.Element("TargetPriorities");
+
+                    if (elTargetPriorities != null)
+                    {
+                        foreach (var priority in elTargetPriorities.Elements("Priority"))
+                            newType.TargetPriorities.Add(priority.Attribute("Type").Value.ToEnum<ShipType>());
                     }
 
                     ShipTypes.Add(newType.Type, newType);

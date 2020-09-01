@@ -47,7 +47,13 @@
     <BuildTime>5000</BuildTime>
 
     <Weapons>
-      <Weapon Type="BurstLaser" Range="200" Cooldown="500" Damage="10" />
+      <Weapon Type="BurstLaser" Range="300" Cooldown="500" Damage="10" MaxAngle="30" />
     </Weapons>
+
+    <TargetPriorities>
+      <Priority Type="Fighter" />
+      <Priority Type="Miner" />
+      <Priority Type="HomeShip" />
+    </TargetPriorities>
   </Type>
 </ShipTypes>

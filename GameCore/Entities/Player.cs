@@ -26,8 +26,6 @@ namespace GameCore.Entities
         public Queue<BuildQueueItem> BuildQueue;
         public Inventory Inventory;
 
-        public UnitManager UnitManager;
-
         public Player()
         {
             Type = ShipType.HomeShip;
@@ -54,7 +52,7 @@ namespace GameCore.Entities
                 if (nextItem.Duration <= 0)
                 {
                     BuildQueue.Dequeue();
-                    UnitManager.SpawnShip(nextItem.Type, Position, this);
+                    GameplayState.UnitManager.SpawnShip(nextItem.Type, Position, this);
                 }
             }
 

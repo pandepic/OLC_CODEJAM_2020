@@ -29,20 +29,15 @@ namespace GameCore
         public Texture2D Background;
         public Vector2 ScreenCenter;
 
-        public BasicCamera2D Camera;
-        public UnitManager UnitManager;
         GraphicsDevice Graphics;
 
         public WorldManager()
         {
         }
 
-        public void Setup(GraphicsDevice graphics, BasicCamera2D camera, UnitManager unitManager)
+        public void Setup(GraphicsDevice graphics)
         {
-            UnitManager = unitManager;
-            UnitManager.WorldManager = this;
             Graphics = graphics;
-            Camera = camera;
             ScreenCenter = new Vector2(graphics.PresentationParameters.BackBufferWidth / 2, graphics.PresentationParameters.BackBufferHeight / 2);
 
             // todo - set world seed
@@ -104,10 +99,10 @@ namespace GameCore
 
             for (var i = 0; i < StartingMiners; i++)
             {
-                UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
+                GameplayState.UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
             }
 
-            UnitManager.SpawnShip(ShipType.Fighter, new Vector2(4000, 4000), null);
+            GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(4000, 4000), null);
         }
 
         ~WorldManager()
@@ -134,15 +129,15 @@ namespace GameCore
             }
 
             foreach (var ship in DeadShips)
-                UnitManager.DestroyShip(ship);
+                GameplayState.UnitManager.DestroyShip(ship);
             
             PlayerEntity.Update(gameTime);
         }
 
         public void DrawWorld (SpriteBatch spriteBatch)
         {
-            var camPos = Camera.GetPosition() + Camera.GetOrigin();
-            var viewDistance = Graphics.PresentationParameters.BackBufferWidth / Camera.Zoom;
+            var camPos = GameplayState.Camera.GetPosition() + GameplayState.Camera.GetOrigin();
+            var viewDistance = Graphics.PresentationParameters.BackBufferWidth / GameplayState.Camera.Zoom;
 
             for (var i = 0; i <= Asteroids.LastActiveIndex; i++)
             {
@@ -173,9 +168,9 @@ namespace GameCore
             var worldSize = new Vector2(WorldWidth, WorldHeight);
             var bgSize = new Vector2(Background.Width, Background.Height);
             var bgProportionalSize = (float)bgSize.X / (float)worldSize.X;
-            float bgZoom = 1.0f - ((1.0f - Camera.Zoom) * bgProportionalSize);
+            float bgZoom = 1.0f - ((1.0f - GameplayState.Camera.Zoom) * bgProportionalSize);
 
-            var screenPosWorld = Camera.ScreenToWorldPosition(Vector2.Zero);
+            var screenPosWorld = GameplayState.Camera.ScreenToWorldPosition(Vector2.Zero);
 
             var backgroundPos = ((screenPosWorld / worldSize) * bgSize) * bgZoom;
 

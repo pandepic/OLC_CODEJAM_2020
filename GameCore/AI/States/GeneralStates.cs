@@ -107,8 +107,13 @@ namespace GameCore.AI
             {
                 if (Vector2.Distance(Target.Position, ParentShip.Position) <= weapon.Range && weapon.CurrentCooldown <= 0)
                 {
-                    Target.TakeDamage(weapon.Damage);
-                    weapon.CurrentCooldown = weapon.Cooldown;
+                    var angle = MathF.Abs(ParentShip.GetAngleToTarget(Target.Position) - ParentShip.Rotation);
+
+                    if (angle <= weapon.MaxAngle)
+                    {
+                        Target.TakeDamage(weapon.Damage);
+                        weapon.CurrentCooldown = weapon.Cooldown;
+                    }
                 }
             }
         }

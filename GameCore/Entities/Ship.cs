@@ -41,6 +41,7 @@ namespace GameCore.Entities
         public float MinWeaponRange = -1, MaxWeaponRange = -1;
 
         public Ship EnemyTarget = null;
+        public List<ShipType> TargetPriorities = new List<ShipType>();
 
         public bool Selected = false;
         public Color SelectionColour = Color.Yellow;
@@ -71,6 +72,7 @@ namespace GameCore.Entities
                     Range = weapon.Range,
                     Cooldown = weapon.Cooldown,
                     Damage = weapon.Damage,
+                    MaxAngle = weapon.MaxAngle,
                     CurrentCooldown = weapon.Cooldown,
                 });
             }
@@ -82,6 +84,9 @@ namespace GameCore.Entities
                 if (MaxWeaponRange == -1 || weapon.Range > MaxWeaponRange)
                     MaxWeaponRange = weapon.Range;
             }
+
+            foreach (var priority in data.TargetPriorities)
+                TargetPriorities.Add(priority);
 
             ShieldSprite = new Sprite(Sprites.ShieldTexture);
             ShieldSprite.Colour = Color.Turquoise;
@@ -155,12 +160,10 @@ namespace GameCore.Entities
                 {
                     DeactivateShield();
                 }
-                else
-                {
-                    CurrentShieldHP += CurrentShieldRegenRate * delta;
-                    if (CurrentShieldHP > BaseShieldHP)
-                        CurrentShieldHP = BaseShieldHP;
-                }
+
+                CurrentShieldHP += CurrentShieldRegenRate * delta;
+                if (CurrentShieldHP > BaseShieldHP)
+                    CurrentShieldHP = BaseShieldHP;
             }
 
             if (Moving)

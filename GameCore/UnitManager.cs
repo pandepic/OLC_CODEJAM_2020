@@ -18,8 +18,6 @@ namespace GameCore
 
         public GraphicsDevice Graphics;
 
-        public BasicCamera2D Camera;
-        public WorldManager WorldManager;
         protected PUIMenu Menu;
 
         public bool Dragging = false;
@@ -35,9 +33,8 @@ namespace GameCore
         {
         }
 
-        public void Setup(GraphicsDevice graphics, BasicCamera2D camera, PUIMenu menu)
+        public void Setup(GraphicsDevice graphics, PUIMenu menu)
         {
-            Camera = camera;
             Graphics = graphics;
             Menu = menu;
 
@@ -59,6 +56,8 @@ namespace GameCore
 
         public void Update(GameTime gameTime)
         {
+            if (Dragging)
+                CheckSelection();
         }
 
         public void DrawScreen(SpriteBatch spriteBatch)
@@ -76,26 +75,26 @@ namespace GameCore
 
             Sprites.DefaultFont.Size = 18;
 
-            for (var i = 0; i <= WorldManager.Asteroids.LastActiveIndex; i++)
+            for (var i = 0; i <= GameplayState.WorldManager.Asteroids.LastActiveIndex; i++)
             {
-                var asteroid = WorldManager.Asteroids.Buffer[i];
+                var asteroid = GameplayState.WorldManager.Asteroids.Buffer[i];
 
                 if (asteroid.ResourceType == ResourceType.None)
                     continue;
-
+                
                 var resourceString = asteroid.ResourceType.ToString();
                 var resourceStringSize = Sprites.DefaultFont.MeasureString(resourceString);
                 var textPosition = asteroid.Position - new Vector2(resourceStringSize.X / 2, resourceStringSize.Y / 2) - new Vector2(0, asteroid.Origin.Y + 50);
-                textPosition = Vector2.Transform(textPosition, Camera.GetViewMatrix());
+                textPosition = Vector2.Transform(textPosition, GameplayState.Camera.GetViewMatrix());
 
                 spriteBatch.DrawString(Sprites.DefaultFont, resourceString, textPosition, Color.White);
             }
 
-            WorldManager.Ships.Add(WorldManager.PlayerEntity);
+            GameplayState.WorldManager.Ships.Add(GameplayState.WorldManager.PlayerEntity);
 
-            for (var i = 0; i < WorldManager.Ships.Count; i++)
+            for (var i = 0; i < GameplayState.WorldManager.Ships.Count; i++)
             {
-                var ship = WorldManager.Ships[i];
+                var ship = GameplayState.WorldManager.Ships[i];
 
                 var shipString = "";
 
@@ -111,13 +110,13 @@ namespace GameCore
                 {
                     var shipStringSize = Sprites.DefaultFont.MeasureString(shipString);
                     var textPosition = (ship.Position - new Vector2(shipStringSize.X / 2, shipStringSize.Y / 2) - new Vector2(0, ship.Origin.Y + 50));
-                    textPosition = Vector2.Transform(textPosition, Camera.GetViewMatrix());
+                    textPosition = Vector2.Transform(textPosition, GameplayState.Camera.GetViewMatrix());
 
                     spriteBatch.DrawString(Sprites.DefaultFont, shipString, textPosition, Color.White);
                 }
             }
 
-            WorldManager.Ships.Remove(WorldManager.PlayerEntity);
+            GameplayState.WorldManager.Ships.Remove(GameplayState.WorldManager.PlayerEntity);
         }
 
         public void DrawWorld(SpriteBatch spriteBatch)
@@ -144,7 +143,7 @@ namespace GameCore
         {
             ClearSelectedShips();
 
-            foreach (var ship in WorldManager.Ships)
+            foreach (var ship in GameplayState.WorldManager.Ships)
             {
                 if (!ship.IsPlayerShip)
                     continue;
@@ -197,23 +196,23 @@ namespace GameCore
             if (owner != null && owner.IsPlayerShip == true)
             {
                 newShip.IsPlayerShip = true;
-                WorldManager.PlayerShips.Add(newShip);
+                GameplayState.WorldManager.PlayerShips.Add(newShip);
             }
             else
             {
-                WorldManager.EnemyShips.Add(newShip);
+                GameplayState.WorldManager.EnemyShips.Add(newShip);
             }
 
-            WorldManager.Ships.Add(newShip);
+            GameplayState.WorldManager.Ships.Add(newShip);
 
         } // SpawnShip
 
         public void DestroyShip(Ship ship)
         {
             ship.IsDead = true;
-            WorldManager.PlayerShips.Remove(ship);
-            WorldManager.EnemyShips.Remove(ship);
-            WorldManager.Ships.Remove(ship);
+            GameplayState.WorldManager.PlayerShips.Remove(ship);
+            GameplayState.WorldManager.EnemyShips.Remove(ship);
+            GameplayState.WorldManager.Ships.Remove(ship);
 
             if (ship.Type == ShipType.HomeShip)
             {
@@ -249,15 +248,13 @@ namespace GameCore
                 DragRect.Width = (int)(right - left);
                 DragRect.Height = (int)(bottom - top);
 
-                var worldLeftTop = Camera.ScreenToWorldPosition(new Vector2(left, top));
-                var worldRightBottom = Camera.ScreenToWorldPosition(new Vector2(right, bottom));
+                var worldLeftTop = GameplayState.Camera.ScreenToWorldPosition(new Vector2(left, top));
+                var worldRightBottom = GameplayState.Camera.ScreenToWorldPosition(new Vector2(right, bottom));
 
                 DragRectWorldSpace.X = (int)worldLeftTop.X;
                 DragRectWorldSpace.Y = (int)worldLeftTop.Y;
                 DragRectWorldSpace.Width = (int)(worldRightBottom.X - worldLeftTop.X);
                 DragRectWorldSpace.Height = (int)(worldRightBottom.Y - worldLeftTop.Y);
-
-                CheckSelection();
             }
         }
 
@@ -294,12 +291,12 @@ namespace GameCore
             if (button == MouseButtonID.Right)
             {
                 var mousePosition = Screen.GetMousePosition();
-                var mouseWorldPos = Camera.ScreenToWorldPosition(mousePosition);
+                var mouseWorldPos = GameplayState.Camera.ScreenToWorldPosition(mousePosition);
 
                 if (SelectedShips.Count == 0)
                 {
-                    WorldManager.PlayerEntity.StateMachine.GetState<PlayerTravelingState>().Target = mouseWorldPos;
-                    WorldManager.PlayerEntity.SetState<PlayerTravelingState>();
+                    GameplayState.WorldManager.PlayerEntity.StateMachine.GetState<PlayerTravelingState>().Target = mouseWorldPos;
+                    GameplayState.WorldManager.PlayerEntity.SetState<PlayerTravelingState>();
                 }
                 else
                 {
@@ -311,9 +308,9 @@ namespace GameCore
                                 {
                                     Asteroid target = null;
 
-                                    for (var i = 0; i <= WorldManager.Asteroids.LastActiveIndex; i++)
+                                    for (var i = 0; i <= GameplayState.WorldManager.Asteroids.LastActiveIndex; i++)
                                     {
-                                        var asteroid = WorldManager.Asteroids[i];
+                                        var asteroid = GameplayState.WorldManager.Asteroids[i];
 
                                         if (asteroid.CollisionRect.Contains(mouseWorldPos))
                                             target = asteroid;
@@ -330,7 +327,7 @@ namespace GameCore
                                     }
                                     else
                                     {
-                                        if (WorldManager.PlayerEntity.CollisionRect.Contains(mouseWorldPos))
+                                        if (GameplayState.WorldManager.PlayerEntity.CollisionRect.Contains(mouseWorldPos))
                                         {
                                             foreach (Miner miner in kvp.Value)
                                             {

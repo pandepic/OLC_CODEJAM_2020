@@ -17,13 +17,34 @@ namespace GameCore.AI
             if (!ship.IsPlayerShip)
                 targetList = GameplayState.WorldManager.PlayerShips;
 
+            // find closest target in priority order
+            foreach (var priority in ship.TargetPriorities)
+            {
+                for (var i = 0; i < targetList.Count; i++)
+                {
+                    var possibleTarget = targetList[i];
+                    if (possibleTarget.Type != priority)
+                        continue;
+
+                    var testDistance = Vector2.Distance(ship.Position, possibleTarget.Position);
+
+                    if (newTarget == null || testDistance < distance)
+                    {
+                        newTarget = possibleTarget;
+                        distance = testDistance;
+                    }
+                }
+
+                if (newTarget != null)
+                    return newTarget;
+            }
+
+            // if nothing was found from the priority list just find anything at all
             for (var i = 0; i < targetList.Count; i++)
             {
                 var possibleTarget = targetList[i];
-                var testDistance = Vector2.Distance(ship.Position, possibleTarget.Position);
 
-                if (possibleTarget.Type == ShipType.HomeShip)
-                    continue;
+                var testDistance = Vector2.Distance(ship.Position, possibleTarget.Position);
 
                 if (newTarget == null || testDistance < distance)
                 {
