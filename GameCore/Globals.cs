@@ -60,6 +60,15 @@ namespace GameCore
         BurstLaser,
     }
 
+    public enum ProjectileType
+    {
+        None,
+        Laser,
+        BeamLaser,
+        Bullet,
+        Missile
+    }
+
     public static class Screen
     {
         public static Vector2 GetMousePosition()
@@ -94,6 +103,7 @@ namespace GameCore
         public static Texture2D ShieldTexture = null;
         public static Texture2D AsteroidsTexture = null;
         public static Texture2D ShipsTexture = null;
+        public static Texture2D ParticlesTexture = null;
         public static DynamicSpriteFont DefaultFont = null;
         public static Color EnemyColour = Color.Turquoise;
 
@@ -101,10 +111,12 @@ namespace GameCore
         {
             TexturePacker.LoadAsset(graphics, "AsteroidsAtlas");
             TexturePacker.LoadAsset(graphics, "ShipsAtlas");
+            TexturePacker.LoadAsset(graphics, "ParticlesAtlas");
 
             AsteroidsTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "AsteroidsTexture");
             ShipsTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "ShipsTexture");
             ShieldTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Shield", true);
+            ParticlesTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "ParticlesTexture", true);
 
             DefaultFont = ModManager.Instance.AssetManager.LoadDynamicSpriteFont("latoblack");
         }

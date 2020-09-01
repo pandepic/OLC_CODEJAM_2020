@@ -111,7 +111,8 @@ namespace GameCore.AI
 
                     if (angle <= weapon.MaxAngle)
                     {
-                        Target.TakeDamage(weapon.Damage);
+                        //Target.TakeDamage(weapon.Damage);
+                        GameplayState.ProjectileManager.FireProjectile(ProjectileType.Laser, ParentShip, Target, weapon.Damage);
                         weapon.CurrentCooldown = weapon.Cooldown;
                     }
                 }

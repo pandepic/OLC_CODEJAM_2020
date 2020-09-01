@@ -29,9 +29,9 @@ namespace GameCore.Entities
         public Player()
         {
             Type = ShipType.HomeShip;
-            IsPlayerShip = true;
 
             LoadData();
+            IsPlayerShip = true;
 
             BuildQueue = new Queue<BuildQueueItem>();
             Inventory = new Inventory();

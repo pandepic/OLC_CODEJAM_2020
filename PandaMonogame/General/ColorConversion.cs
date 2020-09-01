@@ -44,10 +44,10 @@ namespace PandaMonogame
 
             if (hexString.Length == 8)
             {
-                color.A = (byte)(hex >> 24);
-                color.R = (byte)(hex >> 16);
-                color.G = (byte)(hex >> 8);
-                color.B = (byte)(hex);
+                color.R = (byte)(hex >> 24);
+                color.G = (byte)(hex >> 16);
+                color.B = (byte)(hex >> 8);
+                color.A = (byte)(hex);
             }
             else if (hexString.Length == 6)
             {

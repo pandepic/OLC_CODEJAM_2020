@@ -6,6 +6,7 @@
   
   <!-- Entity Data -->
   <Asset Name="ShipTypes" FilePath="Assets/XML/ship_types.xml" />
+  <Asset Name="ProjectileTypes" FilePath="Assets/XML/projectile_types.xml" />
   
   <!-- UI Definitions -->
   <Asset Name="UITemplates" FilePath="Assets/XML/ui_templates.xml" />
@@ -24,6 +25,8 @@
   <Asset Name="AsteroidsAtlas" FilePath="Assets/Sprites/asteroids.xml" />
   <Asset Name="ShipsTexture" FilePath="Assets/Sprites/ships.png" />
   <Asset Name="ShipsAtlas" FilePath="Assets/Sprites/ships.xml" />
+  <Asset Name="ParticlesTexture" FilePath="Assets/Sprites/particles.png" />
+  <Asset Name="ParticlesAtlas" FilePath="Assets/Sprites/particles.xml" />
   
   <!-- Particle Effects -->
   <Asset Name="Shield" FilePath="Assets/Sprites/shield.png" />

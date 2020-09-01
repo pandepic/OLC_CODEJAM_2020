@@ -56,17 +56,52 @@ namespace GameCore.AI
             return newTarget;
         }
 
-        public static void SmallAttackingShipAI(Ship ship)
+        public static float GetAngleToTarget(Vector2 position, float rotation, Vector2 target)
+        {
+            var angle = MathHelper.ToDegrees(MathF.Atan2((target.X - position.X), (position.Y - target.Y)));
+            var distance = Math.Abs(rotation - angle);
+
+            var angle360 = angle;
+            if (angle360 < 0)
+                angle360 = 180.0f + (180.0f + angle360);
+
+            var distance360 = Math.Abs(rotation - angle360);
+
+            if (distance360 < distance)
+                angle = angle360;
+
+            return angle;
+        }
+
+        public static void SmallDefensiveAttackingShipAI(Ship ship)
+        {
+
+        }
+
+        public static void SmallAggressiveAttackingShipAI(Ship ship)
         {
             switch (ship.StateMachine.CurrentState)
             {
+                case ShipIdleState idle:
+                    {
+                        ship.EnemyTarget = FindClosestEnemy(ship);
+
+                        if (ship.EnemyTarget != null)
+                        {
+                            var attacking = ship.GetState<SmallShipAttackingState>();
+                            attacking.Target = ship.EnemyTarget;
+                            ship.SetState<SmallShipAttackingState>();
+                        }
+                    }
+                    break;
+
                 case SmallShipAttackingState attacking:
                     {
                         if (ship.EnemyTarget.IsDead)
                         {
                             if (ship.Stance == ShipStance.Aggressive)
                             {
-                                ship.EnemyTarget = AIHelper.FindClosestEnemy(ship);
+                                ship.EnemyTarget = FindClosestEnemy(ship);
 
                                 if (ship.EnemyTarget != null)
                                     attacking.Target = ship.EnemyTarget;
@@ -90,6 +125,6 @@ namespace GameCore.AI
                     }
                     break;
             }
-        } // SmallAttackingShipAI
+        } // SmallAggressiveAttackingShipAI
     }
 }

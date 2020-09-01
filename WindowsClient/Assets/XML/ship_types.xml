@@ -27,8 +27,8 @@
     <MoveSpeed>200</MoveSpeed>
     <TurnSpeed>75</TurnSpeed>
 
-    <ArmourHP>50</ArmourHP>
-    <ShieldHP>50</ShieldHP>
+    <ArmourHP>75</ArmourHP>
+    <ShieldHP>75</ShieldHP>
     <ShieldRegenRate>2</ShieldRegenRate>
 
     <BuildCost Metal="100" Gas="50" />
@@ -41,13 +41,13 @@
 
     <ArmourHP>100</ArmourHP>
     <ShieldHP>100</ShieldHP>
-    <ShieldRegenRate>5</ShieldRegenRate>
+    <ShieldRegenRate>2</ShieldRegenRate>
 
     <BuildCost Metal="200" Gas="100" />
     <BuildTime>5000</BuildTime>
 
     <Weapons>
-      <Weapon Type="BurstLaser" Range="300" Cooldown="500" Damage="10" MaxAngle="30" />
+      <Weapon Type="BurstLaser" Range="1000" Cooldown="500" Damage="10" MaxAngle="30" />
     </Weapons>
 
     <TargetPriorities>

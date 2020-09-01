@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<TextureAtlas AssetName="ParticlesTexture" Width="512" Height="1348">
+    <Sprite Name="Beam"             X="0"   Y="196"   Width="256" Height="128"/>
+    <Sprite Name="BigProjectile"    X="0"   Y="0"     Width="23"  Height="196"/>
+    <Sprite Name="BigFlare"         X="0"   Y="580"   Width="512" Height="512"/>
+    <Sprite Name="Burst"            X="247" Y="0"     Width="128" Height="128"/>
+    <Sprite Name="DustSpray1"       X="119" Y="0"     Width="64"  Height="64"/>
+    <Sprite Name="DustSpray2"       X="183" Y="0"     Width="64"  Height="64"/>
+    <Sprite Name="Exhaust"          X="256" Y="196"   Width="256" Height="128"/>
+    <Sprite Name="Explosion"        X="375" Y="0"     Width="128" Height="128"/>
+    <Sprite Name="Flare"            X="0"   Y="1092"  Width="512" Height="256"/>
+    <Sprite Name="IonTrail"         X="0"   Y="324"   Width="256" Height="128"/>
+    <Sprite Name="ProjectileSharp"  X="23"  Y="0"     Width="32"  Height="32"/>
+    <Sprite Name="ProjectileThin"   X="55"  Y="0"     Width="32"  Height="128"/>
+    <Sprite Name="SmallFlare"       X="87"  Y="0"     Width="32"  Height="32"/>
+    <Sprite Name="Smoke1"           X="256" Y="324"   Width="256" Height="256"/>
+</TextureAtlas>

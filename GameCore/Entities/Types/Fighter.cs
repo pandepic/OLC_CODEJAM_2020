@@ -15,9 +15,11 @@ namespace GameCore.Entities
             Position = position;
 
             LoadData();
-
-            if (!IsPlayerShip)
-                Stance = ShipStance.Aggressive;
+            Stance = ShipStance.Aggressive;
+            //if (!IsPlayerShip)
+            //    Stance = ShipStance.Aggressive;
+            //else
+            //    Stance = ShipStance.Defensive;
 
             StateMachine.RegisterState(new ShipPatrolFollowState(this));
             StateMachine.RegisterState(new SmallShipAttackingState(this));
@@ -25,14 +27,16 @@ namespace GameCore.Entities
 
             if (Stance == ShipStance.Aggressive)
             {
-                EnemyTarget = AIHelper.FindClosestEnemy(this);
+                //EnemyTarget = AIHelper.FindClosestEnemy(this);
 
-                if (EnemyTarget != null)
-                {
-                    var attacking = StateMachine.GetState<SmallShipAttackingState>();
-                    attacking.Target = EnemyTarget;
-                    StateMachine.Start<SmallShipAttackingState>();
-                }
+                //if (EnemyTarget != null)
+                //{
+                //    var attacking = StateMachine.GetState<SmallShipAttackingState>();
+                //    attacking.Target = EnemyTarget;
+                //    StateMachine.Start<SmallShipAttackingState>();
+                //}
+
+                StateMachine.Start<ShipIdleState>();
             }
             else
             {
@@ -44,7 +48,11 @@ namespace GameCore.Entities
         
         public override void Update(GameTime gameTime)
         {
-            AIHelper.SmallAttackingShipAI(this);
+            if (Stance == ShipStance.Aggressive)
+                AIHelper.SmallAggressiveAttackingShipAI(this);
+            else if (Stance == ShipStance.Defensive)
+                AIHelper.SmallDefensiveAttackingShipAI(this);
+
             base.Update(gameTime);
         }
     }

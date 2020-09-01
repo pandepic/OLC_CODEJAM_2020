@@ -29,7 +29,7 @@ namespace GameCore
         protected Vector2 _mouseDragPosition = Vector2.Zero;
 
         protected bool _lockCamera = false;
-        protected bool _showDebug = false;
+        public static bool ShowDebug = false;
 
         protected float ScrollSpeed = 1500.0f;
 
@@ -87,6 +87,7 @@ namespace GameCore
             _menu.Update(gameTime);
             WorldManager.Update(gameTime);
             UnitManager.Update(gameTime);
+            ProjectileManager.Update(gameTime);
 
             return _nextGameState;
         }
@@ -107,6 +108,7 @@ namespace GameCore
             {
                 WorldManager.DrawWorld(spriteBatch);
                 UnitManager.DrawWorld(spriteBatch);
+                ProjectileManager.Draw(spriteBatch);
             }
             spriteBatch.End();
 
@@ -217,9 +219,9 @@ namespace GameCore
 
             if (key == Keys.OemTilde)
             {
-                _showDebug = !_showDebug;
-                _menu.GetFrame("debugFrame").Visible = _showDebug;
-                _menu.GetFrame("debugFrame").Active = _showDebug;
+                ShowDebug = !ShowDebug;
+                _menu.GetFrame("debugFrame").Visible = ShowDebug;
+                _menu.GetFrame("debugFrame").Active = ShowDebug;
             }
             else if (key == Keys.Space)
             {

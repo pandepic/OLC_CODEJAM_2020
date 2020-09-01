@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ProjectileTypes>
+  <Type Name="Laser" Sprite="ProjectileSharp" MoveSpeed="1000" TurnSpeed="0" Lifetime="5000" Colour="#FF0000FF" />
+</ProjectileTypes>

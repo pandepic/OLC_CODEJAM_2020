@@ -24,12 +24,9 @@ namespace GameCore.Entities
         public bool IsPlayerShip = false;
         public bool IsDead = false;
 
-        public float TargetRotation = 0.0f;
         public Vector2 Destination;
 
         public bool Moving = false;
-        public float TurnSpeed = 0.0f;
-        public float MoveSpeed = 0.0f;
 
         public float BaseArmourHP, CurrentArmourHP;
         public float BaseShieldHP, CurrentShieldHP;
@@ -48,6 +45,10 @@ namespace GameCore.Entities
 
         public void LoadData()
         {
+            IsPlayerShip = false;
+            if (Owner != null && Owner.IsPlayerShip == true)
+                IsPlayerShip = true;
+
             var data = EntityData.ShipTypes[Type];
             Sprite = TexturePacker.GetSprite("ShipsAtlas", data.Sprite);
             Origin = new Vector2(Sprite.SourceRect.Width / 2, Sprite.SourceRect.Height / 2);
@@ -132,11 +133,6 @@ namespace GameCore.Entities
         {
             var delta = gameTime.DeltaTime();
 
-            ShieldSprite.Update(gameTime);
-            StateMachine.Update(gameTime);
-
-            Position += Velocity * delta;
-
             foreach (var weapon in Weapons)
             {
                 weapon.CurrentCooldown -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -167,46 +163,16 @@ namespace GameCore.Entities
             }
 
             if (Moving)
-            {
-                TargetRotation = GetAngleToTarget(Destination);
+                ApplyMovement(gameTime);
 
-                if (Rotation != TargetRotation)
-                {
-                    if (TargetRotation > Rotation)
-                    {
-                        Rotation += TurnSpeed * gameTime.DeltaTime();
-                        if (Rotation > TargetRotation)
-                            Rotation = TargetRotation;
-                    }
-                    else
-                    {
-                        Rotation -= TurnSpeed * gameTime.DeltaTime();
-                        if (Rotation < TargetRotation)
-                            Rotation = TargetRotation;
-                    }
-                }
+            ShieldSprite.Update(gameTime);
+            StateMachine.Update(gameTime);
 
-                var forwardVector = new Vector2(0f, -1f);
-                var rotaterMatrix = Matrix.CreateRotationZ(MathHelper.ToRadians(Rotation));
-                forwardVector = Vector2.TransformNormal(forwardVector, rotaterMatrix);
-                Velocity = forwardVector * MoveSpeed;
-            }
         } // Update
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(
-                        Sprite.Texture,
-                        Position,
-                        Sprite.SourceRect,
-                        (Selected ? SelectionColour : (IsPlayerShip ? Color.White : Sprites.EnemyColour)),
-                        MathHelper.ToRadians(Rotation),
-                        Origin,
-                        Scale,
-                        SpriteEffects.None,
-                        0.0f
-                        );
-
+            base.Draw(spriteBatch, (Selected ? SelectionColour : (IsPlayerShip ? Color.White : Sprites.EnemyColour)));
             ShieldSprite.Draw(spriteBatch, Position);
         }
 
@@ -219,19 +185,7 @@ namespace GameCore.Entities
 
         public float GetAngleToTarget(Vector2 target)
         {
-            var angle = MathHelper.ToDegrees(MathF.Atan2((target.X - Position.X), (Position.Y - target.Y)));
-            var distance = Math.Abs(Rotation - angle);
-
-            var angle360 = angle;
-            if (angle360 < 0)
-                angle360 = 180.0f + (180.0f + angle360);
-
-            var distance360 = Math.Abs(Rotation - angle360);
-
-            if (distance360 < distance)
-                angle = angle360;
-
-            return angle;
+            return AIHelper.GetAngleToTarget(Position, Rotation, target);
         }
 
         public void StopMovement()

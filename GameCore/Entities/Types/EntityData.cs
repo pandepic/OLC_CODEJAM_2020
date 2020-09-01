@@ -1,4 +1,5 @@
-﻿using PandaMonogame;
+﻿using Microsoft.Xna.Framework;
+using PandaMonogame;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,9 +26,20 @@ namespace GameCore.Entities
         public List<ShipType> TargetPriorities;
     }
 
+    public struct ProjectileTypeData
+    {
+        public ProjectileType Type;
+        public string Sprite;
+        public Color Colour;
+        public float MoveSpeed;
+        public float Lifetime;
+        public float TurnSpeed;
+    }
+
     public static class EntityData
     {
         public static Dictionary<ShipType, ShipTypeData> ShipTypes = new Dictionary<ShipType, ShipTypeData>();
+        public static Dictionary<ProjectileType, ProjectileTypeData> ProjectileTypes = new Dictionary<ProjectileType, ProjectileTypeData>();
 
         public static void Load()
         {
@@ -95,7 +107,32 @@ namespace GameCore.Entities
 
                     ShipTypes.Add(newType.Type, newType);
                 }
-            }
+            } // load ship types
+
+            Console.WriteLine("Loaded ship types.");
+
+            using (var fs = ModManager.Instance.AssetManager.GetFileStreamByAsset("ProjectileTypes"))
+            {
+                var doc = XDocument.Load(fs);
+
+                foreach (var projectileType in doc.Root.Elements("Type"))
+                {
+                    var newType = new ProjectileTypeData()
+                    {
+                        Type = projectileType.Attribute("Name").Value.ToEnum<ProjectileType>(),
+                        Sprite = projectileType.Attribute("Sprite").Value,
+                        Colour = PUIColorConversion.Instance.ToColor(projectileType.Attribute("Colour").Value),
+                        MoveSpeed = float.Parse(projectileType.Attribute("MoveSpeed").Value),
+                        TurnSpeed = float.Parse(projectileType.Attribute("TurnSpeed").Value),
+                        Lifetime = float.Parse(projectileType.Attribute("Lifetime").Value),
+                    };
+
+                    ProjectileTypes.Add(newType.Type, newType);
+                }
+            } // load projectile types
+
+            Console.WriteLine("Loaded projectile types.");
+
         } // Load
     }
 }

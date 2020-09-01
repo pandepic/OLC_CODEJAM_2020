@@ -73,11 +73,18 @@ namespace GameCore
             if (Dragging)
                 spriteBatch.Draw(DragSelectTexture, DragRect, DragRect, Color.White);
 
+            var camPos = GameplayState.Camera.GetPosition() + GameplayState.Camera.GetOrigin();
+            var viewDistance = Graphics.PresentationParameters.BackBufferWidth / GameplayState.Camera.Zoom;
+
             Sprites.DefaultFont.Size = 18;
 
             for (var i = 0; i <= GameplayState.WorldManager.Asteroids.LastActiveIndex; i++)
             {
                 var asteroid = GameplayState.WorldManager.Asteroids.Buffer[i];
+                var distance = Vector2.Distance(asteroid.Position, camPos);
+
+                if (distance > viewDistance)
+                    continue;
 
                 if (asteroid.ResourceType == ResourceType.None)
                     continue;
@@ -90,11 +97,18 @@ namespace GameCore
                 spriteBatch.DrawString(Sprites.DefaultFont, resourceString, textPosition, Color.White);
             }
 
+            if (!GameplayState.ShowDebug)
+                return;
+
             GameplayState.WorldManager.Ships.Add(GameplayState.WorldManager.PlayerEntity);
 
             for (var i = 0; i < GameplayState.WorldManager.Ships.Count; i++)
             {
                 var ship = GameplayState.WorldManager.Ships[i];
+                var distance = Vector2.Distance(ship.Position, camPos);
+
+                if (distance > viewDistance)
+                    continue;
 
                 var shipString = "";
 
@@ -193,15 +207,10 @@ namespace GameCore
             if (newShip == null)
                 return;
 
-            if (owner != null && owner.IsPlayerShip == true)
-            {
-                newShip.IsPlayerShip = true;
+            if (newShip.IsPlayerShip)
                 GameplayState.WorldManager.PlayerShips.Add(newShip);
-            }
             else
-            {
                 GameplayState.WorldManager.EnemyShips.Add(newShip);
-            }
 
             GameplayState.WorldManager.Ships.Add(newShip);
 
