@@ -41,11 +41,12 @@ namespace PandaMonogame.UI
         public PUIFrame Parent { get; set; }
         public BASICEVENT_FUNC HandleEvents { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
         public bool Focused { get; private set; } = false;
-        public int DrawOrder { get; set; }
-        public bool Visible { get; set; }
-        public bool Active { get; set; }
+        public int DrawOrder { get; set; } = 0;
+        public bool Visible { get; set; } = false;
+        public bool Active { get; set; } = false;
+
 
         protected WidgetPositionFlags _positionFlags = new WidgetPositionFlags();
 
@@ -318,6 +319,7 @@ namespace PandaMonogame.UI
 
             if (PandaMonogameConfig.Logging)
                 Console.WriteLine("New widget [type:" + this.GetType().Name + "] [active:" + Active + "] [visible:" + Visible + "]");
+
         } // loadStandardXML
 
         protected void UpdatePositionFromFlags()

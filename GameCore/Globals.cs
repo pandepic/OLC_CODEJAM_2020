@@ -54,19 +54,11 @@ namespace GameCore
         Aggressive,
     }
 
-    public enum WeaponType
+    public enum TargetType
     {
         None,
-        BurstLaser,
-    }
-
-    public enum ProjectileType
-    {
-        None,
-        Laser,
-        BeamLaser,
-        Bullet,
-        Missile
+        Small,
+        Large,
     }
 
     public static class Screen
@@ -105,7 +97,7 @@ namespace GameCore
         public static Texture2D ShipsTexture = null;
         public static Texture2D ParticlesTexture = null;
         public static DynamicSpriteFont DefaultFont = null;
-        public static Color EnemyColour = Color.Turquoise;
+        public static Color EnemyColour = Color.MediumPurple;
 
         public static void Load(GraphicsDevice graphics)
         {

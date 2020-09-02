@@ -12,7 +12,8 @@ namespace GameCore.Combat
 {
     public class Projectile : Entity
     {
-        public ProjectileType Type = ProjectileType.None;
+        public string ProjectileType = "";
+        public TargetType TargetType;
         public float Lifetime;
         public bool IsPlayerProjectile;
         public float Damage;
@@ -20,11 +21,11 @@ namespace GameCore.Combat
 
         public Projectile() { }
 
-        public void SetType(ProjectileType type)
+        public void SetType(string type)
         {
-            Type = type;
+            ProjectileType = type;
 
-            var data = EntityData.ProjectileTypes[Type];
+            var data = EntityData.ProjectileTypes[ProjectileType];
             MoveSpeed = data.MoveSpeed;
             TurnSpeed = data.TurnSpeed;
             Lifetime = data.Lifetime;
@@ -39,7 +40,7 @@ namespace GameCore.Combat
             Position = Vector2.Zero;
             Velocity = Vector2.Zero;
             Lifetime = 0;
-            Type = ProjectileType.None;
+            ProjectileType = "";
         }
     }
 
@@ -51,10 +52,11 @@ namespace GameCore.Combat
 
         public ProjectileManager() { }
 
-        public void FireProjectile(ProjectileType type, Ship source, Ship target, float damage)
+        public void FireProjectile(Weapon weapon, Ship source, Ship target, float damage)
         {
             var newProjectile = Projectiles.New();
-            newProjectile.SetType(type);
+            newProjectile.SetType(weapon.ProjectileType);
+            newProjectile.TargetType = target.TargetType;
             newProjectile.Damage = damage;
             newProjectile.Position = source.Position; // todo : offset by ship type
             newProjectile.IsPlayerProjectile = source.IsPlayerShip;
@@ -96,12 +98,15 @@ namespace GameCore.Combat
                 {
                     var target = checkList[s];
 
+                    if (target.TargetType != projectile.TargetType)
+                        continue;
+
                     //if (target.IsShieldActive)
                     //    collision = Vector2.Distance(projectile.Position, target.Position) <= (target.ShieldRadius * 0.8f);
                     //else
                     //    collision = projectile.CollisionRect.Intersects(target.CollisionRect);
 
-                    collision = Vector2.Distance(projectile.Position, target.Position) <= 25.0f;
+                    collision = Vector2.Distance(projectile.Position, target.Position) <= (target.ShieldRadius * 0.5f);
 
                     if (collision)
                     {

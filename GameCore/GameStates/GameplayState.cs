@@ -41,9 +41,34 @@ namespace GameCore
         };
         protected int _currentZoomLevel = 0;
 
+        protected PUIWLabel _lblMetal, _lblGas, _lblWater, _lblCrystal, _lblUranium;
+
+        #region python bound methods
+        protected void BuildMiner(params object[] args)
+        {
+            WorldManager.PlayerEntity.BuildShip(ShipType.Miner);
+        }
+
+        protected void BuildFighter(params object[] args)
+        {
+            WorldManager.PlayerEntity.BuildShip(ShipType.Fighter);
+        }
+        #endregion
+
         public override void Load(ContentManager Content, GraphicsDevice graphics)
         {
+            _menu.AddMethod(BuildMiner);
+            _menu.AddMethod(BuildFighter);
             _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
+
+            LoadProductionCostLabel(ShipType.Miner, _menu.GetWidget<PUIWLabel>("lblMinerCost"));
+            LoadProductionCostLabel(ShipType.Fighter, _menu.GetWidget<PUIWLabel>("lblFighterCost"));
+
+            _lblMetal = _menu.GetWidget<PUIWLabel>("lblMetal");
+            _lblGas = _menu.GetWidget<PUIWLabel>("lblGas");
+            _lblWater = _menu.GetWidget<PUIWLabel>("lblWater");
+            _lblCrystal = _menu.GetWidget<PUIWLabel>("lblCrystal");
+            _lblUranium = _menu.GetWidget<PUIWLabel>("lblUranium");
 
             Camera = new BasicCamera2D(
                 new Rectangle(0, 0, graphics.PresentationParameters.BackBufferWidth, graphics.PresentationParameters.BackBufferHeight),
@@ -60,7 +85,19 @@ namespace GameCore
             WorldManager.Setup(graphics);
 
             Camera.CenterPosition(WorldManager.PlayerEntity.Position);
-        }
+        } // Load
+
+        public void LoadProductionCostLabel(ShipType type, PUIWLabel label)
+        {
+            var cost = "";
+
+            foreach (var kvp in EntityData.ShipTypes[type].BuildCost)
+                cost += kvp.Key.ToString() + ": " + kvp.Value.ToString() + ", ";
+
+            cost = cost.Remove(cost.LastIndexOf(","));
+
+            label.Text = cost;
+        } // LoadProductionCostLabel
 
         public override int Update(GameTime gameTime)
         {
@@ -75,14 +112,14 @@ namespace GameCore
                 Camera.GetViewRect().ToString() + " : " + Camera.Zoom + "\n" +
                 "Asteroids: " + (WorldManager.Asteroids.LastActiveIndex + 1) + "\n" +
                 mouseWorldPos.ToString() + "\n" +
-                centerWorldPos.ToString();
+                centerWorldPos.ToString() + "\n" +
+                WorldManager.PlayerShips.Count.ToString() + " / " + WorldManager.EnemyShips.Count.ToString();
 
-            var inventoryString = new StringBuilder();
-
-            foreach (var kvp in WorldManager.PlayerEntity.Inventory.Resources)
-                inventoryString.Append(kvp.Key.ToString() + ": " + kvp.Value.ToString() + "\n");
-
-            _menu.GetWidget<PUIWLabel>("lblInventory").Text = inventoryString.ToString();
+            _lblMetal.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Metal].ToString();
+            _lblGas.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Gas].ToString();
+            _lblWater.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Water].ToString();
+            _lblCrystal.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Crystal].ToString();
+            _lblUranium.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Uranium].ToString();
 
             _menu.Update(gameTime);
             WorldManager.Update(gameTime);
@@ -144,7 +181,7 @@ namespace GameCore
         public override void OnMouseDown(MouseButtonID button, GameTime gameTime)
         {
             var mousePosition = Screen.GetMousePosition();
-
+            
             _menu.OnMouseDown(button, gameTime);
 
             if (!_menu.Focused)
@@ -230,12 +267,14 @@ namespace GameCore
             }
             else if (key == Keys.P)
             {
-                WorldManager.PlayerEntity.Inventory.AddResource(ResourceType.Metal, 100);
-                WorldManager.PlayerEntity.Inventory.AddResource(ResourceType.Gas, 50);
+                WorldManager.PlayerEntity.Inventory.AddAll(100);
             }
-            else if (key == Keys.O)
+            else if (key == Keys.B)
             {
-                WorldManager.PlayerEntity.BuildShip(ShipType.Miner);
+                var productionFrame = _menu.GetFrame("frmProduction");
+
+                productionFrame.Visible = !productionFrame.Visible;
+                productionFrame.Active = productionFrame.Visible;
             }
         }
 

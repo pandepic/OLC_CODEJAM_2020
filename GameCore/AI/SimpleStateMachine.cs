@@ -79,6 +79,11 @@ namespace GameCore.AI
             States.Remove(name);
         }
 
+        public void SetState(SimpleStateBase state)
+        {
+            SetState(state.Name);
+        }
+
         public void SetState(string name)
         {
             if (!States.ContainsKey(name))

@@ -100,8 +100,6 @@ namespace GameCore
             if (!GameplayState.ShowDebug)
                 return;
 
-            GameplayState.WorldManager.Ships.Add(GameplayState.WorldManager.PlayerEntity);
-
             for (var i = 0; i < GameplayState.WorldManager.Ships.Count; i++)
             {
                 var ship = GameplayState.WorldManager.Ships[i];
@@ -129,8 +127,6 @@ namespace GameCore
                     spriteBatch.DrawString(Sprites.DefaultFont, shipString, textPosition, Color.White);
                 }
             }
-
-            GameplayState.WorldManager.Ships.Remove(GameplayState.WorldManager.PlayerEntity);
         }
 
         public void DrawWorld(SpriteBatch spriteBatch)
@@ -141,7 +137,7 @@ namespace GameCore
         {
             foreach (var ship in SelectedShips)
             {
-                ship.Selected = false;
+                ship.IsSelected = false;
             }
 
             SelectedShips.Clear();
@@ -159,13 +155,13 @@ namespace GameCore
 
             foreach (var ship in GameplayState.WorldManager.Ships)
             {
-                if (!ship.IsPlayerShip)
+                if (!ship.IsPlayerShip || ship.ShipType == ShipType.HomeShip)
                     continue;
 
                 if (ship.CollisionRect.Intersects(DragRectWorldSpace))
                 {
                     SelectedShips.Add(ship);
-                    ship.Selected = true;
+                    ship.IsSelected = true;
                 }
             }
 
@@ -178,10 +174,10 @@ namespace GameCore
 
             foreach (var ship in SelectedShips)
             {
-                if (!SelectedShipTypes.ContainsKey(ship.Type))
-                    SelectedShipTypes.Add(ship.Type, new List<Ship>());
+                if (!SelectedShipTypes.ContainsKey(ship.ShipType))
+                    SelectedShipTypes.Add(ship.ShipType, new List<Ship>());
 
-                SelectedShipTypes[ship.Type].Add(ship);
+                SelectedShipTypes[ship.ShipType].Add(ship);
             }
         }
 
@@ -223,7 +219,13 @@ namespace GameCore
             GameplayState.WorldManager.EnemyShips.Remove(ship);
             GameplayState.WorldManager.Ships.Remove(ship);
 
-            if (ship.Type == ShipType.HomeShip)
+            if (ship.IsSelected)
+            {
+                SelectedShips.Remove(ship);
+                UpdateSelectedShipTypes();
+            }
+
+            if (ship.ShipType == ShipType.HomeShip)
             {
                 // todo : GAME OVER
             }
@@ -291,7 +293,18 @@ namespace GameCore
             {
                 Dragging = false;
 
-                CheckSelection();
+                if (DragRectWorldSpace.Width == 0 && DragRectWorldSpace.Height == 0)
+                {
+                    var mousePosition = Screen.GetMousePosition();
+                    var mouseWorldPos = GameplayState.Camera.ScreenToWorldPosition(mousePosition);
+
+                    DragRectWorldSpace.X = (int)mouseWorldPos.X;
+                    DragRectWorldSpace.Y = (int)mouseWorldPos.Y;
+                    DragRectWorldSpace.Width = 1;
+                    DragRectWorldSpace.Height = 1;
+
+                    CheckSelection();
+                }
 
                 if (SelectedShips.Count == 0)
                     SelectHomeShip();
@@ -315,36 +328,51 @@ namespace GameCore
                         {
                             case ShipType.Miner:
                                 {
-                                    Asteroid target = null;
-
-                                    for (var i = 0; i <= GameplayState.WorldManager.Asteroids.LastActiveIndex; i++)
-                                    {
-                                        var asteroid = GameplayState.WorldManager.Asteroids[i];
-
-                                        if (asteroid.CollisionRect.Contains(mouseWorldPos))
-                                            target = asteroid;
-                                    }
+                                    Asteroid target = GameplayState.WorldManager.GetAsteroidAtWorldPosition(mouseWorldPos);
 
                                     if (target != null && target.ResourceType != ResourceType.None)
                                     {
                                         foreach (var miner in kvp.Value)
                                         {
-                                            var state = miner.StateMachine.GetState<MinerTravelingState>();
-                                            state.Target = target;
-                                            miner.SetState<MinerTravelingState>();
+                                            var traveling = miner.StateMachine.GetState<MinerTravelingState>();
+                                            traveling.Target = target;
+                                            miner.SetState(traveling);
                                         }
                                     }
                                     else
                                     {
-                                        if (GameplayState.WorldManager.PlayerEntity.CollisionRect.Contains(mouseWorldPos))
+                                        var homeShip = GameplayState.WorldManager.GetShipAtWorldPosition(mouseWorldPos, new List<ShipType>() { ShipType.HomeShip });
+
+                                        if (homeShip != null)
                                         {
                                             foreach (Miner miner in kvp.Value)
                                             {
                                                 miner.CurrentMiningTarget = null;
-                                                var patrolFollow = miner.GetState<MinerReturningState>();
-                                                patrolFollow.Target = miner.Owner;
-                                                miner.SetState<MinerReturningState>();
+                                                var returning = miner.GetState<MinerReturningState>();
+                                                returning.Target = miner.Owner;
+                                                miner.SetState(returning);
                                             }
+                                        }
+                                    }
+                                }
+                                break;
+
+                            case ShipType.Fighter:
+                                {
+                                    var newDefendTarget = GameplayState.WorldManager.GetShipAtWorldPosition(mouseWorldPos);
+
+                                    if (newDefendTarget != null)
+                                    {
+                                        foreach (Fighter fighter in kvp.Value)
+                                        {
+                                            AIHelper.SmallDefendTarget(fighter, newDefendTarget);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (Fighter fighter in kvp.Value)
+                                        {
+                                            AIHelper.SmallDefendPosition(fighter, mouseWorldPos);
                                         }
                                     }
                                 }

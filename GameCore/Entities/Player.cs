@@ -12,12 +12,12 @@ namespace GameCore.Entities
 {
     public class BuildQueueItem
     {
-        public ShipType Type;
+        public ShipType ShipType;
         public float Duration;
 
         public override string ToString()
         {
-            return Type.ToString() + ": " + (Duration / 1000.0f).ToString("0.0");
+            return ShipType.ToString() + ": " + (Duration / 1000.0f).ToString("0.0");
         }
     }
 
@@ -28,7 +28,7 @@ namespace GameCore.Entities
 
         public Player()
         {
-            Type = ShipType.HomeShip;
+            ShipType = ShipType.HomeShip;
 
             LoadData();
             IsPlayerShip = true;
@@ -52,7 +52,7 @@ namespace GameCore.Entities
                 if (nextItem.Duration <= 0)
                 {
                     BuildQueue.Dequeue();
-                    GameplayState.UnitManager.SpawnShip(nextItem.Type, Position, this);
+                    GameplayState.UnitManager.SpawnShip(nextItem.ShipType, Position, this);
                 }
             }
 
@@ -84,7 +84,7 @@ namespace GameCore.Entities
 
             var newItem = new BuildQueueItem()
             {
-                Type = type,
+                ShipType = type,
                 Duration = data.BuildTime
             };
 

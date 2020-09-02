@@ -17,8 +17,9 @@ namespace GameCore.Entities
         public bool IsShieldActive;
         public float ShieldCooldown;
 
-        public ShipType Type = ShipType.None;
+        public ShipType ShipType = ShipType.None;
         public ShipStance Stance = ShipStance.Passive;
+        public TargetType TargetType = TargetType.None;
 
         public Ship Owner = null;
         public bool IsPlayerShip = false;
@@ -37,10 +38,16 @@ namespace GameCore.Entities
         public List<Weapon> Weapons = new List<Weapon>();
         public float MinWeaponRange = -1, MaxWeaponRange = -1;
 
+        public float DefenceRadius = 2000.0f;
+        public float DefendScanFrequency = 500.0f;
+        public Ship DefendTarget = null;
+        public Vector2? DefendPosition = null;
+        public float NextDefendScan;
+
         public Ship EnemyTarget = null;
         public List<ShipType> TargetPriorities = new List<ShipType>();
 
-        public bool Selected = false;
+        public bool IsSelected = false;
         public Color SelectionColour = Color.Yellow;
 
         public void LoadData()
@@ -49,7 +56,8 @@ namespace GameCore.Entities
             if (Owner != null && Owner.IsPlayerShip == true)
                 IsPlayerShip = true;
 
-            var data = EntityData.ShipTypes[Type];
+            var data = EntityData.ShipTypes[ShipType];
+            TargetType = data.TargetType;
             Sprite = TexturePacker.GetSprite("ShipsAtlas", data.Sprite);
             Origin = new Vector2(Sprite.SourceRect.Width / 2, Sprite.SourceRect.Height / 2);
             MoveSpeed = data.MoveSpeed;
@@ -69,7 +77,7 @@ namespace GameCore.Entities
             {
                 Weapons.Add(new Weapon()
                 {
-                    Type = weapon.Type,
+                    ProjectileType = weapon.ProjectileType,
                     Range = weapon.Range,
                     Cooldown = weapon.Cooldown,
                     Damage = weapon.Damage,
@@ -172,7 +180,7 @@ namespace GameCore.Entities
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch, (Selected ? SelectionColour : (IsPlayerShip ? Color.White : Sprites.EnemyColour)));
+            base.Draw(spriteBatch, (IsSelected ? SelectionColour : (IsPlayerShip ? Color.White : Sprites.EnemyColour)));
             ShieldSprite.Draw(spriteBatch, Position);
         }
 
@@ -192,6 +200,11 @@ namespace GameCore.Entities
         {
             Moving = false;
             Velocity = Vector2.Zero;
+        }
+
+        public void SetState(SimpleStateBase state)
+        {
+            StateMachine.SetState(state);
         }
 
         public void SetState<T>() where T : SimpleStateBase

@@ -44,10 +44,8 @@ namespace GameCore.Entities
 
         public void AddAll(int amount)
         {
-            foreach (var kvp in Resources)
-            {
-                Resources[kvp.Key] = kvp.Value + amount;
-            }
+            foreach (var res in WorldData.ResourceTypes)
+                Resources[res] += amount;
         }
     }
 }

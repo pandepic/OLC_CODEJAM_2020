@@ -6,7 +6,8 @@ namespace GameCore.Entities
 {
     public class Weapon
     {
-        public WeaponType Type;
+        public string ProjectileType;
+        public TargetType TargetType;
         public float Range;
         public float Cooldown;
         public float Damage;

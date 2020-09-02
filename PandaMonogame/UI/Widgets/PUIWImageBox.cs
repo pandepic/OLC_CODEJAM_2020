@@ -12,7 +12,8 @@ namespace PandaMonogame.UI
 {
     public class PUIWImageBox : PUIWidget
     {
-        protected AnimatedSprite _image = null;
+        protected Texture2D _image = null;
+        protected Rectangle _sourceRect = Rectangle.Empty;
 
         public PUIWImageBox() { }
 
@@ -20,18 +21,45 @@ namespace PandaMonogame.UI
         {
             Init(parent, el);
 
-            Texture2D texture = ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, GetXMLElement("AssetName").Value);
+            bool preMultiplyAlpha = false;
 
-            Width = texture.Width;
-            Height = texture.Height;
+            var elAlpha = GetXMLElement("PreMultiplyAlpha");
+            if (elAlpha != null)
+                preMultiplyAlpha = bool.Parse(elAlpha.Value);
 
-            _image = new AnimatedSprite(texture, texture.Width, texture.Height);
+            _image = ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, GetXMLElement("AssetName").Value, preMultiplyAlpha);
+
+            Width = _image.Width;
+            Height = _image.Height;
+
+            var elSourceRect = GetXMLElement("SourceRect");
+            if (elSourceRect != null)
+            {
+                _sourceRect = new Rectangle()
+                {
+                    X = GetXMLAttribute<int>("SourceRect", "X"),
+                    Y = GetXMLAttribute<int>("SourceRect", "Y"),
+                    Width = GetXMLAttribute<int>("SourceRect", "Width"),
+                    Height = GetXMLAttribute<int>("SourceRect", "Height"),
+                };
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_image != null)
-                _image.Draw(spriteBatch, Position + Parent.Position);
+            var drawPosition = Position + Parent.Position;
+            var drawRect = new Rectangle((int)drawPosition.X, (int)drawPosition.Y, Width, Height);
+
+            if (!_sourceRect.IsEmpty)
+            {
+                drawRect.Width = _sourceRect.Width;
+                drawRect.Height = _sourceRect.Height;
+                spriteBatch.Draw(_image, drawRect, _sourceRect, Color.White);
+            }
+            else
+            {
+                spriteBatch.Draw(_image, drawRect, Color.White);
+            }
         }
     }
 }

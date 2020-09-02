@@ -19,9 +19,33 @@
     <ClickSound></ClickSound>
   </Template>
 
+  <Template TemplateName="MenuButton">
+    <Label>
+      <FontName>latoblack</FontName>
+      <FontSize>28</FontSize>
+      <Position>
+        <X>center</X>
+        <Y>center</Y>
+      </Position>
+      <Color>#ffffff</Color>
+    </Label>
+    <AssetName>MenuButton</AssetName>
+    <AssetNamePressed>MenuButton</AssetNamePressed>
+    <AssetNameHover>MenuButton</AssetNameHover>
+    <AssetNameDisabled>MenuButton</AssetNameDisabled>
+    <PreMultiplyAlpha>True</PreMultiplyAlpha>
+    <ClickSound></ClickSound>
+  </Template>
+
   <Template TemplateName="DebugLabel">
     <FontName>latoblack</FontName>
     <FontSize>24</FontSize>
+    <Color>#FFFFFF</Color>
+  </Template>
+
+  <Template TemplateName="ProductionCost">
+    <FontName>latoblack</FontName>
+    <FontSize>20</FontSize>
     <Color>#FFFFFF</Color>
   </Template>
 </Templates>

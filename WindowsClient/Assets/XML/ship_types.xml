@@ -14,7 +14,7 @@
   </Type>
   -->
 
-  <Type Name="HomeShip" Sprite="Station2">
+  <Type Name="HomeShip" Sprite="Station2" TargetType="Large">
     <MoveSpeed>50</MoveSpeed>
     <TurnSpeed>50</TurnSpeed>
 
@@ -23,7 +23,7 @@
     <ShieldRegenRate>50</ShieldRegenRate>
   </Type>
   
-  <Type Name="Miner" Sprite="Alien1">
+  <Type Name="Miner" Sprite="Alien1" TargetType="Small">
     <MoveSpeed>200</MoveSpeed>
     <TurnSpeed>75</TurnSpeed>
 
@@ -35,7 +35,7 @@
     <BuildTime>5000</BuildTime>
   </Type>
 
-  <Type Name="Fighter" Sprite="Fighter1">
+  <Type Name="Fighter" Sprite="Fighter1" TargetType="Small">
     <MoveSpeed>250</MoveSpeed>
     <TurnSpeed>120</TurnSpeed>
 
@@ -47,7 +47,7 @@
     <BuildTime>5000</BuildTime>
 
     <Weapons>
-      <Weapon Type="BurstLaser" Range="1000" Cooldown="500" Damage="10" MaxAngle="30" />
+      <Weapon ProjectileType="Laser" Range="1000" Cooldown="500" Damage="10" MaxAngle="30" />
     </Weapons>
 
     <TargetPriorities>

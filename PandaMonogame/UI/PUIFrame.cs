@@ -128,12 +128,23 @@ namespace PandaMonogame.UI
             if (drawOrderAttribute != null)
                 DrawOrder = int.Parse(drawOrderAttribute.Value);
 
+            bool preMultiplyAlpha = false;
+
+            var elAlpha = el.Element("PreMultiplyAlpha");
+            if (elAlpha != null)
+                preMultiplyAlpha = bool.Parse(elAlpha.Value);
+
             var backgroundImage = el.Element("BackgroundImage");
 
             if (backgroundImage != null)
             {
-                var backgroundImageTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, backgroundImage.Value);
+                var backgroundImageTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, backgroundImage.Value, preMultiplyAlpha);
                 FrameSprite = new AnimatedSprite(backgroundImageTexture, backgroundImageTexture.Width, backgroundImageTexture.Height);
+            }
+
+            foreach (var scrollPanel in el.Elements("ScrollPanel"))
+            {
+
             }
 
             var framePosition = el.Element("Position");
@@ -379,6 +390,7 @@ namespace PandaMonogame.UI
             {
                 _dragging = true;
                 _dragMousePosition = mousePosition;
+                _parent.GrabFocus(this);
             }
 
             Widgets.OnMouseDown(button, mousePosition, gameTime, Position);
@@ -392,9 +404,12 @@ namespace PandaMonogame.UI
 
             if (Focused && !pointInFrame)
                 UnFocus();
-            
+
             if (_dragging)
+            {
                 _dragging = false;
+                _parent.DropFocus(this);
+            }
 
             Widgets.OnMouseClicked(button, mousePosition, gameTime, Position);
 

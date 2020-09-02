@@ -10,7 +10,7 @@
   </Script>
 
   <Scene Name="mainScene">
-    <Frame Name="debugFrame" Visible="false" Active="false">
+    <Frame Name="debugFrame" DrawOrder="0" Visible="false" Active="false">
       <Position>
         <X>0</X>
         <Y>0</Y>
@@ -45,6 +45,7 @@
       </Size>
 
       <Widgets>
+        <!--
         <Label Name="lblTitle">
           <Text>WAR MACHINE - OLC Code Jam 2020</Text>
           <FontName>latoblack</FontName>
@@ -56,18 +57,7 @@
           <Color>#FFFFFF</Color>
           <UpdateMethod></UpdateMethod>
         </Label>
-
-        <Label Name="lblInventory" Template="DebugLabel">
-          <Text></Text>
-          <Position>
-            <X>left</X>
-            <Y>top</Y>
-          </Position>
-          <Offset>
-            <X>25</X>
-            <Y>25</Y>
-          </Offset>
-        </Label>
+        -->
 
         <Label Name="lblSelection" Template="DebugLabel">
           <Text></Text>
@@ -82,5 +72,279 @@
         </Label>
       </Widgets>
     </Frame>
+
+    <Frame Name="frmResources" DrawOrder="1" Visible="true" Active="true">
+      <Position>
+        <X>center</X>
+        <Y>0</Y>
+      </Position>
+      <Size>
+        <Width>bg</Width>
+        <Height>bg</Height>
+      </Size>
+      
+      <BackgroundImage>ResourceBar</BackgroundImage>
+      <PreMultiplyAlpha>True</PreMultiplyAlpha>
+
+      <Widgets>
+        <ImageBox Name="imgMetal">
+          <Position>
+            <X>16</X>
+            <Y>16</Y>
+          </Position>
+          <AssetName>ResourcesTexture</AssetName>
+          <PreMultiplyAlpha>False</PreMultiplyAlpha>
+          <SourceRect X="32" Y="0" Width="32" Height="32" />
+        </ImageBox>
+
+        <Label Name="lblMetal" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>16</X>
+            <Y>16</Y>
+          </Position>
+          <Offset>
+            <X>40</X>
+            <Y>5</Y>
+          </Offset>
+        </Label>
+
+        <ImageBox Name="imgGas">
+          <Position>
+            <X>169</X>
+            <Y>16</Y>
+          </Position>
+          <AssetName>ResourcesTexture</AssetName>
+          <PreMultiplyAlpha>False</PreMultiplyAlpha>
+          <SourceRect X="0" Y="0" Width="32" Height="32" />
+        </ImageBox>
+
+        <Label Name="lblGas" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>169</X>
+            <Y>16</Y>
+          </Position>
+          <Offset>
+            <X>40</X>
+            <Y>5</Y>
+          </Offset>
+        </Label>
+
+        <ImageBox Name="imgWater">
+          <Position>
+            <X>322</X>
+            <Y>16</Y>
+          </Position>
+          <AssetName>ResourcesTexture</AssetName>
+          <PreMultiplyAlpha>False</PreMultiplyAlpha>
+          <SourceRect X="64" Y="0" Width="32" Height="32" />
+        </ImageBox>
+
+        <Label Name="lblWater" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>322</X>
+            <Y>16</Y>
+          </Position>
+          <Offset>
+            <X>40</X>
+            <Y>5</Y>
+          </Offset>
+        </Label>
+
+        <ImageBox Name="imgCrystal">
+          <Position>
+            <X>475</X>
+            <Y>16</Y>
+          </Position>
+          <AssetName>ResourcesTexture</AssetName>
+          <PreMultiplyAlpha>False</PreMultiplyAlpha>
+          <SourceRect X="96" Y="0" Width="32" Height="32" />
+        </ImageBox>
+
+        <Label Name="lblCrystal" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>475</X>
+            <Y>16</Y>
+          </Position>
+          <Offset>
+            <X>40</X>
+            <Y>5</Y>
+          </Offset>
+        </Label>
+
+        <ImageBox Name="imgUranium">
+          <Position>
+            <X>628</X>
+            <Y>16</Y>
+          </Position>
+          <AssetName>ResourcesTexture</AssetName>
+          <PreMultiplyAlpha>False</PreMultiplyAlpha>
+          <SourceRect X="128" Y="0" Width="32" Height="32" />
+        </ImageBox>
+
+        <Label Name="lblUranium" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>628</X>
+            <Y>16</Y>
+          </Position>
+          <Offset>
+            <X>40</X>
+            <Y>5</Y>
+          </Offset>
+        </Label>
+        
+      </Widgets>
+    </Frame> <!-- frmResources -->
+
+    <Frame Name="frmProduction" DrawOrder="2" Visible="false" Active="false" Draggable="true" DraggableRect="0,0,fill,60">
+      <Position>
+        <X>center</X>
+        <Y>center</Y>
+      </Position>
+      <Size>
+        <Width>bg</Width>
+        <Height>bg</Height>
+      </Size>
+      
+      <BackgroundImage>UIFrame</BackgroundImage>
+      <PreMultiplyAlpha>True</PreMultiplyAlpha>
+      
+      <Widgets>
+
+        <Label Name="lblProductionTitle">
+          <Text>Ship Production</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>32</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>18</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+          <UpdateMethod></UpdateMethod>
+        </Label>
+        
+        <!-- ********** START PAGE 1 ********** -->
+
+        <Button Name="btnBuildMiner" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Miner</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildMinerClicked</OnClick>
+          <Position>
+            <X>50</X>
+            <Y>80</Y>
+          </Position>
+        </Button>
+
+        <Label Name="lblMinerCost" Template="ProductionCost" Visible="true" Active="true">
+          <Text></Text>
+          <Position>
+            <X>375</X>
+            <Y>105</Y>
+          </Position>
+        </Label>
+
+        <Button Name="btnBuildFighter" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Fighter</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildFighterClicked</OnClick>
+          <Position>
+            <X>50</X>
+            <Y>160</Y>
+          </Position>
+        </Button>
+
+        <Label Name="lblFighterCost" Template="ProductionCost" Visible="true" Active="true">
+          <Text></Text>
+          <Position>
+            <X>375</X>
+            <Y>185</Y>
+          </Position>
+        </Label>
+
+        <Button Name="btnBuildRepairShip" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Repair Ship</Text>
+          </Label>
+          <OnClick></OnClick>
+          <Position>
+            <X>50</X>
+            <Y>240</Y>
+          </Position>
+        </Button>
+
+        <Label Name="lblRepairShipCost" Template="ProductionCost" Visible="true" Active="true">
+          <Text>PLACEHOLDER</Text>
+          <Position>
+            <X>375</X>
+            <Y>265</Y>
+          </Position>
+        </Label>
+
+        <Button Name="btnBuildMissileFrigate" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Missile Frigate</Text>
+          </Label>
+          <OnClick></OnClick>
+          <Position>
+            <X>50</X>
+            <Y>320</Y>
+          </Position>
+        </Button>
+
+        <Label Name="lblMissileFrigateCost" Template="ProductionCost" Visible="true" Active="true">
+          <Text>PLACEHOLDER</Text>
+          <Position>
+            <X>375</X>
+            <Y>345</Y>
+          </Position>
+        </Label>
+
+        <Button Name="btnBuildBeamFrigate" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Beam Frigate</Text>
+          </Label>
+          <OnClick></OnClick>
+          <Position>
+            <X>50</X>
+            <Y>400</Y>
+          </Position>
+        </Button>
+
+        <Label Name="lblBeamFrigateCost" Template="ProductionCost" Visible="true" Active="true">
+          <Text>PLACEHOLDER</Text>
+          <Position>
+            <X>375</X>
+            <Y>425</Y>
+          </Position>
+        </Label>
+        
+        <!-- ********** END PAGE 1 ********** -->
+        
+        <!-- ********** START PAGE 2 ********** -->
+        <!-- ********** END PAGE 2 ********** -->
+        
+        <!--
+        <ImageBox Name="imgMinerPanel">
+          <Position>
+            <X>25</X>
+            <Y>80</Y>
+          </Position>
+          <Size>
+            <Width>250</Width>
+            <Height>150</Height>
+          </Size>
+          <AssetName>UIPanel</AssetName>
+          <PreMultiplyAlpha>True</PreMultiplyAlpha>
+        </ImageBox>
+        -->
+        
+      </Widgets>
+    </Frame> <!-- frmProduction -->
   </Scene>
 </Menu>

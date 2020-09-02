@@ -11,48 +11,32 @@ namespace GameCore.Entities
         public Fighter(Ship owner, Vector2 position)
         {
             Owner = owner;
-            Type = ShipType.Fighter;
+            ShipType = ShipType.Fighter;
             Position = position;
 
             LoadData();
-            Stance = ShipStance.Aggressive;
-            //if (!IsPlayerShip)
-            //    Stance = ShipStance.Aggressive;
-            //else
-            //    Stance = ShipStance.Defensive;
 
             StateMachine.RegisterState(new ShipPatrolFollowState(this));
             StateMachine.RegisterState(new SmallShipAttackingState(this));
             StateMachine.RegisterState(new ShipIdleState(this));
+            StateMachine.RegisterState(new ShipPatrolPositionState(this));
 
-            if (Stance == ShipStance.Aggressive)
+            if (IsPlayerShip)
             {
-                //EnemyTarget = AIHelper.FindClosestEnemy(this);
-
-                //if (EnemyTarget != null)
-                //{
-                //    var attacking = StateMachine.GetState<SmallShipAttackingState>();
-                //    attacking.Target = EnemyTarget;
-                //    StateMachine.Start<SmallShipAttackingState>();
-                //}
-
-                StateMachine.Start<ShipIdleState>();
+                Stance = ShipStance.Defensive;
+                DefendTarget = Owner;
             }
             else
             {
-                var patrolFollow = StateMachine.GetState<ShipPatrolFollowState>();
-                patrolFollow.Target = Owner;
-                StateMachine.Start<ShipPatrolFollowState>();
+                Stance = ShipStance.Aggressive;
             }
+
+            StateMachine.Start<ShipIdleState>();
         }
         
         public override void Update(GameTime gameTime)
         {
-            if (Stance == ShipStance.Aggressive)
-                AIHelper.SmallAggressiveAttackingShipAI(this);
-            else if (Stance == ShipStance.Defensive)
-                AIHelper.SmallDefensiveAttackingShipAI(this);
-
+            AIHelper.SmallAttackingShipAI(this, gameTime);
             base.Update(gameTime);
         }
     }

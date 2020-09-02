@@ -19,6 +19,10 @@
   <Asset Name="MenuBG" FilePath="Assets/UI/menu_bg.jpg" />
   <Asset Name="StandardButton" FilePath="Assets/UI/standard_button.png" />
   <Asset Name="StandardButton2" FilePath="Assets/UI/standard_button_2.png" />
+  <Asset Name="UIFrame" FilePath="Assets/UI/frame.png" />
+  <Asset Name="UIPanel" FilePath="Assets/UI/panel.png" />
+  <Asset Name="MenuButton" FilePath="Assets/UI/menu_button.png" />
+  <Asset Name="ResourceBar" FilePath="Assets/UI/resource_bar.png" />
   
   <!-- Sprites -->
   <Asset Name="AsteroidsTexture" FilePath="Assets/Sprites/asteroids.png" />
@@ -27,6 +31,8 @@
   <Asset Name="ShipsAtlas" FilePath="Assets/Sprites/ships.xml" />
   <Asset Name="ParticlesTexture" FilePath="Assets/Sprites/particles.png" />
   <Asset Name="ParticlesAtlas" FilePath="Assets/Sprites/particles.xml" />
+  <Asset Name="ResourcesTexture" FilePath="Assets/Sprites/resources.png" />
+  <Asset Name="ResourcesAtlas" FilePath="Assets/Sprites/resources.xml" />
   
   <!-- Particle Effects -->
   <Asset Name="Shield" FilePath="Assets/Sprites/shield.png" />

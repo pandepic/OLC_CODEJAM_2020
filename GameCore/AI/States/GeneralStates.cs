@@ -74,17 +74,38 @@ namespace GameCore.AI
     public class ShipPatrolFollowState : ShipStateBase
     {
         public Ship Target;
+        public Vector2 RandomOffset;
 
         public ShipPatrolFollowState(Ship parentShip) : base("PatrolFollow", parentShip) { }
 
         public override void Begin()
         {
-            ParentShip.SetDestination(Target.Position);
+            RandomOffset = new Vector2(WorldData.RNG.Next(-50, 50), WorldData.RNG.Next(-50, 50));
+            ParentShip.SetDestination(Target.Position + RandomOffset);
         }
 
         public override void Update(GameTime gameTime)
         {
-            ParentShip.SetDestination(Target.Position);
+            ParentShip.SetDestination(Target.Position + RandomOffset);
+        }
+    }
+
+    public class ShipPatrolPositionState : ShipStateBase
+    {
+        public Vector2 Target;
+        public Vector2 RandomOffset;
+
+        public ShipPatrolPositionState(Ship parentShip) : base("PatrolPosition", parentShip) { }
+
+        public override void Begin()
+        {
+            RandomOffset = new Vector2(WorldData.RNG.Next(-50, 50), WorldData.RNG.Next(-50, 50));
+            ParentShip.SetDestination(Target + RandomOffset);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            ParentShip.SetDestination(Target + RandomOffset);
         }
     }
 
@@ -111,12 +132,11 @@ namespace GameCore.AI
 
                     if (angle <= weapon.MaxAngle)
                     {
-                        //Target.TakeDamage(weapon.Damage);
-                        GameplayState.ProjectileManager.FireProjectile(ProjectileType.Laser, ParentShip, Target, weapon.Damage);
+                        GameplayState.ProjectileManager.FireProjectile(weapon, ParentShip, Target, weapon.Damage);
                         weapon.CurrentCooldown = weapon.Cooldown;
                     }
                 }
             }
         }
-    }
+    } // SmallShipAttackingState
 }

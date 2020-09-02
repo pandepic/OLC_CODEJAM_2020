@@ -15,7 +15,7 @@ namespace GameCore.Entities
         public Miner(Ship owner, Vector2 position)
         {
             Owner = owner;
-            Type = ShipType.Miner;
+            ShipType = ShipType.Miner;
             Position = position;
 
             LoadData();

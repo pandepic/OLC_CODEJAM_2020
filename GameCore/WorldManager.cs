@@ -96,20 +96,21 @@ namespace GameCore
             PlayerEntity = new Player();
             PlayerEntity.Position = PlayerStartPosition;
             PlayerShips.Add(PlayerEntity);
+            Ships.Add(PlayerEntity);
 
             for (var i = 0; i < StartingMiners; i++)
             {
                 GameplayState.UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
             }
 
-            for (var i = 0; i < 15; i++)
+            for (var i = 0; i < 350; i++)
             {
-                GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(500, 500) + new Vector2(WorldData.RNG.Next(-300, 300)), null);
+                GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(500, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
             }
 
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 550; i++)
             {
-                GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(3000, 3000) + new Vector2(WorldData.RNG.Next(-300, 300)), PlayerEntity);
+                GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(3000, 3000) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), PlayerEntity);
             }
         }
 
@@ -138,8 +139,6 @@ namespace GameCore
 
             foreach (var ship in DeadShips)
                 GameplayState.UnitManager.DestroyShip(ship);
-            
-            PlayerEntity.Update(gameTime);
         }
 
         public void DrawWorld (SpriteBatch spriteBatch)
@@ -156,8 +155,6 @@ namespace GameCore
                 if (distance < viewDistance)
                     asteroid.Draw(spriteBatch);
             }
-
-            PlayerEntity.Draw(spriteBatch);
 
             for (var i = 0; i < Ships.Count; i++)
             {
@@ -193,6 +190,32 @@ namespace GameCore
                         SpriteEffects.None,
                         0.0f
                         );
+        }
+
+        public Asteroid GetAsteroidAtWorldPosition(Vector2 position)
+        {
+            for (var i = 0; i <= Asteroids.LastActiveIndex; i++)
+            {
+                var asteroid = GameplayState.WorldManager.Asteroids[i];
+
+                if (asteroid.CollisionRect.Contains(position))
+                    return asteroid;
+            }
+
+            return null;
+        }
+
+        public Ship GetShipAtWorldPosition(Vector2 position, List<ShipType> filter = null)
+        {
+            for (var i = 0; i < Ships.Count; i++)
+            {
+                var ship = Ships[i];
+
+                if (ship.CollisionRect.Contains(position) && (filter == null || filter.Contains(ship.ShipType)))
+                    return ship;
+            }
+
+            return null;
         }
     }
 }

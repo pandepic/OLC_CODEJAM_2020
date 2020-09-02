@@ -9,7 +9,8 @@ namespace GameCore.Entities
 {
     public struct ShipTypeData
     {
-        public ShipType Type;
+        public ShipType ShipType;
+        public TargetType TargetType;
         public string Sprite;
 
         public float MoveSpeed;
@@ -28,7 +29,7 @@ namespace GameCore.Entities
 
     public struct ProjectileTypeData
     {
-        public ProjectileType Type;
+        public string ProjectileType;
         public string Sprite;
         public Color Colour;
         public float MoveSpeed;
@@ -39,7 +40,7 @@ namespace GameCore.Entities
     public static class EntityData
     {
         public static Dictionary<ShipType, ShipTypeData> ShipTypes = new Dictionary<ShipType, ShipTypeData>();
-        public static Dictionary<ProjectileType, ProjectileTypeData> ProjectileTypes = new Dictionary<ProjectileType, ProjectileTypeData>();
+        public static Dictionary<string, ProjectileTypeData> ProjectileTypes = new Dictionary<string, ProjectileTypeData>();
 
         public static void Load()
         {
@@ -51,7 +52,8 @@ namespace GameCore.Entities
                 {
                     var newType = new ShipTypeData()
                     {
-                        Type = el.Attribute("Name").Value.ToEnum<ShipType>(),
+                        ShipType = el.Attribute("Name").Value.ToEnum<ShipType>(),
+                        TargetType = el.Attribute("TargetType").Value.ToEnum<TargetType>(),
                         Sprite = el.Attribute("Sprite").Value,
                         MoveSpeed = float.Parse(el.Element("MoveSpeed").Value),
                         TurnSpeed = float.Parse(el.Element("TurnSpeed").Value),
@@ -86,7 +88,7 @@ namespace GameCore.Entities
                         {
                             newType.Weapons.Add(new Weapon()
                             {
-                                Type = elWeapon.Attribute("Type").Value.ToEnum<WeaponType>(),
+                                ProjectileType = elWeapon.Attribute("ProjectileType").Value,
                                 Range = float.Parse(elWeapon.Attribute("Range").Value),
                                 Cooldown = float.Parse(elWeapon.Attribute("Cooldown").Value),
                                 Damage = float.Parse(elWeapon.Attribute("Damage").Value),
@@ -105,7 +107,7 @@ namespace GameCore.Entities
                             newType.TargetPriorities.Add(priority.Attribute("Type").Value.ToEnum<ShipType>());
                     }
 
-                    ShipTypes.Add(newType.Type, newType);
+                    ShipTypes.Add(newType.ShipType, newType);
                 }
             } // load ship types
 
@@ -119,7 +121,7 @@ namespace GameCore.Entities
                 {
                     var newType = new ProjectileTypeData()
                     {
-                        Type = projectileType.Attribute("Name").Value.ToEnum<ProjectileType>(),
+                        ProjectileType = projectileType.Attribute("Name").Value,
                         Sprite = projectileType.Attribute("Sprite").Value,
                         Colour = PUIColorConversion.Instance.ToColor(projectileType.Attribute("Colour").Value),
                         MoveSpeed = float.Parse(projectileType.Attribute("MoveSpeed").Value),
@@ -127,7 +129,7 @@ namespace GameCore.Entities
                         Lifetime = float.Parse(projectileType.Attribute("Lifetime").Value),
                     };
 
-                    ProjectileTypes.Add(newType.Type, newType);
+                    ProjectileTypes.Add(newType.ProjectileType, newType);
                 }
             } // load projectile types
 
