@@ -42,9 +42,17 @@ namespace GameCore
     {
         None,
         HomeShip,
+
         Miner,
-        Repair,
-        Fighter
+        Fighter,
+        Bomber,
+        RepairShip,
+        MissileFrigate,
+        BeamFrigate,
+        SupportCruiser,
+        HeavyCruiser,
+        Battleship,
+        Carrier,
     }
 
     public enum ShipStance
@@ -74,6 +82,8 @@ namespace GameCore
     {
         public static Random RNG = new Random();
 
+        public static int GatherRate = 10;
+
         public static List<ResourceType> ResourceTypes = new List<ResourceType>()
         {
             ResourceType.Metal,
@@ -96,6 +106,7 @@ namespace GameCore
         public static Texture2D AsteroidsTexture = null;
         public static Texture2D ShipsTexture = null;
         public static Texture2D ParticlesTexture = null;
+        public static Texture2D ResourcesTexture = null;
         public static DynamicSpriteFont DefaultFont = null;
         public static Color EnemyColour = Color.MediumPurple;
 
@@ -104,11 +115,13 @@ namespace GameCore
             TexturePacker.LoadAsset(graphics, "AsteroidsAtlas");
             TexturePacker.LoadAsset(graphics, "ShipsAtlas");
             TexturePacker.LoadAsset(graphics, "ParticlesAtlas");
+            TexturePacker.LoadAsset(graphics, "ResourcesAtlas");
 
             AsteroidsTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "AsteroidsTexture");
             ShipsTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "ShipsTexture");
             ShieldTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Shield", true);
             ParticlesTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "ParticlesTexture", true);
+            ResourcesTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "ResourcesTexture", true);
 
             DefaultFont = ModManager.Instance.AssetManager.LoadDynamicSpriteFont("latoblack");
         }

@@ -23,7 +23,7 @@ namespace GameCore.Entities
 
     public class Player : Ship
     {
-        public Queue<BuildQueueItem> BuildQueue;
+        public List<BuildQueueItem> BuildQueue;
         public Inventory Inventory;
 
         public Player()
@@ -33,7 +33,7 @@ namespace GameCore.Entities
             LoadData();
             IsPlayerShip = true;
 
-            BuildQueue = new Queue<BuildQueueItem>();
+            BuildQueue = new List<BuildQueueItem>();
             Inventory = new Inventory();
 
             StateMachine.RegisterState(new ShipIdleState(this));
@@ -46,12 +46,12 @@ namespace GameCore.Entities
         {
             if (BuildQueue.Count > 0)
             {
-                var nextItem = BuildQueue.Peek();
+                var nextItem = BuildQueue[0];
                 nextItem.Duration -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
                 if (nextItem.Duration <= 0)
                 {
-                    BuildQueue.Dequeue();
+                    BuildQueue.RemoveAt(0);
                     GameplayState.UnitManager.SpawnShip(nextItem.ShipType, Position, this);
                 }
             }
@@ -64,7 +64,7 @@ namespace GameCore.Entities
             base.Draw(spriteBatch);
 
             if (BuildQueue.Count > 0)
-                spriteBatch.DrawString(Sprites.DefaultFont, BuildQueue.Peek().ToString(), Position + new Vector2(-200, -200), Color.White);
+                spriteBatch.DrawString(Sprites.DefaultFont, BuildQueue[0].ToString(), Position + new Vector2(-200, -200), Color.White);
         }
 
         public bool BuildShip(ShipType type)
@@ -88,7 +88,7 @@ namespace GameCore.Entities
                 Duration = data.BuildTime
             };
 
-            BuildQueue.Enqueue(newItem);
+            BuildQueue.Add(newItem);
 
             return true;
         }

@@ -41,6 +41,9 @@ namespace GameCore
         };
         protected int _currentZoomLevel = 0;
 
+        protected StringBuilder _sbGeneral = new StringBuilder();
+
+        protected PUIWLabel _lblProductionQueue;
         protected PUIWLabel _lblMetal, _lblGas, _lblWater, _lblCrystal, _lblUranium;
 
         #region python bound methods
@@ -53,17 +56,64 @@ namespace GameCore
         {
             WorldManager.PlayerEntity.BuildShip(ShipType.Fighter);
         }
+
+        protected void BuildBomber(params object[] args)
+        {
+            //WorldManager.PlayerEntity.BuildShip(ShipType.Bomber);
+        }
+
+        protected void BuildRepairShip(params object[] args)
+        {
+            //WorldManager.PlayerEntity.BuildShip(ShipType.RepairShip);
+        }
+
+        protected void BuildMissileFrigate(params object[] args)
+        {
+            //WorldManager.PlayerEntity.BuildShip(ShipType.MissileFrigate);
+        }
+
+        protected void BuildBeamFrigate(params object[] args)
+        {
+            //WorldManager.PlayerEntity.BuildShip(ShipType.BeamFrigate);
+        }
+
+        protected void BuildSupportCruiser(params object[] args)
+        {
+            //WorldManager.PlayerEntity.BuildShip(ShipType.SupportCruiser);
+        }
+
+        protected void BuildHeavyCruiser(params object[] args)
+        {
+            //WorldManager.PlayerEntity.BuildShip(ShipType.HeavyCruiser);
+        }
+
+        protected void BuildBattleship(params object[] args)
+        {
+            //WorldManager.PlayerEntity.BuildShip(ShipType.Battleship);
+        }
+
+        protected void BuildCarrier(params object[] args)
+        {
+            //WorldManager.PlayerEntity.BuildShip(ShipType.Carrier);
+        }
         #endregion
 
         public override void Load(ContentManager Content, GraphicsDevice graphics)
         {
             _menu.AddMethod(BuildMiner);
             _menu.AddMethod(BuildFighter);
+            _menu.AddMethod(BuildBomber);
+            _menu.AddMethod(BuildRepairShip);
+            _menu.AddMethod(BuildMissileFrigate);
+            _menu.AddMethod(BuildBeamFrigate);
+            _menu.AddMethod(BuildSupportCruiser);
+            _menu.AddMethod(BuildHeavyCruiser);
+            _menu.AddMethod(BuildBattleship);
+            _menu.AddMethod(BuildCarrier);
+
             _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
 
-            LoadProductionCostLabel(ShipType.Miner, _menu.GetWidget<PUIWLabel>("lblMinerCost"));
-            LoadProductionCostLabel(ShipType.Fighter, _menu.GetWidget<PUIWLabel>("lblFighterCost"));
-
+            _lblProductionQueue = _menu.GetWidget<PUIWLabel>("lblProductionQueue");
             _lblMetal = _menu.GetWidget<PUIWLabel>("lblMetal");
             _lblGas = _menu.GetWidget<PUIWLabel>("lblGas");
             _lblWater = _menu.GetWidget<PUIWLabel>("lblWater");
@@ -87,18 +137,6 @@ namespace GameCore
             Camera.CenterPosition(WorldManager.PlayerEntity.Position);
         } // Load
 
-        public void LoadProductionCostLabel(ShipType type, PUIWLabel label)
-        {
-            var cost = "";
-
-            foreach (var kvp in EntityData.ShipTypes[type].BuildCost)
-                cost += kvp.Key.ToString() + ": " + kvp.Value.ToString() + ", ";
-
-            cost = cost.Remove(cost.LastIndexOf(","));
-
-            label.Text = cost;
-        } // LoadProductionCostLabel
-
         public override int Update(GameTime gameTime)
         {
             var mousePosition = Screen.GetMousePosition();
@@ -120,6 +158,25 @@ namespace GameCore
             _lblWater.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Water].ToString();
             _lblCrystal.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Crystal].ToString();
             _lblUranium.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Uranium].ToString();
+
+            _sbGeneral.Clear();
+            _sbGeneral.Append("Queue: ");
+            var queueListedCount = 0;
+
+            for (var i = 0; i < WorldManager.PlayerEntity.BuildQueue.Count && queueListedCount < 3; i++)
+            {
+                var nextShip = WorldManager.PlayerEntity.BuildQueue[i];
+                _sbGeneral.Append(nextShip.ShipType.ToString() + "(" + (nextShip.Duration / 1000.0f).ToString("0.0") + "s), ");
+                queueListedCount += 1;
+            }
+
+            if (WorldManager.PlayerEntity.BuildQueue.Count > 0)
+                _sbGeneral.Remove(_sbGeneral.Length - 2, 2);
+
+            if (queueListedCount < WorldManager.PlayerEntity.BuildQueue.Count)
+                _sbGeneral.Append(" +" + (WorldManager.PlayerEntity.BuildQueue.Count - queueListedCount).ToString() +  "");
+
+            _lblProductionQueue.Text = _sbGeneral.ToString();
 
             _menu.Update(gameTime);
             WorldManager.Update(gameTime);
@@ -152,8 +209,8 @@ namespace GameCore
             // screen space
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
             {
-                _menu.Draw(spriteBatch);
                 UnitManager.DrawScreen(spriteBatch);
+                _menu.Draw(spriteBatch);
             }
             spriteBatch.End();
         }

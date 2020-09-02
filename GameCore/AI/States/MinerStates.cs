@@ -55,8 +55,7 @@ namespace GameCore.AI
         public override void EndDuration()
         {
             var ship = (Miner)ParentShip;
-            ship.Inventory.AddResource(Target.ResourceType, 5);
-
+            ship.Inventory.AddResource(Target.ResourceType, WorldData.GatherRate);
             Parent.SetState<MinerReturningState>();
         }
     }

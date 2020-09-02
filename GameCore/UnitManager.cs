@@ -89,12 +89,11 @@ namespace GameCore
                 if (asteroid.ResourceType == ResourceType.None)
                     continue;
                 
-                var resourceString = asteroid.ResourceType.ToString();
-                var resourceStringSize = Sprites.DefaultFont.MeasureString(resourceString);
-                var textPosition = asteroid.Position - new Vector2(resourceStringSize.X / 2, resourceStringSize.Y / 2) - new Vector2(0, asteroid.Origin.Y + 50);
-                textPosition = Vector2.Transform(textPosition, GameplayState.Camera.GetViewMatrix());
+                var iconPosition = asteroid.Position - new Vector2(asteroid.ResourceSprite.SourceRect.Width / 2, asteroid.ResourceSprite.SourceRect.Height / 2) - new Vector2(0, asteroid.Origin.Y + 50);
+                iconPosition = Vector2.Transform(iconPosition, GameplayState.Camera.GetViewMatrix());
 
-                spriteBatch.DrawString(Sprites.DefaultFont, resourceString, textPosition, Color.White);
+                spriteBatch.Draw(asteroid.ResourceSprite.Texture, iconPosition, asteroid.ResourceSprite.SourceRect, Color.White);
+                //spriteBatch.DrawString(Sprites.DefaultFont, asteroid.ResourceSprite.Texture, iconPosition, Color.White);
             }
 
             if (!GameplayState.ShowDebug)

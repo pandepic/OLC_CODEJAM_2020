@@ -227,26 +227,16 @@
           <UpdateMethod></UpdateMethod>
         </Label>
         
-        <!-- ********** START PAGE 1 ********** -->
-
         <Button Name="btnBuildMiner" Template="StandardButton" Visible="true" Active="true">
           <Label>
             <Text>Miner</Text>
           </Label>
           <OnClick>GameplayMenuScript.GameplayMenu.BuildMinerClicked</OnClick>
           <Position>
-            <X>50</X>
+            <X>60</X>
             <Y>80</Y>
           </Position>
         </Button>
-
-        <Label Name="lblMinerCost" Template="ProductionCost" Visible="true" Active="true">
-          <Text></Text>
-          <Position>
-            <X>375</X>
-            <Y>105</Y>
-          </Position>
-        </Label>
 
         <Button Name="btnBuildFighter" Template="StandardButton" Visible="true" Active="true">
           <Label>
@@ -254,95 +244,110 @@
           </Label>
           <OnClick>GameplayMenuScript.GameplayMenu.BuildFighterClicked</OnClick>
           <Position>
-            <X>50</X>
+            <X>60</X>
             <Y>160</Y>
           </Position>
         </Button>
 
-        <Label Name="lblFighterCost" Template="ProductionCost" Visible="true" Active="true">
-          <Text></Text>
+        <Button Name="btnBuildBomber" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Bomber</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildBomberClicked</OnClick>
           <Position>
-            <X>375</X>
-            <Y>185</Y>
+            <X>60</X>
+            <Y>240</Y>
           </Position>
-        </Label>
+        </Button>
 
         <Button Name="btnBuildRepairShip" Template="StandardButton" Visible="true" Active="true">
           <Label>
             <Text>Repair Ship</Text>
           </Label>
-          <OnClick></OnClick>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildRepairShipClicked</OnClick>
           <Position>
-            <X>50</X>
-            <Y>240</Y>
+            <X>60</X>
+            <Y>320</Y>
           </Position>
         </Button>
-
-        <Label Name="lblRepairShipCost" Template="ProductionCost" Visible="true" Active="true">
-          <Text>PLACEHOLDER</Text>
-          <Position>
-            <X>375</X>
-            <Y>265</Y>
-          </Position>
-        </Label>
 
         <Button Name="btnBuildMissileFrigate" Template="StandardButton" Visible="true" Active="true">
           <Label>
             <Text>Missile Frigate</Text>
           </Label>
-          <OnClick></OnClick>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildMissileFrigateClicked</OnClick>
           <Position>
-            <X>50</X>
-            <Y>320</Y>
+            <X>60</X>
+            <Y>400</Y>
           </Position>
         </Button>
-
-        <Label Name="lblMissileFrigateCost" Template="ProductionCost" Visible="true" Active="true">
-          <Text>PLACEHOLDER</Text>
-          <Position>
-            <X>375</X>
-            <Y>345</Y>
-          </Position>
-        </Label>
 
         <Button Name="btnBuildBeamFrigate" Template="StandardButton" Visible="true" Active="true">
           <Label>
             <Text>Beam Frigate</Text>
           </Label>
-          <OnClick></OnClick>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildBeamFrigateClicked</OnClick>
           <Position>
-            <X>50</X>
+            <X>410</X>
+            <Y>80</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildSupportCruiser" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Support Cruiser</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildSupportCruiserClicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>160</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildHeavyCruiser" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Heavy Cruiser</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildHeavyCruiserClicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>240</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildBattleship" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Battleship</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildBattleshipClicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>320</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildCarrier" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Carrier</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildCarrierClicked</OnClick>
+          <Position>
+            <X>410</X>
             <Y>400</Y>
           </Position>
         </Button>
 
-        <Label Name="lblBeamFrigateCost" Template="ProductionCost" Visible="true" Active="true">
-          <Text>PLACEHOLDER</Text>
+        <Label Name="lblProductionQueue" Template="DebugLabel">
+          <Text></Text>
           <Position>
-            <X>375</X>
-            <Y>425</Y>
+            <X>left</X>
+            <Y>bottom</Y>
           </Position>
+          <Offset>
+            <X>20</X>
+            <Y>-20</Y>
+          </Offset>
         </Label>
-        
-        <!-- ********** END PAGE 1 ********** -->
-        
-        <!-- ********** START PAGE 2 ********** -->
-        <!-- ********** END PAGE 2 ********** -->
-        
-        <!--
-        <ImageBox Name="imgMinerPanel">
-          <Position>
-            <X>25</X>
-            <Y>80</Y>
-          </Position>
-          <Size>
-            <Width>250</Width>
-            <Height>150</Height>
-          </Size>
-          <AssetName>UIPanel</AssetName>
-          <PreMultiplyAlpha>True</PreMultiplyAlpha>
-        </ImageBox>
-        -->
         
       </Widgets>
     </Frame> <!-- frmProduction -->

@@ -11,6 +11,7 @@ namespace GameCore.Entities
 {
     public class Asteroid : Entity
     {
+        public TexturePackerSprite ResourceSprite;
         public float RotationSpeed = 0.0f;
 
         public ResourceType ResourceType = ResourceType.None;

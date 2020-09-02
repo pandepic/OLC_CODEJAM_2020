@@ -88,6 +88,7 @@ namespace GameCore
                         {
                             newAsteroid.ResourceType = WorldData.ResourceTypes[WorldData.RNG.Next(0, WorldData.ResourceTypes.Count)];
                             newAsteroid.ResourceCount = WorldData.RNG.Next(50000, 100000);
+                            newAsteroid.ResourceSprite = TexturePacker.GetSprite("ResourcesAtlas", newAsteroid.ResourceType.ToString());
                         }
                     }
                 }

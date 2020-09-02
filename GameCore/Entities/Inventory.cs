@@ -36,9 +36,10 @@ namespace GameCore.Entities
 
         public void GiveAll(Inventory target)
         {
-            foreach (var kvp in Resources)
+            foreach (var res in WorldData.ResourceTypes)
             {
-                target.AddResource(kvp.Key, kvp.Value);
+                target.AddResource(res, Resources[res]);
+                Resources[res] = 0;
             }
         }
 
