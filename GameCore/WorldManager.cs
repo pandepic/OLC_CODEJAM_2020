@@ -99,20 +99,27 @@ namespace GameCore
             PlayerShips.Add(PlayerEntity);
             Ships.Add(PlayerEntity);
 
-            for (var i = 0; i < StartingMiners; i++)
-            {
-                GameplayState.UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
-            }
+            //for (var i = 0; i < StartingMiners; i++)
+            //{
+            //    GameplayState.UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
+            //}
 
-            for (var i = 0; i < 25; i++)
-            {
-                GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(500, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
-            }
+            //for (var i = 0; i < 250; i++)
+            //{
+            //    GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(500, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
+            //}
 
-            for (var i = 0; i < 25; i++)
-            {
-                GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(3000, 3000) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), PlayerEntity);
-            }
+            //for (var i = 0; i < 15; i++)
+            //{
+            //    GameplayState.UnitManager.SpawnShip(ShipType.Bomber, new Vector2(500, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
+            //}
+
+            //for (var i = 0; i < 350; i++)
+            //{
+            //    GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(3000, 3000) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), PlayerEntity);
+            //}
+
+            GameplayState.UnitManager.SpawnShip(ShipType.RepairShip, new Vector2(4500, 4500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), PlayerEntity);
         }
 
         ~WorldManager()
@@ -206,11 +213,15 @@ namespace GameCore
             return null;
         }
 
-        public Ship GetShipAtWorldPosition(Vector2 position, List<ShipType> filter = null)
+        public Ship GetShipAtWorldPosition(Vector2 position, bool playerShip = true, List<ShipType> filter = null)
         {
-            for (var i = 0; i < Ships.Count; i++)
+            var targets = PlayerShips;
+            if (!playerShip)
+                targets = EnemyShips;
+
+            for (var i = 0; i < targets.Count; i++)
             {
-                var ship = Ships[i];
+                var ship = targets[i];
 
                 if (ship.CollisionRect.Contains(position) && (filter == null || filter.Contains(ship.ShipType)))
                     return ship;

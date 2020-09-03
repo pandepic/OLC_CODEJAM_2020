@@ -76,6 +76,12 @@ namespace GameCore
         Turret
     }
 
+    public enum ProjectileDeathType
+    {
+        None,
+        Explosion,
+    }
+
     public static class Screen
     {
     }

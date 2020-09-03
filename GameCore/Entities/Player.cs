@@ -33,7 +33,7 @@ namespace GameCore.Entities
             LoadData();
             IsPlayerShip = true;
 
-            CurrentShieldHP = 0;
+            CurrentArmourHP = 500;
 
             BuildQueue = new List<BuildQueueItem>();
             Inventory = new Inventory();

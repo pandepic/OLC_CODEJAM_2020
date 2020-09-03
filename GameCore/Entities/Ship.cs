@@ -50,6 +50,8 @@ namespace GameCore.Entities
         public bool IsSelected = false;
         public Color SelectionColour = Color.Yellow;
 
+        public Dictionary<string, string> SpecialAttributes = new Dictionary<string, string>();
+
         public void LoadData()
         {
             IsPlayerShip = false;
@@ -59,10 +61,12 @@ namespace GameCore.Entities
             var data = EntityData.ShipTypes[ShipType];
             TargetType = data.TargetType;
             Sprite = TexturePacker.GetSprite("ShipsAtlas", data.Sprite);
-            Origin = new Vector2(Sprite.SourceRect.Width / 2, Sprite.SourceRect.Height / 2);
-            MoveSpeed = data.MoveSpeed;
-            TurnSpeed = data.TurnSpeed;
-            
+            BaseMoveSpeed = data.MoveSpeed;
+            BaseTurnSpeed = data.TurnSpeed;
+            MoveSpeed = BaseMoveSpeed;
+            TurnSpeed = BaseTurnSpeed;
+            CenterOrigin();
+
             BaseArmourHP = data.ArmourHP;
             BaseShieldHP = data.ShieldHP;
             BaseShieldRegenRate = data.ShieldRegenRate;
@@ -108,6 +112,8 @@ namespace GameCore.Entities
 
             ShieldSprite.Scale = shipSize / ShieldSprite.Width;
             ShieldRadius = ((ShieldSprite.Width * 0.9f) * ShieldSprite.Scale) / 2.0f;
+
+            SpecialAttributes = data.SpecialAttributes;
         }
 
         public void ActivateShield()
@@ -136,6 +142,13 @@ namespace GameCore.Entities
 
             CurrentShieldHP -= shieldDamage;
             CurrentArmourHP -= armourDamage;
+        }
+
+        public void RepairArmour(float amount)
+        {
+            CurrentArmourHP += amount;
+            if (CurrentArmourHP > BaseArmourHP)
+                CurrentArmourHP = BaseArmourHP;
         }
 
         public virtual void Update(GameTime gameTime)

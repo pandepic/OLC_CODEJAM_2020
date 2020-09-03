@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <ProjectileTypes>
-  <Type Name="Laser" Sprite="ProjectileSharp" MoveSpeed="1000" TurnSpeed="0" Lifetime="3000" Colour="#EE0000EE" />
+  <Type Name="SmallLaser" Sprite="ProjectileSharp" Scale="1" MoveSpeed="1000" TurnSpeed="0" Lifetime="3000" Colour="#EE0000EE" />
+  <Type Name="SmallMissile" Sprite="ProjectileSharp" Scale="1" MoveSpeed="800" TurnSpeed="500" Lifetime="4500" Colour="#EE0000EE" DeathType="Explosion" />
+  <Type Name="SmallTorpedo" Sprite="ProjectileSharp" Scale="2" MoveSpeed="600" TurnSpeed="300" Lifetime="6000" Colour="#EE0000EE" DeathType="Explosion" />
 </ProjectileTypes>

@@ -13,6 +13,7 @@ namespace GameCore.Entities
         public ShipType ShipType;
         public TargetType TargetType;
         public string Sprite;
+        public float Scale;
 
         public float MoveSpeed;
         public float TurnSpeed;
@@ -26,16 +27,19 @@ namespace GameCore.Entities
 
         public List<Weapon> Weapons;
         public List<ShipType> TargetPriorities;
+        public Dictionary<string, string> SpecialAttributes;
     }
 
     public struct ProjectileTypeData
     {
         public string ProjectileType;
+        public ProjectileDeathType DeathType;
         public string Sprite;
         public Color Colour;
         public float MoveSpeed;
         public float Lifetime;
         public float TurnSpeed;
+        public float Scale;
     }
 
     public static class EntityData
@@ -56,6 +60,7 @@ namespace GameCore.Entities
                         ShipType = el.Attribute("Name").Value.ToEnum<ShipType>(),
                         TargetType = el.Attribute("TargetType").Value.ToEnum<TargetType>(),
                         Sprite = el.Attribute("Sprite").Value,
+                        Scale = float.Parse(el.Attribute("Scale").Value),
                         MoveSpeed = float.Parse(el.Element("MoveSpeed").Value),
                         TurnSpeed = float.Parse(el.Element("TurnSpeed").Value),
                         ArmourHP = float.Parse(el.Element("ArmourHP").Value),
@@ -63,6 +68,7 @@ namespace GameCore.Entities
                         ShieldRegenRate = float.Parse(el.Element("ShieldRegenRate").Value),
                         BuildCost = new Dictionary<ResourceType, int>(),
                         Weapons = new List<Weapon>(),
+                        SpecialAttributes = new Dictionary<string, string>(),
                     };
 
                     var elBuildCost = el.Element("BuildCost");
@@ -109,6 +115,17 @@ namespace GameCore.Entities
                             newType.TargetPriorities.Add(priority.Attribute("Type").Value.ToEnum<ShipType>());
                     }
 
+                    var elSpecialAttributes = el.Element("SpecialAttributes");
+
+                    if (elSpecialAttributes != null)
+                    {
+                        foreach (var attr in elSpecialAttributes.Attributes())
+                        {
+                            newType.SpecialAttributes.Add(attr.Name.ToString(), attr.Value);
+                        }
+                    }
+
+                    Console.WriteLine("Loaded ship type: " + newType.ShipType.ToString());
                     ShipTypes.Add(newType.ShipType, newType);
                 }
 
@@ -121,14 +138,18 @@ namespace GameCore.Entities
 
                 foreach (var projectileType in doc.Root.Elements("Type"))
                 {
+                    var attDeathType = projectileType.Attribute("DeathType");
+
                     var newType = new ProjectileTypeData()
                     {
                         ProjectileType = projectileType.Attribute("Name").Value,
+                        DeathType = attDeathType == null ? ProjectileDeathType.None : attDeathType.Value.ToEnum<ProjectileDeathType>(),
                         Sprite = projectileType.Attribute("Sprite").Value,
                         Colour = PUIColorConversion.Instance.ToColor(projectileType.Attribute("Colour").Value),
                         MoveSpeed = float.Parse(projectileType.Attribute("MoveSpeed").Value),
                         TurnSpeed = float.Parse(projectileType.Attribute("TurnSpeed").Value),
                         Lifetime = float.Parse(projectileType.Attribute("Lifetime").Value),
+                        Scale = float.Parse(projectileType.Attribute("Scale").Value),
                     };
 
                     ProjectileTypes.Add(newType.ProjectileType, newType);

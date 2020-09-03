@@ -96,12 +96,13 @@ namespace GameCore
                 //spriteBatch.DrawString(Sprites.DefaultFont, asteroid.ResourceSprite.Texture, iconPosition, Color.White);
             }
 
-            if (!GameplayState.ShowDebug)
-                return;
-
             for (var i = 0; i < GameplayState.WorldManager.Ships.Count; i++)
             {
                 var ship = GameplayState.WorldManager.Ships[i];
+
+                if (ship.TargetType != TargetType.Large)
+                    continue;
+
                 var distance = Vector2.Distance(ship.Position, camPos);
 
                 if (distance > viewDistance)
@@ -195,6 +196,18 @@ namespace GameCore
                 case ShipType.Fighter:
                     {
                         newShip = new Fighter(owner, position);
+                    }
+                    break;
+
+                case ShipType.Bomber:
+                    {
+                        newShip = new Bomber(owner, position);
+                    }
+                    break;
+
+                case ShipType.RepairShip:
+                    {
+                        newShip = new RepairShip(owner, position);
                     }
                     break;
             }
@@ -342,7 +355,7 @@ namespace GameCore
                                     }
                                     else
                                     {
-                                        var homeShip = GameplayState.WorldManager.GetShipAtWorldPosition(mouseWorldPos, new List<ShipType>() { ShipType.HomeShip });
+                                        var homeShip = GameplayState.WorldManager.GetShipAtWorldPosition(mouseWorldPos, true, new List<ShipType>() { ShipType.HomeShip });
 
                                         if (homeShip != null)
                                         {
@@ -374,6 +387,48 @@ namespace GameCore
                                         foreach (Fighter fighter in kvp.Value)
                                         {
                                             AIHelper.SmallDefendPosition(fighter, mouseWorldPos);
+                                        }
+                                    }
+                                }
+                                break;
+
+                            case ShipType.Bomber:
+                                {
+                                    var newDefendTarget = GameplayState.WorldManager.GetShipAtWorldPosition(mouseWorldPos);
+
+                                    if (newDefendTarget != null)
+                                    {
+                                        foreach (Bomber bomber in kvp.Value)
+                                        {
+                                            AIHelper.SmallDefendTarget(bomber, newDefendTarget);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (Bomber bomber in kvp.Value)
+                                        {
+                                            AIHelper.SmallDefendPosition(bomber, mouseWorldPos);
+                                        }
+                                    }
+                                }
+                                break;
+
+                            case ShipType.RepairShip:
+                                {
+                                    var newDefendTarget = GameplayState.WorldManager.GetShipAtWorldPosition(mouseWorldPos);
+
+                                    if (newDefendTarget != null)
+                                    {
+                                        foreach (RepairShip repairShip in kvp.Value)
+                                        {
+                                            AIHelper.DefendTarget(repairShip, newDefendTarget);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (RepairShip repairShip in kvp.Value)
+                                        {
+                                            AIHelper.DefendPosition(repairShip, mouseWorldPos);
                                         }
                                     }
                                 }

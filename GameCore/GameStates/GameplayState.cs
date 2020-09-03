@@ -61,12 +61,12 @@ namespace GameCore
 
         protected void BuildBomber(params object[] args)
         {
-            //WorldManager.PlayerEntity.BuildShip(ShipType.Bomber);
+            WorldManager.PlayerEntity.BuildShip(ShipType.Bomber);
         }
 
         protected void BuildRepairShip(params object[] args)
         {
-            //WorldManager.PlayerEntity.BuildShip(ShipType.RepairShip);
+            WorldManager.PlayerEntity.BuildShip(ShipType.RepairShip);
         }
 
         protected void BuildMissileFrigate(params object[] args)
@@ -125,7 +125,9 @@ namespace GameCore
             var shipTypes = new List<ShipType>()
             {
                 ShipType.Miner,
-                ShipType.Fighter
+                ShipType.Fighter,
+                ShipType.Bomber,
+                ShipType.RepairShip,
             };
 
             foreach (var type in shipTypes)
@@ -365,7 +367,7 @@ namespace GameCore
             }
             else if (key == Keys.P)
             {
-                WorldManager.PlayerEntity.Inventory.AddAll(100);
+                WorldManager.PlayerEntity.Inventory.AddAll(1000);
             }
             else if (key == Keys.B)
             {

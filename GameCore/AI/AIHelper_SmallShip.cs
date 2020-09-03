@@ -105,13 +105,13 @@ namespace GameCore.AI
 
                 case ShipPatrolFollowState patrolFollow:
                     {
-                        ScanForTarget(ship, gameTime);
+                        SmallAttackingScanForTarget(ship, gameTime);
                     }
                     break;
 
                 case ShipPatrolPositionState patrolPosition:
                     {
-                        ScanForTarget(ship, gameTime);
+                        SmallAttackingScanForTarget(ship, gameTime);
                     }
                     break;
             }

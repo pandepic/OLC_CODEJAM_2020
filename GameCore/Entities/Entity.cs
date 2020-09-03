@@ -14,6 +14,7 @@ namespace GameCore.Entities
         public Vector2 Position, Velocity, Origin;
         public float Rotation = 0.0f, TargetRotation = 0.0f;
         public float Scale = 1.0f;
+        public float BaseMoveSpeed, BaseTurnSpeed;
         public float MoveSpeed, TurnSpeed;
 
         public Vector2 CollisionPos
@@ -28,7 +29,23 @@ namespace GameCore.Entities
         {
             get
             {
-                return new Rectangle((int)Position.X - (int)Origin.X, (int)Position.Y - (int)Origin.Y, Sprite.SourceRect.Width, Sprite.SourceRect.Height);
+                return new Rectangle((int)Position.X - (int)Origin.X, (int)Position.Y - (int)Origin.Y, Width, Height);
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return (int)(Sprite.SourceRect.Width * Scale);
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return (int)(Sprite.SourceRect.Height * Scale);
             }
         }
 
@@ -36,6 +53,11 @@ namespace GameCore.Entities
 
         public virtual void Reset()
         {
+        }
+
+        public void CenterOrigin()
+        {
+            Origin = new Vector2(Width / 2, Height / 2);
         }
 
         public void ApplyMovement(GameTime gameTime)

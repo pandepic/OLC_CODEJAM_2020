@@ -1,4 +1,5 @@
-﻿using GameCore.Entities;
+﻿using GameCore.Combat;
+using GameCore.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PandaMonogame;
@@ -69,21 +70,21 @@ namespace GameCore
             }
         }
 
-        public void AddExplosion(Ship ship)
+        public void AddExplosion(Entity entity)
         {
-            var scaleBy = (float)ship.Sprite.SourceRect.Width;
-            if (ship.Sprite.SourceRect.Height > scaleBy)
-                scaleBy = (float)ship.Sprite.SourceRect.Height;
+            var scaleBy = (float)entity.Sprite.SourceRect.Width;
+            if (entity.Sprite.SourceRect.Height > scaleBy)
+                scaleBy = (float)entity.Sprite.SourceRect.Height;
 
             var newExplosion = ExplosionEffects.New();
             newExplosion.Sprite = new Sprite(ExplosionSprite.Texture);
             newExplosion.Duration = ExplosionDuration;
-            newExplosion.Scale = ((float)ExplosionSprite.SourceRect.Width / scaleBy) * 1.2f;
-            newExplosion.Position = ship.Position;
+            newExplosion.Scale = scaleBy / (float)ExplosionSprite.SourceRect.Width;
+            newExplosion.Position = entity.Position;
 
             newExplosion.Sprite.SourceRect = ExplosionSprite.SourceRect;
             newExplosion.Sprite.Center = new Vector2(ExplosionSprite.SourceRect.Width / 2, ExplosionSprite.SourceRect.Height / 2);
-            newExplosion.Sprite.Colour = Color.MonoGameOrange;
+            newExplosion.Sprite.Colour = Color.OrangeRed;
             newExplosion.Sprite.Colour.A = 0;
 
             newExplosion.Sprite.BeginFadeEffect(200, (ExplosionDuration / 2));

@@ -13,11 +13,13 @@ namespace GameCore.Combat
     public class Projectile : Entity
     {
         public string ProjectileType = "";
+        public ProjectileDeathType DeathType = ProjectileDeathType.None;
         public TargetType TargetType;
         public float Lifetime;
         public bool IsPlayerProjectile;
         public float Damage;
         public Color Colour;
+        public Ship Target;
 
         public Projectile() { }
 
@@ -26,11 +28,13 @@ namespace GameCore.Combat
             ProjectileType = type;
 
             var data = EntityData.ProjectileTypes[ProjectileType];
+            DeathType = data.DeathType;
             MoveSpeed = data.MoveSpeed;
             TurnSpeed = data.TurnSpeed;
             Lifetime = data.Lifetime;
             Colour = data.Colour;  
             Sprite = TexturePacker.GetSprite("ParticlesAtlas", data.Sprite);
+            Scale = data.Scale;
         }
 
         public override void Reset()
@@ -60,15 +64,21 @@ namespace GameCore.Combat
             newProjectile.Damage = damage;
             newProjectile.Position = source.Position; // todo : offset by ship type
             newProjectile.IsPlayerProjectile = source.IsPlayerShip;
+            newProjectile.CenterOrigin();
 
             // todo : lead target based on speed
             newProjectile.TargetRotation = AIHelper.GetAngleToTarget(source.Position, source.Rotation, target.Position);
 
             if (newProjectile.TurnSpeed == 0)
+            {
                 newProjectile.Rotation = newProjectile.TargetRotation;
+            }
             else
+            {
                 newProjectile.Rotation = source.Rotation;
-
+                newProjectile.Target = target;
+                newProjectile.TargetRotation = AIHelper.GetAngleToTarget(newProjectile.Position, newProjectile.Rotation, newProjectile.Target.Position);
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -84,6 +94,9 @@ namespace GameCore.Combat
                     DeadProjectiles.Add(projectile);
                     continue;
                 }
+
+                if (projectile.Target != null && projectile.TurnSpeed > 0)
+                    projectile.TargetRotation = AIHelper.GetAngleToTarget(projectile.Position, projectile.Rotation, projectile.Target.Position);
 
                 projectile.ApplyMovement(gameTime);
 
@@ -115,7 +128,14 @@ namespace GameCore.Combat
             }
 
             for (var i = 0; i < DeadProjectiles.Count; i++)
-                Projectiles.Delete(DeadProjectiles[i]);
+            {
+                var projectile = DeadProjectiles[i];
+
+                if (projectile.DeathType == ProjectileDeathType.Explosion)
+                    GameplayState.EffectsManager.AddExplosion(projectile);
+
+                Projectiles.Delete(projectile);
+            }
 
             DeadProjectiles.Clear();
         }

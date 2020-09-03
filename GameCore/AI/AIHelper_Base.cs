@@ -72,6 +72,43 @@ namespace GameCore.AI
             return newTarget;
         } // FindClosestEnemyByPriority
 
+        public static Ship FindClosestDamagedFriend(Ship ship, TargetType targetType = TargetType.Large)
+        {
+            Ship newTarget = null;
+            float distance = 0.0f;
+
+            var targetList = GameplayState.WorldManager.PlayerShips;
+            if (!ship.IsPlayerShip)
+                targetList = GameplayState.WorldManager.EnemyShips;
+
+            for (var i = 0; i < targetList.Count; i++)
+            {
+                var possibleTarget = targetList[i];
+
+                if (possibleTarget.TargetType != targetType)
+                    continue;
+
+                if (possibleTarget.CurrentArmourHP >= possibleTarget.BaseArmourHP)
+                    continue;
+
+                if (ship.DefendTarget != null && Vector2.Distance(ship.DefendTarget.Position, possibleTarget.Position) > ship.DefenceRadius)
+                    continue;
+
+                if (ship.DefendPosition.HasValue && Vector2.Distance(ship.DefendPosition.Value, possibleTarget.Position) > ship.DefenceRadius)
+                    continue;
+
+                var testDistance = Vector2.Distance(ship.Position, possibleTarget.Position);
+
+                if (newTarget == null || testDistance < distance)
+                {
+                    newTarget = possibleTarget;
+                    distance = testDistance;
+                }
+            }
+
+            return newTarget;
+        }
+
         public static float GetAngleToTarget(Vector2 position, float rotation, Vector2 target)
         {
             var angle = MathHelper.ToDegrees(MathF.Atan2((target.X - position.X), (position.Y - target.Y)));
@@ -99,7 +136,7 @@ namespace GameCore.AI
                 return null;
         } // GetShipDefendTargetPosition
 
-        public static void ScanForTarget(Ship ship, GameTime gameTime)
+        public static void SmallAttackingScanForTarget(Ship ship, GameTime gameTime)
         {
             ship.NextDefendScan -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
@@ -111,6 +148,26 @@ namespace GameCore.AI
                     ship.NextDefendScan = ship.DefendScanFrequency;
             }
         } // ScanForTarget
+
+        public static void DefendTarget(Ship ship, Ship target)
+        {
+            ship.DefendPosition = null;
+            ship.DefendTarget = target;
+
+            var follow = ship.StateMachine.GetState<ShipFollowingState>();
+            follow.Target = ship.DefendTarget;
+            ship.SetState(follow);
+        } // SmallDefendTarget
+
+        public static void DefendPosition(Ship ship, Vector2 position)
+        {
+            ship.DefendTarget = null;
+            ship.DefendPosition = position;
+
+            var followPosition = ship.StateMachine.GetState<ShipFollowPositionState>();
+            followPosition.Target = ship.DefendPosition.Value;
+            ship.SetState(followPosition);
+        } // SmallDefendPosition
 
     } // AIHelper
 }
