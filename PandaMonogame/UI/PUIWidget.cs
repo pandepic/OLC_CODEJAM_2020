@@ -324,7 +324,7 @@ namespace PandaMonogame.UI
                 PUITooltipManager.AddTextTooltip(Tooltip, Tooltip, enableImages: enableTooltipImages);
 
             if (PandaMonogameConfig.Logging)
-                Console.WriteLine("New widget [type:" + this.GetType().Name + "] [active:" + Active + "] [visible:" + Visible + "]");
+                Console.WriteLine("New widget " + Name + " [type:" + this.GetType().Name + "] [active:" + Active + "] [visible:" + Visible + "]");
 
         } // loadStandardXML
 

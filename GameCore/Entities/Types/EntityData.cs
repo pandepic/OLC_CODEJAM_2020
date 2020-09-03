@@ -2,6 +2,7 @@
 using PandaMonogame;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Xml.Linq;
 
@@ -110,9 +111,9 @@ namespace GameCore.Entities
 
                     ShipTypes.Add(newType.ShipType, newType);
                 }
-            } // load ship types
 
-            Console.WriteLine("Loaded ship types.");
+                Console.WriteLine("Loaded ship types: " + ((FileStream)fs).Name);
+            } // load ship types
 
             using (var fs = ModManager.Instance.AssetManager.GetFileStreamByAsset("ProjectileTypes"))
             {
@@ -132,9 +133,9 @@ namespace GameCore.Entities
 
                     ProjectileTypes.Add(newType.ProjectileType, newType);
                 }
-            } // load projectile types
 
-            Console.WriteLine("Loaded projectile types.");
+                Console.WriteLine("Loaded projectile types: " + ((FileStream)fs).Name);
+            } // load projectile types
 
         } // Load
     }

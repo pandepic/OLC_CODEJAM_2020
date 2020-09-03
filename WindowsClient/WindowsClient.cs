@@ -47,7 +47,7 @@ namespace WindowsClient
             Content.RootDirectory = "";
             IsMouseVisible = true;
 
-            //PandaMonogameConfig.Logging = true;
+            PandaMonogameConfig.Logging = true;
 
             ModManager.Instance.Init(Content);
             ModManager.Instance.LoadList("Mods", "mods.xml", "assets.xml");

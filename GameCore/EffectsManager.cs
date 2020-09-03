@@ -83,7 +83,7 @@ namespace GameCore
 
             newExplosion.Sprite.SourceRect = ExplosionSprite.SourceRect;
             newExplosion.Sprite.Center = new Vector2(ExplosionSprite.SourceRect.Width / 2, ExplosionSprite.SourceRect.Height / 2);
-            newExplosion.Sprite.Colour = Color.OrangeRed;
+            newExplosion.Sprite.Colour = Color.MonoGameOrange;
             newExplosion.Sprite.Colour.A = 0;
 
             newExplosion.Sprite.BeginFadeEffect(200, (ExplosionDuration / 2));
