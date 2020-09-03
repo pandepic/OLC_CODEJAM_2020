@@ -27,6 +27,8 @@ namespace GameCore
 
     public class EffectsManager
     {
+        public const float ExplosionDuration = 2000.0f;
+
         public TexturePackerSprite ExplosionSprite;
         public List<ExplosionEffect> DeadExplosionEffects = new List<ExplosionEffect>();
 
@@ -45,14 +47,17 @@ namespace GameCore
                 explosion.Sprite.Update(gameTime);
                 explosion.Duration -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-                if (explosion.Duration <= 1000)
-                    explosion.Sprite.BeginFadeEffect(0, 1000);
-                else if (explosion.Duration <= 0)
+                if (!explosion.Sprite.IsFading)
+                    explosion.Sprite.BeginFadeEffect(0, (ExplosionDuration / 2));
+
+                if (explosion.Duration <= 0)
                     DeadExplosionEffects.Add(explosion);
             }
 
             foreach (var e in DeadExplosionEffects)
                 ExplosionEffects.Delete(e);
+
+            DeadExplosionEffects.Clear();
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -72,7 +77,7 @@ namespace GameCore
 
             var newExplosion = ExplosionEffects.New();
             newExplosion.Sprite = new Sprite(ExplosionSprite.Texture);
-            newExplosion.Duration = 2000;
+            newExplosion.Duration = ExplosionDuration;
             newExplosion.Scale = ((float)ExplosionSprite.SourceRect.Width / scaleBy) * 1.2f;
             newExplosion.Position = ship.Position;
 
@@ -81,7 +86,7 @@ namespace GameCore
             newExplosion.Sprite.Colour = Color.OrangeRed;
             newExplosion.Sprite.Colour.A = 0;
 
-            newExplosion.Sprite.BeginFadeEffect(200, 1000);
+            newExplosion.Sprite.BeginFadeEffect(200, (ExplosionDuration / 2));
         }
     }
 }
