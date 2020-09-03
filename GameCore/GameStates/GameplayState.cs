@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PandaMonogame;
+using PandaMonogame.Assets;
 using PandaMonogame.UI;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace GameCore
         public static WorldManager WorldManager;
         public static UnitManager UnitManager;
         public static ProjectileManager ProjectileManager;
+        public static EffectsManager EffectsManager;
 
         protected bool _mouseDragging = false;
         protected Vector2 _mouseDragPosition = Vector2.Zero;
@@ -127,6 +129,7 @@ namespace GameCore
             _currentZoomLevel = _zoomLevels.IndexOf(0.5f);
             Camera.Zoom = _zoomLevels[_currentZoomLevel];
 
+            EffectsManager = new EffectsManager();
             UnitManager = new UnitManager();
             WorldManager = new WorldManager();
             ProjectileManager = new ProjectileManager();
@@ -182,6 +185,7 @@ namespace GameCore
             WorldManager.Update(gameTime);
             UnitManager.Update(gameTime);
             ProjectileManager.Update(gameTime);
+            EffectsManager.Update(gameTime);
 
             return _nextGameState;
         }
@@ -200,6 +204,7 @@ namespace GameCore
             // world space
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp, transformMatrix: Camera.GetViewMatrix());
             {
+                EffectsManager.Draw(spriteBatch);
                 WorldManager.DrawWorld(spriteBatch);
                 UnitManager.DrawWorld(spriteBatch);
                 ProjectileManager.Draw(spriteBatch);

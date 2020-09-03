@@ -218,6 +218,8 @@ namespace GameCore
             GameplayState.WorldManager.EnemyShips.Remove(ship);
             GameplayState.WorldManager.Ships.Remove(ship);
 
+            GameplayState.EffectsManager.AddExplosion(ship);
+
             if (ship.IsSelected)
             {
                 SelectedShips.Remove(ship);

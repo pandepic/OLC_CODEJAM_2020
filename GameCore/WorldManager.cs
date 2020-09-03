@@ -14,8 +14,8 @@ namespace GameCore
         public static int StartingMiners = 2;
         public static int WorldWidth = 50000;
         public static int WorldHeight = 50000;
-        public static int AsteroidRegionWidth = 250;
-        public static int AsteroidRegionHeight = 250;
+        public static int AsteroidRegionWidth = 500;
+        public static int AsteroidRegionHeight = 500;
         public static Vector2 PlayerStartPosition = new Vector2(5000, 5000);
 
         public ObjectPool<Asteroid> Asteroids;
@@ -104,12 +104,12 @@ namespace GameCore
                 GameplayState.UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
             }
 
-            for (var i = 0; i < 350; i++)
+            for (var i = 0; i < 25; i++)
             {
                 GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(500, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
             }
 
-            for (var i = 0; i < 550; i++)
+            for (var i = 0; i < 25; i++)
             {
                 GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(3000, 3000) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), PlayerEntity);
             }

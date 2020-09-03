@@ -25,7 +25,7 @@ namespace PandaMonogame.Assets
     {
         public static Dictionary<string, TexturePackerAsset> Assets = new Dictionary<string, TexturePackerAsset>();
 
-        public static void LoadAsset(GraphicsDevice graphics, string assetName)
+        public static void LoadAsset(GraphicsDevice graphics, string assetName, bool premultiplyAlpha = false)
         {
             using (var fs = ModManager.Instance.AssetManager.GetFileStreamByAsset(assetName))
             {
@@ -35,7 +35,7 @@ namespace PandaMonogame.Assets
 
                 var doc = XDocument.Load(fs);
 
-                asset.Texture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, doc.Root.Attribute("AssetName").Value);
+                asset.Texture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, doc.Root.Attribute("AssetName").Value, premultiplyAlpha);
 
                 foreach (var elSprite in doc.Root.Elements("Sprite"))
                 {

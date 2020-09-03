@@ -103,26 +103,17 @@ namespace GameCore
     public static class Sprites
     {
         public static Texture2D ShieldTexture = null;
-        public static Texture2D AsteroidsTexture = null;
-        public static Texture2D ShipsTexture = null;
-        public static Texture2D ParticlesTexture = null;
-        public static Texture2D ResourcesTexture = null;
         public static DynamicSpriteFont DefaultFont = null;
         public static Color EnemyColour = Color.MediumPurple;
 
         public static void Load(GraphicsDevice graphics)
         {
-            TexturePacker.LoadAsset(graphics, "AsteroidsAtlas");
-            TexturePacker.LoadAsset(graphics, "ShipsAtlas");
-            TexturePacker.LoadAsset(graphics, "ParticlesAtlas");
-            TexturePacker.LoadAsset(graphics, "ResourcesAtlas");
+            TexturePacker.LoadAsset(graphics, "AsteroidsAtlas", true);
+            TexturePacker.LoadAsset(graphics, "ShipsAtlas", true);
+            TexturePacker.LoadAsset(graphics, "ParticlesAtlas", true);
+            TexturePacker.LoadAsset(graphics, "ResourcesAtlas", false);
 
-            AsteroidsTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "AsteroidsTexture");
-            ShipsTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "ShipsTexture");
             ShieldTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Shield", true);
-            ParticlesTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "ParticlesTexture", true);
-            ResourcesTexture = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "ResourcesTexture", true);
-
             DefaultFont = ModManager.Instance.AssetManager.LoadDynamicSpriteFont("latoblack");
         }
     }
