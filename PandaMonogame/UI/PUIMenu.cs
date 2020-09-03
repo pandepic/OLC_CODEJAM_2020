@@ -311,6 +311,8 @@ namespace PandaMonogame.UI
         
         public void Update(GameTime gameTime)
         {
+            PUITooltipManager.SetActiveTooltip("");
+
             foreach (var script in Scripts)
             {
                 script.Value.Scope.SetVariable("MouseState", Mouse.GetState());

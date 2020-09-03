@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PandaMonogame;
+using PandaMonogame.UI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -71,6 +72,7 @@ namespace WindowsClient
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Sprites.Load(GraphicsDevice);
+            PUITooltipManager.Setup(GraphicsDevice, Sprites.DefaultFont);
             WorldData.Load();
             EntityData.Load();
 

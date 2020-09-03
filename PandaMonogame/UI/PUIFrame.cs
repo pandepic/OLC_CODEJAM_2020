@@ -356,6 +356,16 @@ namespace PandaMonogame.UI
         public virtual void Update(GameTime gameTime)
         {
             Widgets.Update(gameTime);
+
+            var mousePos = MouseManager.GetMousePosition();
+
+            for (var i = 0; i < Widgets.Widgets.Count; i++)
+            {
+                var widget = Widgets.Widgets[i];
+
+                if (widget.PointInsideWidget(mousePos - Position) && widget.Tooltip.Length > 0)
+                    PUITooltipManager.SetActiveTooltip(widget.Tooltip);
+            }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

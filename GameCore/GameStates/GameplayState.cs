@@ -142,7 +142,7 @@ namespace GameCore
 
         public override int Update(GameTime gameTime)
         {
-            var mousePosition = Screen.GetMousePosition();
+            var mousePosition = MouseManager.GetMousePosition();
             var mouseWorldPos = Camera.ScreenToWorldPosition(mousePosition);
             var centerWorldPos = Camera.ScreenToWorldPosition(WorldManager.ScreenCenter);
 
@@ -216,13 +216,14 @@ namespace GameCore
             {
                 UnitManager.DrawScreen(spriteBatch);
                 _menu.Draw(spriteBatch);
+                PUITooltipManager.Draw(spriteBatch);
             }
             spriteBatch.End();
         }
 
         public override void OnMouseMoved(Vector2 originalPosition, GameTime gameTime)
         {
-            var mousePosition = Screen.GetMousePosition();
+            var mousePosition = MouseManager.GetMousePosition();
 
             _menu.OnMouseMoved(originalPosition, gameTime);
 
@@ -242,7 +243,7 @@ namespace GameCore
 
         public override void OnMouseDown(MouseButtonID button, GameTime gameTime)
         {
-            var mousePosition = Screen.GetMousePosition();
+            var mousePosition = MouseManager.GetMousePosition();
             
             _menu.OnMouseDown(button, gameTime);
 
@@ -260,7 +261,7 @@ namespace GameCore
 
         public override void OnMouseClicked(MouseButtonID button, GameTime gameTime)
         {
-            var mousePosition = Screen.GetMousePosition();
+            var mousePosition = MouseManager.GetMousePosition();
 
             _menu.OnMouseClicked(button, gameTime);
 

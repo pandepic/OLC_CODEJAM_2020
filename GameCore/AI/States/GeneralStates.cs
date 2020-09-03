@@ -126,6 +126,9 @@ namespace GameCore.AI
 
             foreach (var weapon in ParentShip.Weapons)
             {
+                if (weapon.TargetType != Target.TargetType)
+                    continue;
+
                 if (Vector2.Distance(Target.Position, ParentShip.Position) <= weapon.Range && weapon.CurrentCooldown <= 0)
                 {
                     var angle = MathF.Abs(ParentShip.GetAngleToTarget(Target.Position) - ParentShip.Rotation);

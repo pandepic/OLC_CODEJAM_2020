@@ -42,6 +42,9 @@ namespace PandaMonogame.UI
                     Width = GetXMLAttribute<int>("SourceRect", "Width"),
                     Height = GetXMLAttribute<int>("SourceRect", "Height"),
                 };
+
+                Width = _sourceRect.Width;
+                Height = _sourceRect.Height;
             }
         }
 

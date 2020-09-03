@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PandaMonogame.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,7 @@ namespace PandaMonogame
         public static void Cleanup()
         {
             LayeredSprite.Cleanup();
+            PUITooltipManager.Clear();
         }
 
         // https://stackoverflow.com/questions/3502493/is-there-any-generic-parse-function-that-will-convert-a-string-to-any-type-usi/3502523

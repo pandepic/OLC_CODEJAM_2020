@@ -78,6 +78,7 @@ namespace GameCore.Entities
                 Weapons.Add(new Weapon()
                 {
                     ProjectileType = weapon.ProjectileType,
+                    TargetType = weapon.TargetType,
                     Range = weapon.Range,
                     Cooldown = weapon.Cooldown,
                     Damage = weapon.Damage,

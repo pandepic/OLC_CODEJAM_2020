@@ -89,6 +89,7 @@ namespace GameCore.Entities
                             newType.Weapons.Add(new Weapon()
                             {
                                 ProjectileType = elWeapon.Attribute("ProjectileType").Value,
+                                TargetType = elWeapon.Attribute("TargetType").Value.ToEnum<TargetType>(),
                                 Range = float.Parse(elWeapon.Attribute("Range").Value),
                                 Cooldown = float.Parse(elWeapon.Attribute("Cooldown").Value),
                                 Damage = float.Parse(elWeapon.Attribute("Damage").Value),

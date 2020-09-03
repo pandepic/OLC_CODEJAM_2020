@@ -46,7 +46,7 @@ namespace PandaMonogame.UI
         public int DrawOrder { get; set; } = 0;
         public bool Visible { get; set; } = false;
         public bool Active { get; set; } = false;
-
+        public string Tooltip { get; set; } = "";
 
         protected WidgetPositionFlags _positionFlags = new WidgetPositionFlags();
 
@@ -316,6 +316,10 @@ namespace PandaMonogame.UI
             DrawOrder = GetXMLAttribute("DrawOrder") == null ? 0 : int.Parse(GetXMLAttribute("DrawOrder").Value);
             Visible = (GetXMLAttribute("Visible") != null ? Convert.ToBoolean(GetXMLAttribute("Visible").Value) : true);
             Active = (GetXMLAttribute("Active") != null ? Convert.ToBoolean(GetXMLAttribute("Active").Value) : true);
+            Tooltip = GetXMLAttribute("Tooltip") == null ? "" : GetXMLAttribute("Tooltip").Value;
+
+            if (Tooltip.Length > 0 && (GetXMLAttribute("TextTooltip") == null || Convert.ToBoolean(GetXMLAttribute("TextTooltip").Value) == true))
+                PUITooltipManager.AddTextTooltip(Tooltip, Tooltip);
 
             if (PandaMonogameConfig.Logging)
                 Console.WriteLine("New widget [type:" + this.GetType().Name + "] [active:" + Active + "] [visible:" + Visible + "]");
@@ -355,13 +359,13 @@ namespace PandaMonogame.UI
             if (_widgetRect.Width == 0 && _widgetRect.Height == 0)
                 return false;
 
-            if (point.X < _widgetRect.X)
+            if (point.X < (_widgetRect.X + _offset.X))
                 return false;
-            if (point.Y < _widgetRect.Y)
+            if (point.Y < (_widgetRect.Y + _offset.Y))
                 return false;
-            if (point.X > (_widgetRect.X + _widgetRect.Width))
+            if (point.X > ((_widgetRect.X + _offset.X) + _widgetRect.Width))
                 return false;
-            if (point.Y > (_widgetRect.Y + _widgetRect.Height))
+            if (point.Y > ((_widgetRect.Y + _offset.Y) + _widgetRect.Height))
                 return false;
 
             return true;

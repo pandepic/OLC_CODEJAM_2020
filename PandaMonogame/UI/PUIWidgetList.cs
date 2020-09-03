@@ -16,6 +16,7 @@ namespace PandaMonogame.UI
     public class PUIWidgetList
     {
         protected List<PUIWidget> _widgets = new List<PUIWidget>();
+        public List<PUIWidget> Widgets { get => _widgets; }
 
         public PUIWidgetList()
         {

@@ -234,7 +234,7 @@ namespace GameCore
 
         public void OnMouseMoved(Vector2 originalPosition, GameTime gameTime)
         {
-            var mousePosition = Screen.GetMousePosition();
+            var mousePosition = MouseManager.GetMousePosition();
 
             if (Dragging)
             {
@@ -296,7 +296,7 @@ namespace GameCore
 
                 if (DragRectWorldSpace.Width == 0 && DragRectWorldSpace.Height == 0)
                 {
-                    var mousePosition = Screen.GetMousePosition();
+                    var mousePosition = MouseManager.GetMousePosition();
                     var mouseWorldPos = GameplayState.Camera.ScreenToWorldPosition(mousePosition);
 
                     DragRectWorldSpace.X = (int)mouseWorldPos.X;
@@ -313,7 +313,7 @@ namespace GameCore
 
             if (button == MouseButtonID.Right)
             {
-                var mousePosition = Screen.GetMousePosition();
+                var mousePosition = MouseManager.GetMousePosition();
                 var mouseWorldPos = GameplayState.Camera.ScreenToWorldPosition(mousePosition);
 
                 if (SelectedShips.Count == 0)

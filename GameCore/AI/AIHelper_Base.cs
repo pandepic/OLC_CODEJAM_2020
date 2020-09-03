@@ -43,6 +43,17 @@ namespace GameCore.AI
                 if (possibleTarget.ShipType != priority)
                     continue;
 
+                var weaponMatched = false;
+
+                foreach (var weapon in ship.Weapons)
+                {
+                    if (weapon.TargetType == possibleTarget.TargetType)
+                        weaponMatched = true;
+                }
+
+                if (!weaponMatched)
+                    continue;
+
                 if (ship.Stance == ShipStance.Defensive && (ship.DefendTarget != null && Vector2.Distance(ship.DefendTarget.Position, possibleTarget.Position) > ship.DefenceRadius))
                     continue;
 

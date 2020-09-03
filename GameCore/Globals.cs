@@ -69,13 +69,15 @@ namespace GameCore
         Large,
     }
 
+    public enum MountType
+    {
+        None,
+        Fixed,
+        Turret
+    }
+
     public static class Screen
     {
-        public static Vector2 GetMousePosition()
-        {
-            var mouseState = Mouse.GetState();
-            return new Vector2(mouseState.Position.X, mouseState.Position.Y);
-        }
     }
 
     public static class WorldData
