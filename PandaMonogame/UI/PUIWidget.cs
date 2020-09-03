@@ -318,8 +318,10 @@ namespace PandaMonogame.UI
             Active = (GetXMLAttribute("Active") != null ? Convert.ToBoolean(GetXMLAttribute("Active").Value) : true);
             Tooltip = GetXMLAttribute("Tooltip") == null ? "" : GetXMLAttribute("Tooltip").Value;
 
+            var enableTooltipImages = (GetXMLAttribute("EnableTooltipImages") != null ? Convert.ToBoolean(GetXMLAttribute("EnableTooltipImages").Value) : false);
+
             if (Tooltip.Length > 0 && (GetXMLAttribute("TextTooltip") == null || Convert.ToBoolean(GetXMLAttribute("TextTooltip").Value) == true))
-                PUITooltipManager.AddTextTooltip(Tooltip, Tooltip);
+                PUITooltipManager.AddTextTooltip(Tooltip, Tooltip, enableImages: enableTooltipImages);
 
             if (PandaMonogameConfig.Logging)
                 Console.WriteLine("New widget [type:" + this.GetType().Name + "] [active:" + Active + "] [visible:" + Visible + "]");
@@ -370,5 +372,11 @@ namespace PandaMonogame.UI
 
             return true;
         } // pointInsideWidget
+
+        public void SetTooltip(string name, string text, bool enableImages = false)
+        {
+            Tooltip = name;
+            PUITooltipManager.AddTextTooltip(name, text, enableImages: enableImages);
+        }
     }
 }
