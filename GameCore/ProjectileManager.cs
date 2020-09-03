@@ -101,12 +101,10 @@ namespace GameCore.Combat
                     if (target.TargetType != projectile.TargetType)
                         continue;
 
-                    //if (target.IsShieldActive)
-                    //    collision = Vector2.Distance(projectile.Position, target.Position) <= (target.ShieldRadius * 0.8f);
-                    //else
-                    //    collision = projectile.CollisionRect.Intersects(target.CollisionRect);
-
-                    collision = Vector2.Distance(projectile.Position, target.Position) <= (target.ShieldRadius * 0.5f);
+                    if (target.IsShieldActive)
+                        collision = Vector2.Distance(projectile.Position, target.Position) <= target.ShieldRadius;
+                    else
+                        collision = Vector2.Distance(projectile.Position, target.Position) <= (target.ShieldRadius * 0.8f);
 
                     if (collision)
                     {

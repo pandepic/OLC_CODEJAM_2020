@@ -107,7 +107,7 @@ namespace GameCore.Entities
             shipSize *= 1.4f;
 
             ShieldSprite.Scale = shipSize / ShieldSprite.Width;
-            ShieldRadius = ShieldSprite.Width * ShieldSprite.Scale;
+            ShieldRadius = ((ShieldSprite.Width * 0.9f) * ShieldSprite.Scale) / 2.0f;
         }
 
         public void ActivateShield()
