@@ -122,6 +122,41 @@ namespace GameCore
             _lblCrystal = _menu.GetWidget<PUIWLabel>("lblCrystal");
             _lblUranium = _menu.GetWidget<PUIWLabel>("lblUranium");
 
+            var shipTypes = new List<ShipType>()
+            {
+                ShipType.Miner,
+                ShipType.Fighter
+            };
+
+            foreach (var type in shipTypes)
+            {
+                var button = _menu.GetWidget<PUIWBasicButton>("btnBuild" + type.ToString());
+
+                _sbGeneral.Clear();
+
+                var typeData = EntityData.ShipTypes[type];
+
+                foreach (var kvp in typeData.BuildCost)
+                {
+                    var sprite = TexturePacker.GetSprite("ResourcesAtlas", kvp.Key.ToString());
+                    _sbGeneral
+                        .Append("[")
+                        .Append("ResourcesTexture-")
+                        .Append(sprite.SourceRect.X).Append(",")
+                        .Append(sprite.SourceRect.Y).Append(",")
+                        .Append(sprite.SourceRect.Width).Append(",")
+                        .Append(sprite.SourceRect.Height)
+                        .Append("] ")
+                        .Append(kvp.Value)
+                        .Append(", ");
+                }
+
+                _sbGeneral.Remove(_sbGeneral.Length - 2, 2);
+                button.SetTooltip(_sbGeneral.ToString(), _sbGeneral.ToString(), true);
+            }
+
+            _sbGeneral.Clear();
+
             Camera = new BasicCamera2D(
                 new Rectangle(0, 0, graphics.PresentationParameters.BackBufferWidth, graphics.PresentationParameters.BackBufferHeight),
                 new Rectangle(0, 0, WorldManager.WorldWidth, WorldManager.WorldHeight));

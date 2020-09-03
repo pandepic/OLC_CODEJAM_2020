@@ -94,29 +94,32 @@ namespace PandaMonogame.UI
 
                 while (imageStartIndex != -1 && imageEndIndex != -1 && imageStartIndex < imageEndIndex)
                 {
-                    var newText = text.Substring(0, imageStartIndex);
-                    var newTextSize = font.MeasureString(newText);
-
-                    var newTextSection = new PUITooltipTextSection()
+                    if (imageStartIndex > 0)
                     {
-                        Position = new Vector2()
+                        var newText = text.Substring(0, imageStartIndex);
+                        var newTextSize = font.MeasureString(newText);
+
+                        var newTextSection = new PUITooltipTextSection()
                         {
-                            X = currentPosition.X,
-                            Y = 0,
-                        },
-                        Size = newTextSize,
-                        Text = newText,
-                    };
+                            Position = new Vector2()
+                            {
+                                X = currentPosition.X,
+                                Y = 0,
+                            },
+                            Size = newTextSize,
+                            Text = newText,
+                        };
 
-                    currentPosition.X = newTextSection.Position.X + newTextSection.Size.X;
+                        currentPosition.X = newTextSection.Position.X + newTextSection.Size.X;
 
-                    textSections.Add(newTextSection);
+                        textSections.Add(newTextSection);
 
-                    if (newTextSection.Position.X + newTextSection.Size.X > textureSize.X)
-                        textureSize.X = newTextSection.Position.X + newTextSection.Size.X;
+                        if (newTextSection.Position.X + newTextSection.Size.X > textureSize.X)
+                            textureSize.X = newTextSection.Position.X + newTextSection.Size.X;
 
-                    if (newTextSection.Position.Y + newTextSection.Size.Y > textureSize.Y)
-                        textureSize.Y = newTextSection.Position.Y + newTextSection.Size.Y;
+                        if (newTextSection.Position.Y + newTextSection.Size.Y > textureSize.Y)
+                            textureSize.Y = newTextSection.Position.Y + newTextSection.Size.Y;
+                    }
 
                     var imageString = text.Substring(imageStartIndex, imageEndIndex - imageStartIndex + 1);
                     imageString = imageString.Remove(0, 1);
@@ -212,7 +215,7 @@ namespace PandaMonogame.UI
                 textureSize.Y += padding * 2;
                 var vPadding = new Vector2(padding);
 
-                var newTexture = new RenderTarget2D(Graphics, (int)textureSize.X + padding * 2, (int)textureSize.Y + padding * 2);
+                var newTexture = new RenderTarget2D(Graphics, (int)textureSize.X, (int)textureSize.Y);
 
                 using (var spriteBatch = new SpriteBatch(Graphics))
                 {
