@@ -11,6 +11,7 @@ namespace GameCore.Entities
     {
         public Inventory Inventory;
         public Asteroid CurrentMiningTarget = null;
+        public int GatherRate;
 
         public Miner(Ship owner, Vector2 position)
         {
@@ -19,6 +20,8 @@ namespace GameCore.Entities
             Position = position;
 
             LoadData();
+
+            GatherRate = int.Parse(SpecialAttributes["GatherRate"]);
 
             Inventory = new Inventory();
 

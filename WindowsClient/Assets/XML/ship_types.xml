@@ -24,6 +24,9 @@
 
     <BuildCost Metal="100" Gas="50" />
     <BuildTime>5000</BuildTime>
+
+    <SpecialAttributes GatherRate="50" />
+    
   </Type>
 
   <Type Name="Fighter" Sprite="Fighter1" Scale="1" TargetType="Small">
