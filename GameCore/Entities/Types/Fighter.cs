@@ -21,14 +21,14 @@ namespace GameCore.Entities
             StateMachine.RegisterState(new ShipIdleState(this));
             StateMachine.RegisterState(new ShipPatrolPositionState(this));
 
-            if (IsPlayerShip)
+            if (owner == null)
             {
-                Stance = ShipStance.Defensive;
-                DefendTarget = Owner;
+                Stance = ShipStance.Aggressive;
             }
             else
             {
-                Stance = ShipStance.Aggressive;
+                DefendTarget = Owner;
+                Stance = ShipStance.Defensive;
             }
 
             StateMachine.Start<ShipIdleState>();

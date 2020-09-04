@@ -25,7 +25,7 @@ namespace GameCore.AI
         {
             if (Vector2.Distance(Target.Position, ParentShip.Position) <= FollowDistance)
             {
-                if (Target.Moving)
+                if (Target.IsMoving)
                 {
                     ParentShip.MoveSpeed = Target.MoveSpeed;
                     ParentShip.SetDestination(Target.Position);

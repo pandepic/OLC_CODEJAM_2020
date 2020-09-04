@@ -82,22 +82,22 @@ namespace GameCore
 
         protected void BuildSupportCruiser(params object[] args)
         {
-            //WorldManager.PlayerEntity.BuildShip(ShipType.SupportCruiser);
+            WorldManager.PlayerEntity.BuildShip(ShipType.SupportCruiser);
         }
 
         protected void BuildHeavyCruiser(params object[] args)
         {
-            //WorldManager.PlayerEntity.BuildShip(ShipType.HeavyCruiser);
+            WorldManager.PlayerEntity.BuildShip(ShipType.HeavyCruiser);
         }
 
         protected void BuildBattleship(params object[] args)
         {
-            //WorldManager.PlayerEntity.BuildShip(ShipType.Battleship);
+            WorldManager.PlayerEntity.BuildShip(ShipType.Battleship);
         }
 
         protected void BuildCarrier(params object[] args)
         {
-            //WorldManager.PlayerEntity.BuildShip(ShipType.Carrier);
+            WorldManager.PlayerEntity.BuildShip(ShipType.Carrier);
         }
         #endregion
 
@@ -123,7 +123,7 @@ namespace GameCore
             _lblCrystal = _menu.GetWidget<PUIWLabel>("lblCrystal");
             _lblUranium = _menu.GetWidget<PUIWLabel>("lblUranium");
 
-            var shipTypes = new List<ShipType>()
+            var buildCostShipTypes = new List<ShipType>()
             {
                 ShipType.Miner,
                 ShipType.Fighter,
@@ -131,9 +131,13 @@ namespace GameCore
                 ShipType.RepairShip,
                 ShipType.MissileFrigate,
                 ShipType.BeamFrigate,
+                ShipType.SupportCruiser,
+                ShipType.HeavyCruiser,
+                ShipType.Battleship,
+                ShipType.Carrier,
             };
 
-            foreach (var type in shipTypes)
+            foreach (var type in buildCostShipTypes)
             {
                 var button = _menu.GetWidget<PUIWBasicButton>("btnBuild" + type.ToString());
 

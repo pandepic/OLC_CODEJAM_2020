@@ -2,15 +2,15 @@
 <ShipTypes>
   <Type Name="HomeShip" Sprite="Station2" Scale="1" TargetType="Large">
     <MoveSpeed>50</MoveSpeed>
-    <TurnSpeed>50</TurnSpeed>
+    <TurnSpeed>40</TurnSpeed>
 
-    <ArmourHP>10000</ArmourHP>
-    <ShieldHP>10000</ShieldHP>
+    <ArmourHP>50000</ArmourHP>
+    <ShieldHP>50000</ShieldHP>
     <ShieldRegenRate>50</ShieldRegenRate>
 
     <Weapons>
       <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
-      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
     </Weapons>
   </Type>
   
@@ -49,7 +49,6 @@
       <Priority Type="Bomber" />
       <Priority Type="Miner" />
       <Priority Type="RepairShip" />
-      <Priority Type="HomeShip" />
     </TargetPriorities>
   </Type>
 
@@ -72,6 +71,10 @@
     <TargetPriorities>
       <Priority Type="BeamFrigate" />
       <Priority Type="MissileFrigate" />
+      <Priority Type="HeavyCruiser" />
+      <Priority Type="SupportCruiser" />
+      <Priority Type="Battleship" />
+      <Priority Type="Carrier" />
       <Priority Type="RepairShip" />
       <Priority Type="Miner" />
       <Priority Type="Fighter" />
@@ -108,13 +111,17 @@
 
     <Weapons>
       <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
-      <Weapon ProjectileType="SmallMissile" Mount="Turret" TargetType="Small" Range="3000" Cooldown="1000" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
       <Weapon ProjectileType="SmallMissile" Mount="Turret" TargetType="Small" Range="3000" Cooldown="1000" Damage="40" MaxAngle="360" />
     </Weapons>
 
     <TargetPriorities>
       <Priority Type="BeamFrigate" />
       <Priority Type="MissileFrigate" />
+      <Priority Type="HeavyCruiser" />
+      <Priority Type="SupportCruiser" />
+      <Priority Type="Battleship" />
+      <Priority Type="Carrier" />
       <Priority Type="RepairShip" />
       <Priority Type="Bomber" />
       <Priority Type="Fighter" />
@@ -143,9 +150,159 @@
     <TargetPriorities>
       <Priority Type="BeamFrigate" />
       <Priority Type="MissileFrigate" />
+      <Priority Type="HeavyCruiser" />
+      <Priority Type="SupportCruiser" />
+      <Priority Type="Battleship" />
+      <Priority Type="Carrier" />
       <Priority Type="RepairShip" />
       <Priority Type="Bomber" />
       <Priority Type="Fighter" />
+      <Priority Type="Miner" />
+      <Priority Type="HomeShip" />
+    </TargetPriorities>
+  </Type>
+
+  <Type Name="SupportCruiser" Sprite="Cruiser2" Scale="1" TargetType="Large">
+    <MoveSpeed>120</MoveSpeed>
+    <TurnSpeed>50</TurnSpeed>
+
+    <ArmourHP>4000</ArmourHP>
+    <ShieldHP>4000</ShieldHP>
+    <ShieldRegenRate>20</ShieldRegenRate>
+
+    <BuildCost Metal="2000" Gas="1000" />
+    <BuildTime>20000</BuildTime>
+
+    <Weapons>
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="LargeLaser" Mount="Turret" TargetType="Large" Range="3000" Cooldown="500" Damage="100" MaxAngle="360" />
+    </Weapons>
+
+    <TargetPriorities>
+      <Priority Type="Bomber" />
+      <Priority Type="Fighter" />
+      <Priority Type="HeavyCruiser" />
+      <Priority Type="SupportCruiser" />
+      <Priority Type="BeamFrigate" />
+      <Priority Type="MissileFrigate" />
+      <Priority Type="Battleship" />
+      <Priority Type="Carrier" />
+      <Priority Type="RepairShip" />
+      <Priority Type="Miner" />
+      <Priority Type="HomeShip" />
+    </TargetPriorities>
+  </Type>
+
+  <Type Name="HeavyCruiser" Sprite="Cruiser1" Scale="1" TargetType="Large">
+    <MoveSpeed>140</MoveSpeed>
+    <TurnSpeed>60</TurnSpeed>
+
+    <ArmourHP>6000</ArmourHP>
+    <ShieldHP>6000</ShieldHP>
+    <ShieldRegenRate>20</ShieldRegenRate>
+
+    <BuildCost Metal="3000" Gas="1500" />
+    <BuildTime>20000</BuildTime>
+
+    <Weapons>
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="LargeLaser" Mount="Turret" TargetType="Large" Range="3000" Cooldown="500" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="SmallMissile" Mount="Turret" TargetType="Small" Range="3000" Cooldown="1000" Damage="40" MaxAngle="360" />
+    </Weapons>
+
+    <TargetPriorities>
+      <Priority Type="Bomber" />
+      <Priority Type="Fighter" />
+      <Priority Type="HeavyCruiser" />
+      <Priority Type="SupportCruiser" />
+      <Priority Type="BeamFrigate" />
+      <Priority Type="MissileFrigate" />
+      <Priority Type="Battleship" />
+      <Priority Type="Carrier" />
+      <Priority Type="RepairShip" />
+      <Priority Type="Miner" />
+      <Priority Type="HomeShip" />
+    </TargetPriorities>
+  </Type>
+
+  <Type Name="Battleship" Sprite="Huge1" Scale="1" TargetType="Large">
+    <MoveSpeed>80</MoveSpeed>
+    <TurnSpeed>40</TurnSpeed>
+
+    <ArmourHP>25000</ArmourHP>
+    <ShieldHP>25000</ShieldHP>
+    <ShieldRegenRate>40</ShieldRegenRate>
+
+    <BuildCost Metal="9000" Gas="4500" />
+    <BuildTime>30000</BuildTime>
+
+    <Weapons>
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="LargeLaser" Mount="Turret" TargetType="Large" Range="3000" Cooldown="500" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="SmallMissile" Mount="Turret" TargetType="Small" Range="3000" Cooldown="1000" Damage="40" MaxAngle="360" />
+
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="LargeLaser" Mount="Turret" TargetType="Large" Range="3000" Cooldown="500" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="SmallMissile" Mount="Turret" TargetType="Small" Range="3000" Cooldown="1000" Damage="40" MaxAngle="360" />
+    </Weapons>
+
+    <TargetPriorities>
+      <Priority Type="Bomber" />
+      <Priority Type="Fighter" />
+      <Priority Type="HeavyCruiser" />
+      <Priority Type="SupportCruiser" />
+      <Priority Type="BeamFrigate" />
+      <Priority Type="MissileFrigate" />
+      <Priority Type="Battleship" />
+      <Priority Type="Carrier" />
+      <Priority Type="RepairShip" />
+      <Priority Type="Miner" />
+      <Priority Type="HomeShip" />
+    </TargetPriorities>
+  </Type>
+
+  <Type Name="Carrier" Sprite="Carrier1" Scale="1" TargetType="Large">
+    <MoveSpeed>80</MoveSpeed>
+    <TurnSpeed>40</TurnSpeed>
+
+    <ArmourHP>20000</ArmourHP>
+    <ShieldHP>20000</ShieldHP>
+    <ShieldRegenRate>40</ShieldRegenRate>
+
+    <BuildCost Metal="9000" Gas="4500" />
+    <BuildTime>30000</BuildTime>
+
+    <Weapons>
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="LargeLaser" Mount="Turret" TargetType="Large" Range="3000" Cooldown="500" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="SmallMissile" Mount="Turret" TargetType="Small" Range="3000" Cooldown="1000" Damage="40" MaxAngle="360" />
+    </Weapons>
+
+    <SpecialAttributes FighterHangar="10" BomberHangar="5" />
+
+    <TargetPriorities>
+      <Priority Type="Bomber" />
+      <Priority Type="Fighter" />
+      <Priority Type="HeavyCruiser" />
+      <Priority Type="SupportCruiser" />
+      <Priority Type="BeamFrigate" />
+      <Priority Type="MissileFrigate" />
+      <Priority Type="Battleship" />
+      <Priority Type="Carrier" />
+      <Priority Type="RepairShip" />
       <Priority Type="Miner" />
       <Priority Type="HomeShip" />
     </TargetPriorities>

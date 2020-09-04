@@ -8,8 +8,24 @@ namespace GameCore.AI
 {
     public static partial class AIHelper
     {
+        public static bool TryBigAttackClosestEnemy(Ship ship)
+        {
+            var newTarget = FindClosestEnemy(ship);
+
+            if (newTarget != null)
+            {
+                BigAttackTarget(ship, newTarget);
+                return true;
+            }
+
+            return false;
+        } // TryBigAttackClosestEnemy
+
         public static void BigDefendTarget(Ship ship, Ship target)
         {
+            if (ship.IsPlayerShip != target.IsPlayerShip)
+                return;
+
             ship.DefendPosition = null;
             ship.DefendTarget = target;
 
@@ -27,6 +43,19 @@ namespace GameCore.AI
             followPosition.Target = ship.DefendPosition.Value;
             ship.SetState(followPosition);
         } // SmallDefendPosition
+
+        public static void BigAttackTarget(Ship ship, Ship target)
+        {
+            if (ship.IsPlayerShip == target.IsPlayerShip)
+                return;
+
+            ship.DefendPosition = null;
+            ship.DefendTarget = target;
+
+            var follow = ship.StateMachine.GetState<ShipFollowingState>();
+            follow.Target = ship.DefendTarget;
+            ship.SetState(follow);
+        } // SmallDefendTarget
 
         public static void BigSetFollowState(Ship ship)
         {
@@ -68,7 +97,14 @@ namespace GameCore.AI
 
                 case ShipIdleState idle:
                     {
-                        BigSetFollowState(ship);
+                        if (ship.Stance == ShipStance.Aggressive)
+                        {
+                            TryBigAttackClosestEnemy(ship);
+                        }
+                        else
+                        {
+                            BigSetFollowState(ship);
+                        }
                     }
                     break;
             }

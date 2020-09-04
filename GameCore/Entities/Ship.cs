@@ -27,7 +27,8 @@ namespace GameCore.Entities
 
         public Vector2 Destination;
 
-        public bool Moving = false;
+        public bool IsMoving = false;
+        public bool IsSelectable = true;
 
         public float BaseArmourHP, CurrentArmourHP;
         public float BaseShieldHP, CurrentShieldHP;
@@ -191,7 +192,7 @@ namespace GameCore.Entities
                     CurrentShieldHP = BaseShieldHP;
             }
 
-            if (Moving)
+            if (IsMoving)
                 ApplyMovement(gameTime);
 
             ShieldSprite.Update(gameTime);
@@ -217,7 +218,7 @@ namespace GameCore.Entities
         public void SetDestination(Vector2 destination)
         {
             Destination = destination;
-            Moving = true;
+            IsMoving = true;
             TargetRotation = GetAngleToTarget(Destination);
         }
 
@@ -228,7 +229,7 @@ namespace GameCore.Entities
 
         public void StopMovement()
         {
-            Moving = false;
+            IsMoving = false;
             Velocity = Vector2.Zero;
         }
 

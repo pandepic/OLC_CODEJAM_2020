@@ -104,12 +104,12 @@ namespace GameCore
             //    GameplayState.UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
             //}
 
-            for (var i = 0; i < 15; i++)
-            {
-                GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(1000, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
-            }
-
             //for (var i = 0; i < 15; i++)
+            //{
+            //    GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(1000, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
+            //}
+
+            //for (var i = 0; i < 25; i++)
             //{
             //    GameplayState.UnitManager.SpawnShip(ShipType.Bomber, new Vector2(1000, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
             //}
@@ -121,8 +121,19 @@ namespace GameCore
 
             //GameplayState.UnitManager.SpawnShip(ShipType.RepairShip, new Vector2(4500, 4500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), PlayerEntity);
 
-            //GameplayState.UnitManager.SpawnShip(ShipType.MissileFrigate, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), PlayerEntity);
-            GameplayState.UnitManager.SpawnShip(ShipType.BeamFrigate, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), PlayerEntity);
+            //GameplayState.UnitManager.SpawnShip(ShipType.MissileFrigate, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
+            //GameplayState.UnitManager.SpawnShip(ShipType.BeamFrigate, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
+            //GameplayState.UnitManager.SpawnShip(ShipType.SupportCruiser, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
+            //GameplayState.UnitManager.SpawnShip(ShipType.HeavyCruiser, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
+            //GameplayState.UnitManager.SpawnShip(ShipType.Battleship, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
+            GameplayState.UnitManager.SpawnShip(ShipType.Carrier, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
+
+            //GameplayState.UnitManager.SpawnShip(ShipType.MissileFrigate, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
+            //GameplayState.UnitManager.SpawnShip(ShipType.BeamFrigate, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
+            //GameplayState.UnitManager.SpawnShip(ShipType.SupportCruiser, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
+            //GameplayState.UnitManager.SpawnShip(ShipType.HeavyCruiser, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
+            GameplayState.UnitManager.SpawnShip(ShipType.Battleship, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
+            GameplayState.UnitManager.SpawnShip(ShipType.Carrier, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
         }
 
         ~WorldManager()
@@ -152,7 +163,7 @@ namespace GameCore
                 GameplayState.UnitManager.DestroyShip(ship);
         }
 
-        public void DrawWorld (SpriteBatch spriteBatch)
+        public void DrawWorld(SpriteBatch spriteBatch)
         {
             var camPos = GameplayState.Camera.GetPosition() + GameplayState.Camera.GetOrigin();
             var viewDistance = Graphics.PresentationParameters.BackBufferWidth / GameplayState.Camera.Zoom;

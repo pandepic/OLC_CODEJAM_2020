@@ -155,7 +155,7 @@ namespace GameCore
 
             foreach (var ship in GameplayState.WorldManager.Ships)
             {
-                if (!ship.IsPlayerShip || ship.ShipType == ShipType.HomeShip)
+                if (!ship.IsPlayerShip || ship.ShipType == ShipType.HomeShip || !ship.IsSelectable)
                     continue;
 
                 if (ship.CollisionRect.Intersects(DragRectWorldSpace))
@@ -181,7 +181,7 @@ namespace GameCore
             }
         }
 
-        public void SpawnShip(ShipType type, Vector2 position, Ship owner = null)
+        public Ship SpawnShip(ShipType type, Vector2 position, Ship owner = null)
         {
             Ship newShip = null;
 
@@ -222,10 +222,34 @@ namespace GameCore
                         newShip = new BeamFrigate(owner, position);
                     }
                     break;
+
+                case ShipType.SupportCruiser:
+                    {
+                        newShip = new SupportCruiser(owner, position);
+                    }
+                    break;
+
+                case ShipType.HeavyCruiser:
+                    {
+                        newShip = new HeavyCruiser(owner, position);
+                    }
+                    break;
+
+                case ShipType.Battleship:
+                    {
+                        newShip = new Battleship(owner, position);
+                    }
+                    break;
+
+                case ShipType.Carrier:
+                    {
+                        newShip = new Carrier(owner, position);
+                    }
+                    break;
             }
 
             if (newShip == null)
-                return;
+                return newShip;
 
             if (newShip.IsPlayerShip)
                 GameplayState.WorldManager.PlayerShips.Add(newShip);
@@ -234,14 +258,27 @@ namespace GameCore
 
             GameplayState.WorldManager.Ships.Add(newShip);
 
+            return newShip;
         } // SpawnShip
 
         public void DestroyShip(Ship ship)
         {
             ship.IsDead = true;
+
             GameplayState.WorldManager.PlayerShips.Remove(ship);
             GameplayState.WorldManager.EnemyShips.Remove(ship);
             GameplayState.WorldManager.Ships.Remove(ship);
+
+            if (ship.Owner != null && ship.Owner is Carrier ownerCarrier)
+            {
+                if (ship is Fighter fighter)
+                    ownerCarrier.Fighters.Remove(fighter);
+                else if (ship is Bomber bomber)
+                    ownerCarrier.Bombers.Remove(bomber);
+            }
+
+            if (ship is Carrier carrier)
+                carrier.ReparentChildren();
 
             GameplayState.EffectsManager.AddExplosion(ship, null, 15.0f);
 
@@ -405,6 +442,10 @@ namespace GameCore
                                 }
                                 break;
 
+                            case ShipType.Battleship:
+                            case ShipType.Carrier:
+                            case ShipType.SupportCruiser:
+                            case ShipType.HeavyCruiser:
                             case ShipType.MissileFrigate:
                             case ShipType.BeamFrigate:
                             case ShipType.RepairShip:

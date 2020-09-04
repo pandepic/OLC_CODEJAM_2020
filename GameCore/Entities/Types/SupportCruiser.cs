@@ -6,14 +6,13 @@ using System.Text;
 
 namespace GameCore.Entities
 {
-    public class MissileFrigate : Ship
+    public class SupportCruiser : Ship
     {
-        public MissileFrigate(Ship owner, Vector2 position)
+        public SupportCruiser(Ship owner, Vector2 position)
         {
             Owner = owner;
-            ShipType = ShipType.MissileFrigate;
+            ShipType = ShipType.SupportCruiser;
             Position = position;
-            Stance = ShipStance.Defensive;
 
             LoadData();
 
