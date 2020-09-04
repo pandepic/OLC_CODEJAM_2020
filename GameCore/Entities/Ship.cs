@@ -88,6 +88,9 @@ namespace GameCore.Entities
                     Cooldown = weapon.Cooldown,
                     Damage = weapon.Damage,
                     MaxAngle = weapon.MaxAngle,
+                    //TurretSprite = weapon.TurretSprite,
+                    //TurretPosition = weapon.TurretPosition,
+                    //TurretOrigin = weapon.TurretOrigin,
                 };
 
                 newWeapon.ResetCooldown();
@@ -207,6 +210,7 @@ namespace GameCore.Entities
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch, (IsSelected ? SelectionColour : (IsPlayerShip ? Color.White : Sprites.EnemyColour)));
+
             ShieldSprite.Draw(spriteBatch, Position);
         }
 

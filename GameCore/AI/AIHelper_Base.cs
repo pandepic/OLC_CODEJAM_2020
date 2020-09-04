@@ -281,6 +281,7 @@ namespace GameCore.AI
 
             if (turret.Target != null && turret.CurrentCooldown <= 0)
             {
+                //turret.TurretRotation = GetAngleToTarget(ship.Position + turret.TurretPosition, 0.0f, turret.Target.Position);
                 GameplayState.ProjectileManager.FireProjectile(turret, ship, turret.Target, turret.Damage);
                 turret.ResetCooldown();
             }

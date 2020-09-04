@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using PandaMonogame.Assets;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +8,8 @@ namespace GameCore.Entities
 {
     public class Weapon
     {
+        public Ship Parent;
+
         public string ProjectileType;
         public TargetType TargetType;
         public MountType MountType;
@@ -19,6 +23,10 @@ namespace GameCore.Entities
         public Ship Target; // used by turret mounted weapons
         public float NextTargetScan;
         public float TargetScanDuration = 200.0f;
+
+        //public TexturePackerSprite TurretSprite;
+        //public Vector2 TurretPosition, TurretOrigin;
+        //public float TurretRotation;
 
         public void ResetCooldown()
         {

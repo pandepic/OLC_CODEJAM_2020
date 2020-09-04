@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<TextureAtlas AssetName="ShipsTexture" Width="857" Height="1014">
-  <Sprite Name="Alien1"         X="301"   Y="0"   Width="40"  Height="70"/>
-  <Sprite Name="Alien2"         X="30"    Y="0"   Width="42"  Height="34"/>
-  <Sprite Name="Alien3"         X="640"   Y="535" Width="209" Height="479"/>
-  <Sprite Name="Alien4"         X="115"   Y="0"   Width="74"  Height="45"/>
-  <Sprite Name="Carrier1"       X="462"   Y="230" Width="157" Height="288"/>
-  <Sprite Name="Cruiser1"       X="318"   Y="535" Width="156" Height="332"/>
-  <Sprite Name="Cruiser2"       X="619"   Y="230" Width="182" Height="305"/>
-  <Sprite Name="Cruiser3"       X="0"     Y="230" Width="266" Height="259"/>
-  <Sprite Name="Destroyer1"     X="266"   Y="230" Width="196" Height="264"/>
-  <Sprite Name="Destroyer2"     X="765"   Y="0"   Width="92"  Height="230"/>
-  <Sprite Name="Fighter1"       X="222"   Y="0"   Width="31"  Height="48"/>
-  <Sprite Name="Fighter2"       X="0"     Y="0"   Width="30"  Height="19"/>
-  <Sprite Name="Fighter3"       X="189"   Y="0"   Width="33"  Height="47"/>
-  <Sprite Name="Fighter4"       X="72"    Y="0"   Width="43"  Height="40"/>
-  <Sprite Name="Frigate1"       X="341"   Y="0"   Width="164" Height="174"/>
-  <Sprite Name="Frigate2"       X="505"   Y="0"   Width="114" Height="188"/>
-  <Sprite Name="Huge1"          X="474"   Y="535" Width="166" Height="438"/>
-  <Sprite Name="Station1"       X="619"   Y="0"   Width="146" Height="214"/>
-  <Sprite Name="Station2"       X="0"     Y="535" Width="318" Height="318"/>
-  <Sprite Name="TurretPlatform" X="253"   Y="0"   Width="48"  Height="48"/>
+<TextureAtlas AssetName="ShipsTexture" Width="474" Height="1845">
+    <Sprite Name="Alien1" X="119" Y="47" Width="40" Height="70"/>
+    <Sprite Name="Alien2" X="68" Y="0" Width="42" Height="34"/>
+    <Sprite Name="Alien3" X="166" Y="1366" Width="209" Height="479"/>
+    <Sprite Name="Alien4" X="343" Y="0" Width="74" Height="45"/>
+    <Sprite Name="Carrier1" X="0" Y="729" Width="157" Height="288"/>
+    <Sprite Name="Cruiser1" X="318" Y="1034" Width="156" Height="332"/>
+    <Sprite Name="Cruiser2" X="157" Y="729" Width="182" Height="305"/>
+    <Sprite Name="Cruiser3" X="0" Y="465" Width="266" Height="259"/>
+    <Sprite Name="Destroyer1" X="266" Y="465" Width="196" Height="264"/>
+    <Sprite Name="Destroyer2" X="146" Y="235" Width="92" Height="230"/>
+    <Sprite Name="Fighter1" X="0" Y="47" Width="31" Height="48"/>
+    <Sprite Name="Fighter2" X="0" Y="0" Width="30" Height="19"/>
+    <Sprite Name="Fighter3" X="417" Y="0" Width="33" Height="47"/>
+    <Sprite Name="Fighter4" X="173" Y="0" Width="43" Height="40"/>
+    <Sprite Name="Frigate1" X="159" Y="47" Width="164" Height="174"/>
+    <Sprite Name="Frigate2" X="323" Y="47" Width="114" Height="188"/>
+    <Sprite Name="Huge1" X="0" Y="1366" Width="166" Height="438"/>
+    <Sprite Name="Station1" X="0" Y="235" Width="146" Height="214"/>
+    <Sprite Name="Station2" X="0" Y="1034" Width="318" Height="318"/>
+    <Sprite Name="TurretLarge1" X="79" Y="47" Width="40" Height="55"/>
+    <Sprite Name="TurretLarge2" X="276" Y="0" Width="36" Height="44"/>
+    <Sprite Name="TurretMedium1" X="312" Y="0" Width="31" Height="44"/>
+    <Sprite Name="TurretMedium2" X="216" Y="0" Width="26" Height="41"/>
+    <Sprite Name="TurretMedium3" X="242" Y="0" Width="34" Height="42"/>
+    <Sprite Name="TurretMedium4" X="145" Y="0" Width="28" Height="39"/>
+    <Sprite Name="TurretPlatform" X="31" Y="47" Width="48" Height="48"/>
+    <Sprite Name="TurretSmall1" X="130" Y="0" Width="15" Height="37"/>
+    <Sprite Name="TurretSmall2" X="30" Y="0" Width="22" Height="23"/>
+    <Sprite Name="TurretSmall3" X="110" Y="0" Width="20" Height="35"/>
+    <Sprite Name="TurretSmall4" X="52" Y="0" Width="16" Height="24"/>
 </TextureAtlas>

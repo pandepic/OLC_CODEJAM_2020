@@ -59,11 +59,16 @@ namespace GameCore.Combat
 
         public void FireProjectile(Weapon weapon, Ship source, Ship target, float damage)
         {
+            FireProjectile(weapon, source, target, damage, Vector2.Zero);
+        }
+
+        public void FireProjectile(Weapon weapon, Ship source, Ship target, float damage, Vector2 positionOffset)
+        {
             var newProjectile = Projectiles.New();
             newProjectile.SetType(weapon.ProjectileType);
             newProjectile.TargetType = target.TargetType;
             newProjectile.Damage = damage;
-            newProjectile.Position = source.Position + new Vector2(WorldData.RNG.Next(-25, 25), WorldData.RNG.Next(-25, 25));
+            newProjectile.Position = source.Position + positionOffset + new Vector2(WorldData.RNG.Next(-25, 25), WorldData.RNG.Next(-25, 25));
             newProjectile.IsPlayerProjectile = source.IsPlayerShip;
             newProjectile.CenterOrigin();
 

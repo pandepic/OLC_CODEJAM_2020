@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using PandaMonogame;
+using PandaMonogame.Assets;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -93,7 +94,7 @@ namespace GameCore.Entities
                     {
                         foreach (var elWeapon in elWeapons.Elements("Weapon"))
                         {
-                            newType.Weapons.Add(new Weapon()
+                            var newWeapon = new Weapon()
                             {
                                 ProjectileType = elWeapon.Attribute("ProjectileType").Value,
                                 MountType = elWeapon.Attribute("Mount").Value.ToEnum<MountType>(),
@@ -102,7 +103,18 @@ namespace GameCore.Entities
                                 Cooldown = float.Parse(elWeapon.Attribute("Cooldown").Value) + WorldData.RNG.Next(-25, 25),
                                 Damage = float.Parse(elWeapon.Attribute("Damage").Value),
                                 MaxAngle = float.Parse(elWeapon.Attribute("MaxAngle").Value),
-                            });
+                            };
+
+                            //if (newWeapon.MountType == MountType.Turret)
+                            //{
+                            //    newWeapon.TurretSprite = TexturePacker.GetSprite("ShipsAtlas", elWeapon.Attribute("TurretSprite").Value);
+                            //    newWeapon.TurretOrigin = new Vector2(newWeapon.TurretSprite.SourceRect.Width / 2, newWeapon.TurretSprite.SourceRect.Height / 2);
+
+                            //    var turretPositionSplit = elWeapon.Attribute("TurretPosition").Value.Split(',');
+                            //    newWeapon.TurretPosition = new Vector2(float.Parse(turretPositionSplit[0]), float.Parse(turretPositionSplit[0]));
+                            //}
+
+                            newType.Weapons.Add(newWeapon);
                         }
                     }
 
