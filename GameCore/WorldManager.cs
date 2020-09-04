@@ -104,17 +104,17 @@ namespace GameCore
                 GameplayState.UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
             }
 
-            //for (var i = 0; i < 15; i++)
-            //{
-            //    GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(1000, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
-            //}
-
-            //for (var i = 0; i < 35; i++)
-            //{
-            //    GameplayState.UnitManager.SpawnShip(ShipType.Bomber, new Vector2(1000, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
-            //}
+            for (var i = 0; i < 25; i++)
+            {
+                GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(1000, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
+            }
 
             for (var i = 0; i < 15; i++)
+            {
+                GameplayState.UnitManager.SpawnShip(ShipType.Bomber, new Vector2(1000, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
+            }
+
+            for (var i = 0; i < 25; i++)
             {
                 GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(4000, 4000) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), PlayerEntity);
             }

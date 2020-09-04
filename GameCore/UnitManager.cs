@@ -384,63 +384,45 @@ namespace GameCore
                                 break;
 
                             case ShipType.Fighter:
-                                {
-                                    var newDefendTarget = GameplayState.WorldManager.GetShipAtWorldPosition(mouseWorldPos);
-
-                                    if (newDefendTarget != null)
-                                    {
-                                        foreach (Fighter fighter in kvp.Value)
-                                        {
-                                            AIHelper.SmallDefendTarget(fighter, newDefendTarget);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        foreach (Fighter fighter in kvp.Value)
-                                        {
-                                            AIHelper.SmallDefendPosition(fighter, mouseWorldPos);
-                                        }
-                                    }
-                                }
-                                break;
-
                             case ShipType.Bomber:
                                 {
                                     var newDefendTarget = GameplayState.WorldManager.GetShipAtWorldPosition(mouseWorldPos);
 
                                     if (newDefendTarget != null)
                                     {
-                                        foreach (Bomber bomber in kvp.Value)
+                                        foreach (Ship ship in kvp.Value)
                                         {
-                                            AIHelper.SmallDefendTarget(bomber, newDefendTarget);
+                                            AIHelper.SmallDefendTarget(ship, newDefendTarget);
                                         }
                                     }
                                     else
                                     {
-                                        foreach (Bomber bomber in kvp.Value)
+                                        foreach (Ship ship in kvp.Value)
                                         {
-                                            AIHelper.SmallDefendPosition(bomber, mouseWorldPos);
+                                            AIHelper.SmallDefendPosition(ship, mouseWorldPos);
                                         }
                                     }
                                 }
                                 break;
 
+                            case ShipType.MissileFrigate:
+                            case ShipType.BeamFrigate:
                             case ShipType.RepairShip:
                                 {
                                     var newDefendTarget = GameplayState.WorldManager.GetShipAtWorldPosition(mouseWorldPos);
 
                                     if (newDefendTarget != null)
                                     {
-                                        foreach (RepairShip repairShip in kvp.Value)
+                                        foreach (Ship ship in kvp.Value)
                                         {
-                                            AIHelper.DefendTarget(repairShip, newDefendTarget);
+                                            AIHelper.BigDefendTarget(ship, newDefendTarget);
                                         }
                                     }
                                     else
                                     {
-                                        foreach (RepairShip repairShip in kvp.Value)
+                                        foreach (Ship ship in kvp.Value)
                                         {
-                                            AIHelper.DefendPosition(repairShip, mouseWorldPos);
+                                            AIHelper.BigDefendPosition(ship, mouseWorldPos);
                                         }
                                     }
                                 }

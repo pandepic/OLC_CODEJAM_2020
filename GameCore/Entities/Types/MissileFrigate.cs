@@ -18,13 +18,12 @@ namespace GameCore.Entities
 
             LoadData();
 
-            StateMachine.RegisterState(new ShipIdleState(this));
-
-            StateMachine.Start<ShipIdleState>();
+            AIHelper.SetupBigWarshipStates(this);
         }
 
         public override void Update(GameTime gameTime)
         {
+            AIHelper.BigWarshipAI(this);
             base.Update(gameTime);
         }
     }

@@ -9,8 +9,8 @@
     <ShieldRegenRate>50</ShieldRegenRate>
 
     <Weapons>
-      <Weapon ProjectileType="SmallLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
-      <Weapon ProjectileType="SmallLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
     </Weapons>
   </Type>
   
@@ -74,9 +74,9 @@
       <Priority Type="MissileFrigate" />
       <Priority Type="RepairShip" />
       <Priority Type="Miner" />
-      <Priority Type="HomeShip" />
       <Priority Type="Fighter" />
       <Priority Type="Bomber" />
+      <Priority Type="HomeShip" />
     </TargetPriorities>
   </Type>
 
@@ -116,10 +116,10 @@
       <Priority Type="BeamFrigate" />
       <Priority Type="MissileFrigate" />
       <Priority Type="RepairShip" />
-      <Priority Type="HomeShip" />
-      <Priority Type="Miner" />
-      <Priority Type="Fighter" />
       <Priority Type="Bomber" />
+      <Priority Type="Fighter" />
+      <Priority Type="Miner" />
+      <Priority Type="HomeShip" />
     </TargetPriorities>
   </Type>
 
@@ -135,19 +135,19 @@
     <BuildTime>10000</BuildTime>
 
     <Weapons>
-      <Weapon ProjectileType="SmallLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
-      <Weapon ProjectileType="SmallLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
-      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Large" Range="3000" Cooldown="500" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="LargeLaser" Mount="Turret" TargetType="Large" Range="3000" Cooldown="500" Damage="100" MaxAngle="360" />
     </Weapons>
 
     <TargetPriorities>
       <Priority Type="BeamFrigate" />
       <Priority Type="MissileFrigate" />
       <Priority Type="RepairShip" />
-      <Priority Type="HomeShip" />
-      <Priority Type="Miner" />
-      <Priority Type="Fighter" />
       <Priority Type="Bomber" />
+      <Priority Type="Fighter" />
+      <Priority Type="Miner" />
+      <Priority Type="HomeShip" />
     </TargetPriorities>
   </Type>
 </ShipTypes>

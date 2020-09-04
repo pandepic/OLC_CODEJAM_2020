@@ -41,7 +41,7 @@ namespace GameCore.AI
         public override void Begin()
         {
             if (FollowDistance == 0)
-                FollowDistance = Target.ShieldRadius * 1.5f;
+                FollowDistance = Target.ShieldRadius * 4.0f;
 
             ParentShip.SetDestination(Target.Position);
         }
@@ -72,7 +72,6 @@ namespace GameCore.AI
         public override void End()
         {
             FollowDistance = 0;
-            Target = null;
             Waiting = false;
         }
     } // ShipFollowingState

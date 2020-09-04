@@ -266,26 +266,6 @@ namespace GameCore.AI
             }
         } // ScanForTarget
 
-        public static void DefendTarget(Ship ship, Ship target)
-        {
-            ship.DefendPosition = null;
-            ship.DefendTarget = target;
-
-            var follow = ship.StateMachine.GetState<ShipFollowingState>();
-            follow.Target = ship.DefendTarget;
-            ship.SetState(follow);
-        } // SmallDefendTarget
-
-        public static void DefendPosition(Ship ship, Vector2 position)
-        {
-            ship.DefendTarget = null;
-            ship.DefendPosition = position;
-
-            var followPosition = ship.StateMachine.GetState<ShipFollowPositionState>();
-            followPosition.Target = ship.DefendPosition.Value;
-            ship.SetState(followPosition);
-        } // SmallDefendPosition
-
         public static void HandleTurret(Ship ship, Weapon turret, GameTime gameTime)
         {
             if (turret.Target == null || turret.Target.IsDead || Vector2.Distance(ship.Position, turret.Target.Position) > turret.Range)

@@ -53,7 +53,7 @@ namespace GameCore.Entities
 
                 case ShipIdleState idle:
                     {
-                        SetFollowState();
+                        AIHelper.BigSetFollowState(this);
                     }
                     break;
 
@@ -61,29 +61,13 @@ namespace GameCore.Entities
                     {
                         if (repair.Target.IsDead || repair.Target.CurrentArmourHP >= repair.Target.BaseArmourHP)
                         {
-                            SetFollowState();
+                            AIHelper.BigSetFollowState(this);
                         }
                     }
                     break;
             }
 
             base.Update(gameTime);
-        }
-
-        public void SetFollowState()
-        {
-            if (DefendTarget != null)
-            {
-                AIHelper.DefendTarget(this, DefendTarget);
-            }
-            else if (DefendPosition.HasValue)
-            {
-                AIHelper.DefendPosition(this, DefendPosition.Value);
-            }
-            else
-            {
-                AIHelper.DefendTarget(this, Owner);
-            }
         }
 
         public void ScanForTarget(GameTime gameTime)

@@ -27,6 +27,9 @@ namespace GameCore.AI
 
         public static void SmallDefendTarget(Ship ship, Ship target)
         {
+            if (ship.IsPlayerShip != target.IsPlayerShip)
+                return;
+
             ship.DefendPosition = null;
             ship.DefendTarget = target;
 
