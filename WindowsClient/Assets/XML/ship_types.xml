@@ -25,7 +25,7 @@
     <BuildCost Metal="100" Gas="50" />
     <BuildTime>5000</BuildTime>
 
-    <SpecialAttributes GatherRate="50" />
+    <SpecialAttributes GatherRate="10" />
     
   </Type>
 
