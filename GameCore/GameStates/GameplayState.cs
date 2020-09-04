@@ -26,6 +26,7 @@ namespace GameCore
         public static UnitManager UnitManager;
         public static ProjectileManager ProjectileManager;
         public static EffectsManager EffectsManager;
+        public static EnemyWaveManager EnemyWaveManager;
 
         protected bool _mouseDragging = false;
         protected Vector2 _mouseDragPosition = Vector2.Zero;
@@ -71,12 +72,12 @@ namespace GameCore
 
         protected void BuildMissileFrigate(params object[] args)
         {
-            //WorldManager.PlayerEntity.BuildShip(ShipType.MissileFrigate);
+            WorldManager.PlayerEntity.BuildShip(ShipType.MissileFrigate);
         }
 
         protected void BuildBeamFrigate(params object[] args)
         {
-            //WorldManager.PlayerEntity.BuildShip(ShipType.BeamFrigate);
+            WorldManager.PlayerEntity.BuildShip(ShipType.BeamFrigate);
         }
 
         protected void BuildSupportCruiser(params object[] args)
@@ -172,6 +173,9 @@ namespace GameCore
             UnitManager = new UnitManager();
             WorldManager = new WorldManager();
             ProjectileManager = new ProjectileManager();
+            EnemyWaveManager = new EnemyWaveManager();
+
+            EnemyWaveManager.Start();
 
             UnitManager.Setup(graphics, _menu);
             WorldManager.Setup(graphics);
@@ -225,6 +229,7 @@ namespace GameCore
             UnitManager.Update(gameTime);
             ProjectileManager.Update(gameTime);
             EffectsManager.Update(gameTime);
+            EnemyWaveManager.Update(gameTime);
 
             return _nextGameState;
         }
