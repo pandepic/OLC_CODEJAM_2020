@@ -96,9 +96,10 @@ namespace GameCore.Entities
                             newType.Weapons.Add(new Weapon()
                             {
                                 ProjectileType = elWeapon.Attribute("ProjectileType").Value,
+                                MountType = elWeapon.Attribute("Mount").Value.ToEnum<MountType>(),
                                 TargetType = elWeapon.Attribute("TargetType").Value.ToEnum<TargetType>(),
                                 Range = float.Parse(elWeapon.Attribute("Range").Value),
-                                Cooldown = float.Parse(elWeapon.Attribute("Cooldown").Value),
+                                Cooldown = float.Parse(elWeapon.Attribute("Cooldown").Value) + WorldData.RNG.Next(-25, 25),
                                 Damage = float.Parse(elWeapon.Attribute("Damage").Value),
                                 MaxAngle = float.Parse(elWeapon.Attribute("MaxAngle").Value),
                             });
@@ -145,7 +146,7 @@ namespace GameCore.Entities
                         ProjectileType = projectileType.Attribute("Name").Value,
                         DeathType = attDeathType == null ? ProjectileDeathType.None : attDeathType.Value.ToEnum<ProjectileDeathType>(),
                         Sprite = projectileType.Attribute("Sprite").Value,
-                        Colour = PUIColorConversion.Instance.ToColor(projectileType.Attribute("Colour").Value),
+                        Colour = projectileType.Attribute("Colour") == null ? Color.White : PUIColorConversion.Instance.ToColor(projectileType.Attribute("Colour").Value),
                         MoveSpeed = float.Parse(projectileType.Attribute("MoveSpeed").Value),
                         TurnSpeed = float.Parse(projectileType.Attribute("TurnSpeed").Value),
                         Lifetime = float.Parse(projectileType.Attribute("Lifetime").Value),

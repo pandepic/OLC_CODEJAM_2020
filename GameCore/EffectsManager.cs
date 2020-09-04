@@ -16,6 +16,8 @@ namespace GameCore
         public float Scale;
         public Vector2 Position;
         public Sprite Sprite;
+        public Entity Anchor;
+        public Vector2 AnchorOffset;
 
         public bool IsAlive { get; set; }
 
@@ -28,7 +30,7 @@ namespace GameCore
 
     public class EffectsManager
     {
-        public const float ExplosionDuration = 2000.0f;
+        public const float ExplosionDuration = 800.0f;
 
         public TexturePackerSprite ExplosionSprite;
         public List<ExplosionEffect> DeadExplosionEffects = new List<ExplosionEffect>();
@@ -66,26 +68,46 @@ namespace GameCore
             for (var i = 0; i <= ExplosionEffects.LastActiveIndex; i++)
             {
                 var explosion = ExplosionEffects[i];
-                explosion.Sprite.Draw(spriteBatch, explosion.Position);
+                var position = explosion.Position;
+
+                if (explosion.Anchor != null)
+                {
+                    position = explosion.Anchor.Position + explosion.AnchorOffset;
+                    //anchorOffset = explosion.AnchorOffset;// explosion.Anchor.CollisionPos - explosion.Position;
+                }
+
+                explosion.Sprite.Scale = explosion.Scale;
+                explosion.Sprite.Draw(spriteBatch, position);
             }
         }
 
-        public void AddExplosion(Entity entity)
+        public void AddExplosion(Entity entity, Entity anchor = null, float explosionSize = 6.0f, float duration = 800.0f)
+        {
+            AddExplosion(entity, Color.OrangeRed, anchor, explosionSize, duration);
+        }
+
+        public void AddExplosion(Entity entity, Color color, Entity anchor = null, float explosionSize = 6.0f, float duration = 800.0f)
         {
             var scaleBy = (float)entity.Sprite.SourceRect.Width;
             if (entity.Sprite.SourceRect.Height > scaleBy)
                 scaleBy = (float)entity.Sprite.SourceRect.Height;
+
+            scaleBy *= explosionSize;
 
             var newExplosion = ExplosionEffects.New();
             newExplosion.Sprite = new Sprite(ExplosionSprite.Texture);
             newExplosion.Duration = ExplosionDuration;
             newExplosion.Scale = scaleBy / (float)ExplosionSprite.SourceRect.Width;
             newExplosion.Position = entity.Position;
+            newExplosion.Anchor = anchor;
 
             newExplosion.Sprite.SourceRect = ExplosionSprite.SourceRect;
             newExplosion.Sprite.Center = new Vector2(ExplosionSprite.SourceRect.Width / 2, ExplosionSprite.SourceRect.Height / 2);
-            newExplosion.Sprite.Colour = Color.OrangeRed;
-            newExplosion.Sprite.Colour.A = 0;
+            newExplosion.Sprite.Colour = color;
+            newExplosion.Sprite.Colour.A = 120;
+
+            if (anchor != null)
+                newExplosion.AnchorOffset = newExplosion.Position - anchor.Position;
 
             newExplosion.Sprite.BeginFadeEffect(200, (ExplosionDuration / 2));
         }

@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ShipTypes>
-  <!--
-  <Type Name="">
-    <MoveSpeed></MoveSpeed>
-    <TurnSpeed></TurnSpeed>
-    
-    <ArmourHP></ArmourHP>
-    <ShieldHP></ShieldHP>
-    <ShieldRegenRate></ShieldRegenRate>
-    
-    <BuildCost Metal="100" Gas="50" />
-    <BuildTime></BuildTime>
-  </Type>
-  -->
-
   <Type Name="HomeShip" Sprite="Station2" Scale="1" TargetType="Large">
     <MoveSpeed>50</MoveSpeed>
     <TurnSpeed>50</TurnSpeed>
@@ -21,6 +7,11 @@
     <ArmourHP>10000</ArmourHP>
     <ShieldHP>10000</ShieldHP>
     <ShieldRegenRate>50</ShieldRegenRate>
+
+    <Weapons>
+      <Weapon ProjectileType="SmallLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="SmallLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+    </Weapons>
   </Type>
   
   <Type Name="Miner" Sprite="Alien1" Scale="1" TargetType="Small">
@@ -44,7 +35,7 @@
     <ShieldRegenRate>2</ShieldRegenRate>
 
     <BuildCost Metal="200" Gas="100" />
-    <BuildTime>5000</BuildTime>
+    <BuildTime>3000</BuildTime>
 
     <Weapons>
       <Weapon ProjectileType="SmallLaser" Mount="Fixed" TargetType="Small" Range="1000" Cooldown="500" Damage="10" MaxAngle="30" />
@@ -68,7 +59,7 @@
     <ShieldRegenRate>2</ShieldRegenRate>
 
     <BuildCost Metal="250" Gas="150" />
-    <BuildTime>5000</BuildTime>
+    <BuildTime>3000</BuildTime>
 
     <Weapons>
       <Weapon ProjectileType="SmallTorpedo" Mount="Fixed" TargetType="Large" Range="2000" Cooldown="3000" Damage="50" MaxAngle="30" />
@@ -76,9 +67,11 @@
     </Weapons>
 
     <TargetPriorities>
+      <Priority Type="BeamFrigate" />
+      <Priority Type="MissileFrigate" />
       <Priority Type="RepairShip" />
-      <Priority Type="HomeShip" />
       <Priority Type="Miner" />
+      <Priority Type="HomeShip" />
       <Priority Type="Fighter" />
       <Priority Type="Bomber" />
     </TargetPriorities>
@@ -86,7 +79,7 @@
 
   <Type Name="RepairShip" Sprite="Alien4" Scale="1" TargetType="Small">
     <MoveSpeed>180</MoveSpeed>
-    <TurnSpeed>60</TurnSpeed>
+    <TurnSpeed>70</TurnSpeed>
 
     <ArmourHP>200</ArmourHP>
     <ShieldHP>200</ShieldHP>
@@ -95,7 +88,63 @@
     <BuildCost Metal="500" Gas="250" />
     <BuildTime>5000</BuildTime>
 
-    <SpecialAttributes RepairRate="500" />
+    <SpecialAttributes RepairRate="50" />
     
+  </Type>
+
+  <Type Name="MissileFrigate" Sprite="Frigate2" Scale="1" TargetType="Large">
+    <MoveSpeed>160</MoveSpeed>
+    <TurnSpeed>60</TurnSpeed>
+
+    <ArmourHP>2500</ArmourHP>
+    <ShieldHP>2500</ShieldHP>
+    <ShieldRegenRate>10</ShieldRegenRate>
+
+    <BuildCost Metal="1000" Gas="500" />
+    <BuildTime>10000</BuildTime>
+
+    <Weapons>
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="SmallMissile" Mount="Turret" TargetType="Small" Range="3000" Cooldown="1000" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="SmallMissile" Mount="Turret" TargetType="Small" Range="3000" Cooldown="1000" Damage="40" MaxAngle="360" />
+    </Weapons>
+
+    <TargetPriorities>
+      <Priority Type="BeamFrigate" />
+      <Priority Type="MissileFrigate" />
+      <Priority Type="RepairShip" />
+      <Priority Type="HomeShip" />
+      <Priority Type="Miner" />
+      <Priority Type="Fighter" />
+      <Priority Type="Bomber" />
+    </TargetPriorities>
+  </Type>
+
+  <Type Name="BeamFrigate" Sprite="Frigate1" Scale="1" TargetType="Large">
+    <MoveSpeed>160</MoveSpeed>
+    <TurnSpeed>60</TurnSpeed>
+
+    <ArmourHP>2500</ArmourHP>
+    <ShieldHP>2500</ShieldHP>
+    <ShieldRegenRate>10</ShieldRegenRate>
+
+    <BuildCost Metal="1000" Gas="500" />
+    <BuildTime>10000</BuildTime>
+
+    <Weapons>
+      <Weapon ProjectileType="SmallLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="SmallLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Large" Range="3000" Cooldown="500" Damage="100" MaxAngle="360" />
+    </Weapons>
+
+    <TargetPriorities>
+      <Priority Type="BeamFrigate" />
+      <Priority Type="MissileFrigate" />
+      <Priority Type="RepairShip" />
+      <Priority Type="HomeShip" />
+      <Priority Type="Miner" />
+      <Priority Type="Fighter" />
+      <Priority Type="Bomber" />
+    </TargetPriorities>
   </Type>
 </ShipTypes>

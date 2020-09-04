@@ -128,6 +128,8 @@ namespace GameCore
                 ShipType.Fighter,
                 ShipType.Bomber,
                 ShipType.RepairShip,
+                ShipType.MissileFrigate,
+                ShipType.BeamFrigate,
             };
 
             foreach (var type in shipTypes)

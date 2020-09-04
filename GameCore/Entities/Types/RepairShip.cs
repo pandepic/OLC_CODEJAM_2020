@@ -59,7 +59,7 @@ namespace GameCore.Entities
 
                 case RepairShipRepairState repair:
                     {
-                        if (repair.Target.CurrentArmourHP >= repair.Target.BaseArmourHP)
+                        if (repair.Target.IsDead || repair.Target.CurrentArmourHP >= repair.Target.BaseArmourHP)
                         {
                             SetFollowState();
                         }

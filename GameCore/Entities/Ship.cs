@@ -79,16 +79,20 @@ namespace GameCore.Entities
 
             foreach (var weapon in data.Weapons)
             {
-                Weapons.Add(new Weapon()
+                var newWeapon = new Weapon()
                 {
                     ProjectileType = weapon.ProjectileType,
+                    MountType = weapon.MountType,
                     TargetType = weapon.TargetType,
                     Range = weapon.Range,
                     Cooldown = weapon.Cooldown,
                     Damage = weapon.Damage,
                     MaxAngle = weapon.MaxAngle,
-                    CurrentCooldown = weapon.Cooldown,
-                });
+                };
+
+                newWeapon.ResetCooldown();
+
+                Weapons.Add(newWeapon);
             }
 
             foreach (var weapon in Weapons)
@@ -189,6 +193,14 @@ namespace GameCore.Entities
 
             ShieldSprite.Update(gameTime);
             StateMachine.Update(gameTime);
+
+            foreach (var weapon in Weapons)
+            {
+                if (weapon.MountType == MountType.Turret)
+                {
+                    AIHelper.HandleTurret(this, weapon, gameTime);
+                }
+            }
 
         } // Update
 

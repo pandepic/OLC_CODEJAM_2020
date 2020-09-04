@@ -210,6 +210,18 @@ namespace GameCore
                         newShip = new RepairShip(owner, position);
                     }
                     break;
+
+                case ShipType.MissileFrigate:
+                    {
+                        newShip = new MissileFrigate(owner, position);
+                    }
+                    break;
+
+                case ShipType.BeamFrigate:
+                    {
+                        newShip = new BeamFrigate(owner, position);
+                    }
+                    break;
             }
 
             if (newShip == null)
@@ -231,7 +243,7 @@ namespace GameCore
             GameplayState.WorldManager.EnemyShips.Remove(ship);
             GameplayState.WorldManager.Ships.Remove(ship);
 
-            GameplayState.EffectsManager.AddExplosion(ship);
+            GameplayState.EffectsManager.AddExplosion(ship, null, 15.0f);
 
             if (ship.IsSelected)
             {

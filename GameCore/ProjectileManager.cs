@@ -53,6 +53,7 @@ namespace GameCore.Combat
         public ObjectPool<Projectile> Projectiles = new ObjectPool<Projectile>(20000, true);
 
         protected List<Projectile> DeadProjectiles = new List<Projectile>();
+        protected List<Entity> DeadProjectileAnchors = new List<Entity>();
 
         public ProjectileManager() { }
 
@@ -62,15 +63,15 @@ namespace GameCore.Combat
             newProjectile.SetType(weapon.ProjectileType);
             newProjectile.TargetType = target.TargetType;
             newProjectile.Damage = damage;
-            newProjectile.Position = source.Position; // todo : offset by ship type
+            newProjectile.Position = source.Position + new Vector2(WorldData.RNG.Next(-25, 25), WorldData.RNG.Next(-25, 25));
             newProjectile.IsPlayerProjectile = source.IsPlayerShip;
             newProjectile.CenterOrigin();
 
-            // todo : lead target based on speed
-            newProjectile.TargetRotation = AIHelper.GetAngleToTarget(source.Position, source.Rotation, target.Position);
+            newProjectile.TargetRotation = AIHelper.GetAngleToTarget(newProjectile.Position, source.Rotation, target.Position);
 
             if (newProjectile.TurnSpeed == 0)
             {
+                // todo : lead target for non missiles
                 newProjectile.Rotation = newProjectile.TargetRotation;
             }
             else
@@ -86,7 +87,7 @@ namespace GameCore.Combat
             for (var i = 0; i <= Projectiles.LastActiveIndex; i++)
             {
                 var projectile = Projectiles[i];
-                
+
                 projectile.Lifetime -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
                 if (projectile.Lifetime <= 0)
@@ -94,6 +95,23 @@ namespace GameCore.Combat
                     DeadProjectiles.Add(projectile);
                     continue;
                 }
+            }
+
+            for (var i = 0; i < DeadProjectiles.Count; i++)
+            {
+                var projectile = DeadProjectiles[i];
+
+                if (projectile.DeathType == ProjectileDeathType.Explosion)
+                    GameplayState.EffectsManager.AddExplosion(projectile);
+
+                Projectiles.Delete(projectile);
+            }
+
+            DeadProjectiles.Clear();
+
+            for (var i = 0; i <= Projectiles.LastActiveIndex; i++)
+            {
+                var projectile = Projectiles[i];
 
                 if (projectile.Target != null && projectile.TurnSpeed > 0)
                     projectile.TargetRotation = AIHelper.GetAngleToTarget(projectile.Position, projectile.Rotation, projectile.Target.Position);
@@ -123,6 +141,7 @@ namespace GameCore.Combat
                     {
                         target.TakeDamage(projectile.Damage);
                         DeadProjectiles.Add(projectile);
+                        DeadProjectileAnchors.Add(target);
                     }
                 }
             }
@@ -130,14 +149,18 @@ namespace GameCore.Combat
             for (var i = 0; i < DeadProjectiles.Count; i++)
             {
                 var projectile = DeadProjectiles[i];
+                var anchor = DeadProjectileAnchors[i];
 
                 if (projectile.DeathType == ProjectileDeathType.Explosion)
-                    GameplayState.EffectsManager.AddExplosion(projectile);
+                    GameplayState.EffectsManager.AddExplosion(projectile, anchor, 4.0f);
+                else
+                    GameplayState.EffectsManager.AddExplosion(projectile, Color.Cyan, anchor, 1.5f, 600.0f);
 
                 Projectiles.Delete(projectile);
             }
 
             DeadProjectiles.Clear();
+            DeadProjectileAnchors.Clear();
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <ProjectileTypes>
-  <Type Name="SmallLaser" Sprite="ProjectileSharp" Scale="1" MoveSpeed="1000" TurnSpeed="0" Lifetime="3000" Colour="#EE0000EE" />
-  <Type Name="SmallMissile" Sprite="ProjectileSharp" Scale="1" MoveSpeed="800" TurnSpeed="500" Lifetime="4500" Colour="#EE0000EE" DeathType="Explosion" />
-  <Type Name="SmallTorpedo" Sprite="ProjectileSharp" Scale="2" MoveSpeed="600" TurnSpeed="300" Lifetime="6000" Colour="#EE0000EE" DeathType="Explosion" />
+  <Type Name="SmallLaser" Sprite="ProjectileSharp" Scale="1.5" MoveSpeed="1000" TurnSpeed="0" Lifetime="3000" Colour="#00FFFFCC" />
+  <Type Name="MediumLaser" Sprite="ProjectileSharp" Scale="2" MoveSpeed="1000" TurnSpeed="0" Lifetime="3000" Colour="#872be2CC" />
+  <Type Name="LargeLaser" Sprite="ProjectileSharp" Scale="3" MoveSpeed="1000" TurnSpeed="0" Lifetime="3000" Colour="#872be2CC" />
+  <Type Name="SmallMissile" Sprite="Missile1" Scale="1" MoveSpeed="600" TurnSpeed="400" Lifetime="4500" DeathType="Explosion" />
+  <Type Name="SmallTorpedo" Sprite="Missile3" Scale="1" MoveSpeed="500" TurnSpeed="300" Lifetime="6000" DeathType="Explosion" />
+  <Type Name="MediumTorpedo" Sprite="Missile3" Scale="1.5" MoveSpeed="400" TurnSpeed="250" Lifetime="6000" DeathType="Explosion" />
 </ProjectileTypes>
