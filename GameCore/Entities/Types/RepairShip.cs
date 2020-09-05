@@ -68,7 +68,7 @@ namespace GameCore.Entities
             }
 
             base.Update(gameTime);
-        }
+        } // Update
 
         public void ScanForTarget(GameTime gameTime)
         {
@@ -92,6 +92,14 @@ namespace GameCore.Entities
                     NextDefendScan = DefendScanFrequency;
                 }
             }
+        } // ScanForTarget
+
+        public void SetRepairTarget(Ship target)
+        {
+            var repair = StateMachine.GetState<RepairShipRepairState>();
+            repair.Target = target;
+            repair.RepairRate = RepairRate;
+            StateMachine.SetState(repair);
         }
     }
 }

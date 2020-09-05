@@ -8,6 +8,7 @@ using SpriteFontPlus;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 
 namespace GameCore
 {
@@ -25,7 +26,8 @@ namespace GameCore
         Menu,
         Play,
         Settings,
-        Exit
+        GameOver,
+        Exit,
     };
 
     public enum ResourceType
@@ -82,8 +84,19 @@ namespace GameCore
         Explosion,
     }
 
-    public static class Screen
+    public static class Config
     {
+        public static int StartingMiners = 3;
+        public static int WorldWidth = 50000;
+        public static int WorldHeight = 50000;
+        public static int AsteroidRegionWidth = 500;
+        public static int AsteroidRegionHeight = 500;
+        public static Vector2 PlayerStartPosition = new Vector2(5000, 5000);
+
+        public static void Load()
+        {
+            var configDoc = XDocument.Load("Assets/config.xml");
+        }
     }
 
     public static class WorldData

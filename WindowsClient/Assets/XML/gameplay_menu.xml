@@ -34,6 +34,7 @@
         </Label>
       </Widgets>
     </Frame>
+    
     <Frame Name="mainFrame">
       <Position>
         <X>0</X>
@@ -45,20 +46,6 @@
       </Size>
 
       <Widgets>
-        <!--
-        <Label Name="lblTitle">
-          <Text>WAR MACHINE - OLC Code Jam 2020</Text>
-          <FontName>latoblack</FontName>
-          <FontSize>24</FontSize>
-          <Position>
-            <X>center</X>
-            <Y>20</Y>
-          </Position>
-          <Color>#FFFFFF</Color>
-          <UpdateMethod></UpdateMethod>
-        </Label>
-        -->
-
         <Label Name="lblSelection" Template="DebugLabel">
           <Text></Text>
           <Position>
@@ -351,5 +338,112 @@
         
       </Widgets>
     </Frame> <!-- frmProduction -->
+
+    <Frame Name="frmUpgrades" DrawOrder="2" Visible="false" Active="false" Draggable="true" DraggableRect="0,0,fill,60">
+      <Position>
+        <X>center</X>
+        <Y>center</Y>
+      </Position>
+      <Size>
+        <Width>bg</Width>
+        <Height>bg</Height>
+      </Size>
+
+      <BackgroundImage>UIFrame</BackgroundImage>
+      <PreMultiplyAlpha>True</PreMultiplyAlpha>
+
+      <Widgets>
+        <Label Name="lblUpgradesTitle">
+          <Text>Upgrades</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>32</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>18</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+      </Widgets>
+    </Frame>
+
+    <Frame Name="frmHelp" DrawOrder="2" Visible="true" Active="true" Draggable="true" DraggableRect="0,0,fill,60">
+      <Position>
+        <X>center</X>
+        <Y>center</Y>
+      </Position>
+      <Size>
+        <Width>bg</Width>
+        <Height>bg</Height>
+      </Size>
+
+      <BackgroundImage>UIFrame</BackgroundImage>
+      <PreMultiplyAlpha>True</PreMultiplyAlpha>
+
+      <Widgets>
+        <Label Name="lblHelpTitle">
+          <Text>Help</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>32</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>18</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+
+        <Label Name="lblInstructions">
+          <Text>The Great "War Machine", pride of the imperial fleet, was damaged escaping from a
+disastrous battle. With our engines overloading, we made one last emergency
+hypserspace jump to this asteroid field where some friendly miners have responded
+to our distress call. Our sensors detect the enemy is still searching for us.
+
+Use your miners to gather resources from asteroids and build ships to defend
+yourself from the incoming enemy fleets. Destroying enemy ships will give you
+upgrade points to repair the War Machine and improve your ships. Use your upgrade
+points to repair the hyperdrive to escape the asteroid field and win the game.</Text>
+          
+          <FontName>latoblack</FontName>
+          <FontSize>24</FontSize>
+          <Position>
+            <X>25</X>
+            <Y>75</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+
+        <Label Name="lblHelpKeysTitle">
+          <Text>Controls:</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>32</FontSize>
+          <Position>
+            <X>25</X>
+            <Y>305</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+
+        <Label Name="lblHelpKeysLeft">
+          <Text>B:\nU:\nTab:\nWASD:\nArrow keys:\nMouse:</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>24</FontSize>
+          <Position>
+            <X>25</X>
+            <Y>350</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+
+        <Label Name="lblHelpKeysRight">
+          <Text>Open/close ship production.\nOpen/close upgrades.\nOpen/close help.\nMove the camera.\nMove the camera.\nMiddle button to move the camera,\nleft button to select ships, right button to command them.</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>24</FontSize>
+          <Position>
+            <X>150</X>
+            <Y>350</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+      </Widgets>
+    </Frame> <!-- frmHelp -->
   </Scene>
 </Menu>

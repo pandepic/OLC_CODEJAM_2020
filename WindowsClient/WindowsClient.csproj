@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\config.xml" />
     <None Remove="Assets\Sprites\particles.png" />
     <None Remove="Assets\Sprites\particles.xml" />
     <None Remove="Assets\UI\frame.png" />

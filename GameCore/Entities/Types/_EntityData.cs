@@ -15,6 +15,10 @@ namespace GameCore.Entities
         public TargetType TargetType;
         public string Sprite;
         public float Scale;
+        public string Description;
+
+        public bool CanBuild;
+        public int WaveValue;
 
         public float MoveSpeed;
         public float TurnSpeed;
@@ -36,7 +40,7 @@ namespace GameCore.Entities
         public string ProjectileType;
         public ProjectileDeathType DeathType;
         public string Sprite;
-        public Color Colour;
+        public Color Colour, EnemyColour;
         public float MoveSpeed;
         public float Lifetime;
         public float TurnSpeed;
@@ -50,6 +54,9 @@ namespace GameCore.Entities
 
         public static void Load()
         {
+            ShipTypes.Clear();
+            ProjectileTypes.Clear();
+
             using (var fs = ModManager.Instance.AssetManager.GetFileStreamByAsset("ShipTypes"))
             {
                 var doc = XDocument.Load(fs);
@@ -70,10 +77,12 @@ namespace GameCore.Entities
                         BuildCost = new Dictionary<ResourceType, int>(),
                         Weapons = new List<Weapon>(),
                         SpecialAttributes = new Dictionary<string, string>(),
+                        Description = el.Element("Description").Value,
                     };
 
                     var elBuildCost = el.Element("BuildCost");
                     var elBuildTime = el.Element("BuildTime");
+                    newType.CanBuild = false;
 
                     if (elBuildCost != null)
                     {
@@ -83,6 +92,9 @@ namespace GameCore.Entities
                             if (attr != null)
                                 newType.BuildCost.Add(type, int.Parse(attr.Value));
                         }
+
+                        if (newType.BuildCost.Count > 0)
+                            newType.CanBuild = true;
                     }
 
                     if (elBuildTime != null)
@@ -159,6 +171,7 @@ namespace GameCore.Entities
                         DeathType = attDeathType == null ? ProjectileDeathType.None : attDeathType.Value.ToEnum<ProjectileDeathType>(),
                         Sprite = projectileType.Attribute("Sprite").Value,
                         Colour = projectileType.Attribute("Colour") == null ? Color.White : PUIColorConversion.Instance.ToColor(projectileType.Attribute("Colour").Value),
+                        EnemyColour = projectileType.Attribute("EnemyColour") == null ? Color.White : PUIColorConversion.Instance.ToColor(projectileType.Attribute("EnemyColour").Value),
                         MoveSpeed = float.Parse(projectileType.Attribute("MoveSpeed").Value),
                         TurnSpeed = float.Parse(projectileType.Attribute("TurnSpeed").Value),
                         Lifetime = float.Parse(projectileType.Attribute("Lifetime").Value),

@@ -88,7 +88,7 @@ namespace GameCore
 
                 if (asteroid.ResourceType == ResourceType.None)
                     continue;
-                
+
                 var iconPosition = asteroid.Position - new Vector2(asteroid.ResourceSprite.SourceRect.Width / 2, asteroid.ResourceSprite.SourceRect.Height / 2) - new Vector2(0, asteroid.Origin.Y + 50);
                 iconPosition = Vector2.Transform(iconPosition, GameplayState.Camera.GetViewMatrix());
 
@@ -155,6 +155,27 @@ namespace GameCore
 
             foreach (var ship in GameplayState.WorldManager.Ships)
             {
+                if (!ship.IsPlayerShip || ship.ShipType == ShipType.HomeShip || !ship.IsSelectable)
+                    continue;
+
+                if (ship.CollisionRect.Intersects(DragRectWorldSpace))
+                {
+                    SelectedShips.Add(ship);
+                    ship.IsSelected = true;
+                }
+            }
+
+            UpdateSelectedShipTypes();
+        }
+
+        public void CheckSingleSelection()
+        {
+            ClearSelectedShips();
+
+            for (var i = GameplayState.WorldManager.Ships.Count - 1; i >= 0 && SelectedShips.Count == 0; i--)
+            {
+                var ship = GameplayState.WorldManager.Ships[i];
+
                 if (!ship.IsPlayerShip || ship.ShipType == ShipType.HomeShip || !ship.IsSelectable)
                     continue;
 
@@ -280,7 +301,7 @@ namespace GameCore
             if (ship is Carrier carrier)
                 carrier.ReparentChildren();
 
-            GameplayState.EffectsManager.AddExplosion(ship, null, 15.0f);
+            GameplayState.EffectsManager.AddExplosion(ship, null, 15.0f, 5000.0f);
 
             if (ship.IsSelected)
             {
@@ -366,7 +387,7 @@ namespace GameCore
                     DragRectWorldSpace.Width = 1;
                     DragRectWorldSpace.Height = 1;
 
-                    CheckSelection();
+                    CheckSingleSelection();
                 }
 
                 if (SelectedShips.Count == 0)
@@ -442,13 +463,43 @@ namespace GameCore
                                 }
                                 break;
 
+                            case ShipType.RepairShip:
+                                {
+                                    var newDefendTarget = GameplayState.WorldManager.GetShipAtWorldPosition(mouseWorldPos);
+
+                                    if (newDefendTarget != null)
+                                    {
+                                        if (newDefendTarget.IsPlayerShip && newDefendTarget.CurrentArmourHP < newDefendTarget.BaseArmourHP)
+                                        {
+                                            foreach (RepairShip ship in kvp.Value)
+                                            {
+                                                ship.SetRepairTarget(newDefendTarget);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foreach (Ship ship in kvp.Value)
+                                            {
+                                                AIHelper.BigDefendTarget(ship, newDefendTarget);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (Ship ship in kvp.Value)
+                                        {
+                                            AIHelper.BigDefendPosition(ship, mouseWorldPos);
+                                        }
+                                    }
+                                }
+                                break;
+
                             case ShipType.Battleship:
                             case ShipType.Carrier:
                             case ShipType.SupportCruiser:
                             case ShipType.HeavyCruiser:
                             case ShipType.MissileFrigate:
                             case ShipType.BeamFrigate:
-                            case ShipType.RepairShip:
                                 {
                                     var newDefendTarget = GameplayState.WorldManager.GetShipAtWorldPosition(mouseWorldPos);
 

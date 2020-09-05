@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Xml.Linq;
 
 namespace GameCore
 {
@@ -116,6 +117,10 @@ namespace GameCore
 
             _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
 
+            EntityData.Load();
+            WorldData.Load();
+            Config.Load();
+
             _lblProductionQueue = _menu.GetWidget<PUIWLabel>("lblProductionQueue");
             _lblMetal = _menu.GetWidget<PUIWLabel>("lblMetal");
             _lblGas = _menu.GetWidget<PUIWLabel>("lblGas");
@@ -123,31 +128,22 @@ namespace GameCore
             _lblCrystal = _menu.GetWidget<PUIWLabel>("lblCrystal");
             _lblUranium = _menu.GetWidget<PUIWLabel>("lblUranium");
 
-            var buildCostShipTypes = new List<ShipType>()
+            // create build menu tooltips
+            foreach (var kvp in EntityData.ShipTypes)
             {
-                ShipType.Miner,
-                ShipType.Fighter,
-                ShipType.Bomber,
-                ShipType.RepairShip,
-                ShipType.MissileFrigate,
-                ShipType.BeamFrigate,
-                ShipType.SupportCruiser,
-                ShipType.HeavyCruiser,
-                ShipType.Battleship,
-                ShipType.Carrier,
-            };
+                if (!kvp.Value.CanBuild)
+                    continue;
 
-            foreach (var type in buildCostShipTypes)
-            {
-                var button = _menu.GetWidget<PUIWBasicButton>("btnBuild" + type.ToString());
+                var button = _menu.GetWidget<PUIWBasicButton>("btnBuild" + kvp.Value.ShipType.ToString());
 
                 _sbGeneral.Clear();
 
-                var typeData = EntityData.ShipTypes[type];
+                _sbGeneral.Append("\n\n").Append(kvp.Value.Description.Replace("\\n", "\n"));
 
-                foreach (var kvp in typeData.BuildCost)
+                foreach (var kvpBuild in kvp.Value.BuildCost)
                 {
-                    var sprite = TexturePacker.GetSprite("ResourcesAtlas", kvp.Key.ToString());
+                    var sprite = TexturePacker.GetSprite("ResourcesAtlas", kvpBuild.Key.ToString());
+
                     _sbGeneral
                         .Append("[")
                         .Append("ResourcesTexture-")
@@ -156,11 +152,12 @@ namespace GameCore
                         .Append(sprite.SourceRect.Width).Append(",")
                         .Append(sprite.SourceRect.Height)
                         .Append("] ")
-                        .Append(kvp.Value)
-                        .Append(", ");
+                        .Append(kvpBuild.Value)
+                        .Append("  ");
                 }
 
                 _sbGeneral.Remove(_sbGeneral.Length - 2, 2);
+
                 button.SetTooltip(_sbGeneral.ToString(), _sbGeneral.ToString(), true);
             }
 
@@ -168,7 +165,7 @@ namespace GameCore
 
             Camera = new BasicCamera2D(
                 new Rectangle(0, 0, graphics.PresentationParameters.BackBufferWidth, graphics.PresentationParameters.BackBufferHeight),
-                new Rectangle(0, 0, WorldManager.WorldWidth, WorldManager.WorldHeight));
+                new Rectangle(0, 0, Config.WorldWidth, Config.WorldHeight));
 
             _currentZoomLevel = _zoomLevels.IndexOf(0.5f);
             Camera.Zoom = _zoomLevels[_currentZoomLevel];
@@ -387,7 +384,22 @@ namespace GameCore
                 productionFrame.Visible = !productionFrame.Visible;
                 productionFrame.Active = productionFrame.Visible;
             }
-        }
+            else if (key == Keys.Tab)
+            {
+                var helpFrame = _menu.GetFrame("frmHelp");
+
+                helpFrame.Visible = !helpFrame.Visible;
+                helpFrame.Active = helpFrame.Visible;
+            }
+            else if (key == Keys.U)
+            {
+                var upgradesFrame = _menu.GetFrame("frmUpgrades");
+
+                upgradesFrame.Visible = !upgradesFrame.Visible;
+                upgradesFrame.Active = upgradesFrame.Visible;
+            }
+
+        } // OnKeyReleased
 
         public override void OnKeyDown(Keys key, GameTime gameTime, CurrentKeyState currentKeyState)
         {

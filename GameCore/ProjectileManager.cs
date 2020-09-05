@@ -18,12 +18,12 @@ namespace GameCore.Combat
         public float Lifetime;
         public bool IsPlayerProjectile;
         public float Damage;
-        public Color Colour;
+        public Color Colour, EnemyColour;
         public Ship Target;
 
         public Projectile() { }
 
-        public void SetType(string type)
+        public void SetType(string type, Ship source)
         {
             ProjectileType = type;
 
@@ -32,7 +32,7 @@ namespace GameCore.Combat
             MoveSpeed = data.MoveSpeed;
             TurnSpeed = data.TurnSpeed;
             Lifetime = data.Lifetime;
-            Colour = data.Colour;  
+            Colour = source.IsPlayerShip ? data.Colour : data.EnemyColour;
             Sprite = TexturePacker.GetSprite("ParticlesAtlas", data.Sprite);
             Scale = data.Scale;
         }
@@ -65,7 +65,7 @@ namespace GameCore.Combat
         public void FireProjectile(Weapon weapon, Ship source, Ship target, float damage, Vector2 positionOffset)
         {
             var newProjectile = Projectiles.New();
-            newProjectile.SetType(weapon.ProjectileType);
+            newProjectile.SetType(weapon.ProjectileType, source);
             newProjectile.TargetType = target.TargetType;
             newProjectile.Damage = damage;
             newProjectile.Position = source.Position + positionOffset + new Vector2(WorldData.RNG.Next(-25, 25), WorldData.RNG.Next(-25, 25));

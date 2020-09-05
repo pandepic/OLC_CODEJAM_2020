@@ -73,8 +73,6 @@ namespace WindowsClient
 
             Sprites.Load(GraphicsDevice);
             PUITooltipManager.Setup(GraphicsDevice, Sprites.DefaultFont);
-            WorldData.Load();
-            EntityData.Load();
 
             //ChangeGameState((int)GameStateType.Startup);
             ChangeGameState((int)GameStateType.Menu);

@@ -6,18 +6,12 @@ using PandaMonogame.Assets;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 
 namespace GameCore
 {
     public class WorldManager
     {
-        public static int StartingMiners = 2;
-        public static int WorldWidth = 50000;
-        public static int WorldHeight = 50000;
-        public static int AsteroidRegionWidth = 500;
-        public static int AsteroidRegionHeight = 500;
-        public static Vector2 PlayerStartPosition = new Vector2(5000, 5000);
-
         public ObjectPool<Asteroid> Asteroids;
         public List<Ship> Ships = new List<Ship>();
         public List<Ship> PlayerShips = new List<Ship>();
@@ -71,9 +65,9 @@ namespace GameCore
             Asteroids = new ObjectPool<Asteroid>(10000);
 
             // random asteroid field generation
-            for (var x = AsteroidRegionWidth; x < (WorldWidth - AsteroidRegionWidth); x += AsteroidRegionWidth)
+            for (var x = Config.AsteroidRegionWidth; x < (Config.WorldWidth - Config.AsteroidRegionWidth); x += Config.AsteroidRegionWidth)
             {
-                for (var y = AsteroidRegionHeight; y < (WorldHeight - AsteroidRegionHeight); y += AsteroidRegionHeight)
+                for (var y = Config.AsteroidRegionHeight; y < (Config.WorldHeight - Config.AsteroidRegionHeight); y += Config.AsteroidRegionHeight)
                 {
                     if (WorldData.RNG.Next(0, 10) < 2 && Asteroids.LastActiveIndex < (Asteroids.Size - 1))
                     {
@@ -95,45 +89,43 @@ namespace GameCore
             }
 
             PlayerEntity = new Player();
-            PlayerEntity.Position = PlayerStartPosition;
+            PlayerEntity.Position = Config.PlayerStartPosition;
             PlayerShips.Add(PlayerEntity);
             Ships.Add(PlayerEntity);
 
-            //for (var i = 0; i < StartingMiners; i++)
-            //{
-            //    GameplayState.UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
-            //}
+            for (var i = 0; i < Config.StartingMiners; i++)
+            {
+                GameplayState.UnitManager.SpawnShip(ShipType.Miner, PlayerEntity.Position + new Vector2(WorldData.RNG.Next(-200, 200), WorldData.RNG.Next(-200, 200)), PlayerEntity);
+            }
 
-            //for (var i = 0; i < 15; i++)
-            //{
-            //    GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(1000, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
-            //}
+            // TEMP TEST SPAWNING
+            var configDoc = XDocument.Load("Assets/config.xml");
+            var elTestShips = configDoc.Root.Element("TestShips");
 
-            //for (var i = 0; i < 25; i++)
-            //{
-            //    GameplayState.UnitManager.SpawnShip(ShipType.Bomber, new Vector2(1000, 500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), null);
-            //}
+            if (elTestShips != null)
+            {
+                foreach (var ship in elTestShips.Elements("Ship"))
+                {
+                    var isPlayer = bool.Parse(ship.Attribute("Player").Value);
+                    var shipType = ship.Attribute("Type").Value.ToEnum<ShipType>();
+                    var count = int.Parse(ship.Attribute("Count").Value);
 
-            //for (var i = 0; i < 25; i++)
-            //{
-            //    GameplayState.UnitManager.SpawnShip(ShipType.Fighter, new Vector2(4000, 4000) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), PlayerEntity);
-            //}
+                    for (var i = 0; i < count; i++)
+                    {
+                        var position = new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000));
+                        Ship owner = PlayerEntity;
 
-            //GameplayState.UnitManager.SpawnShip(ShipType.RepairShip, new Vector2(4500, 4500) + new Vector2(WorldData.RNG.Next(-500, 500), WorldData.RNG.Next(-500, 500)), PlayerEntity);
+                        if (!isPlayer)
+                        {
+                            position = new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000));
+                            owner = null;
+                        }
 
-            //GameplayState.UnitManager.SpawnShip(ShipType.MissileFrigate, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
-            //GameplayState.UnitManager.SpawnShip(ShipType.BeamFrigate, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
-            //GameplayState.UnitManager.SpawnShip(ShipType.SupportCruiser, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
-            //GameplayState.UnitManager.SpawnShip(ShipType.HeavyCruiser, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
-            //GameplayState.UnitManager.SpawnShip(ShipType.Battleship, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
-            GameplayState.UnitManager.SpawnShip(ShipType.Carrier, new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), PlayerEntity);
-
-            //GameplayState.UnitManager.SpawnShip(ShipType.MissileFrigate, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
-            //GameplayState.UnitManager.SpawnShip(ShipType.BeamFrigate, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
-            //GameplayState.UnitManager.SpawnShip(ShipType.SupportCruiser, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
-            //GameplayState.UnitManager.SpawnShip(ShipType.HeavyCruiser, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
-            GameplayState.UnitManager.SpawnShip(ShipType.Battleship, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
-            GameplayState.UnitManager.SpawnShip(ShipType.Carrier, new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000)), null);
+                        GameplayState.UnitManager.SpawnShip(shipType, position, owner);
+                    }
+                }
+            }
+            // END TEMP TEST SPAWNING
         }
 
         ~WorldManager()
@@ -192,7 +184,7 @@ namespace GameCore
         public void DrawScreen(SpriteBatch spriteBatch)
         {
             // todo : fix bg not lining up at right edge
-            var worldSize = new Vector2(WorldWidth, WorldHeight);
+            var worldSize = new Vector2(Config.WorldWidth, Config.WorldHeight);
             var bgSize = new Vector2(Background.Width, Background.Height);
             var bgProportionalSize = (float)bgSize.X / (float)worldSize.X;
             float bgZoom = 1.0f - ((1.0f - GameplayState.Camera.Zoom) * bgProportionalSize);

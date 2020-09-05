@@ -51,6 +51,7 @@ namespace PandaMonogame.UI
 
         protected void UpdateText(string text)
         {
+            text = text.Replace("\\n", "\n");
             _text = text;
 
             font.Size = fontSize;

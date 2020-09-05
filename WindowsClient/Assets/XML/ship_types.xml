@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ShipTypes>
   <Type Name="HomeShip" Sprite="Station2" Scale="1" TargetType="Large">
+    <Description></Description>
+    
     <MoveSpeed>50</MoveSpeed>
     <TurnSpeed>40</TurnSpeed>
 
@@ -15,6 +17,8 @@
   </Type>
   
   <Type Name="Miner" Sprite="Alien1" Scale="1" TargetType="Small">
+    <Description>Gather resources from asteroids.</Description>
+
     <MoveSpeed>200</MoveSpeed>
     <TurnSpeed>75</TurnSpeed>
 
@@ -30,6 +34,8 @@
   </Type>
 
   <Type Name="Fighter" Sprite="Fighter1" Scale="1" TargetType="Small">
+    <Description>Protect your fleet from bombers.</Description>
+
     <MoveSpeed>250</MoveSpeed>
     <TurnSpeed>120</TurnSpeed>
 
@@ -53,6 +59,8 @@
   </Type>
 
   <Type Name="Bomber" Sprite="Alien2" Scale="1" TargetType="Small">
+    <Description>Fast and can destroy capital ships.</Description>
+
     <MoveSpeed>220</MoveSpeed>
     <TurnSpeed>80</TurnSpeed>
 
@@ -84,6 +92,8 @@
   </Type>
 
   <Type Name="RepairShip" Sprite="Alien4" Scale="1" TargetType="Small">
+    <Description>Repair your capital ships.</Description>
+
     <MoveSpeed>180</MoveSpeed>
     <TurnSpeed>70</TurnSpeed>
 
@@ -99,6 +109,8 @@
   </Type>
 
   <Type Name="MissileFrigate" Sprite="Frigate2" Scale="1" TargetType="Large">
+    <Description>Small but agile capital ship with powerful long range missiles.</Description>
+
     <MoveSpeed>160</MoveSpeed>
     <TurnSpeed>60</TurnSpeed>
 
@@ -131,6 +143,8 @@
   </Type>
 
   <Type Name="BeamFrigate" Sprite="Frigate1" Scale="1" TargetType="Large">
+    <Description>Small but agile capital ship good at destroying fighters and bombers.\nAlso has a powerful anti capital laser.</Description>
+
     <MoveSpeed>160</MoveSpeed>
     <TurnSpeed>60</TurnSpeed>
 
@@ -163,6 +177,8 @@
   </Type>
 
   <Type Name="SupportCruiser" Sprite="Cruiser2" Scale="1" TargetType="Large">
+    <Description>Large capital ship capable of destroying swarms of fighters and bombers.\nCan also deal some damage to enemy capital ships.</Description>
+
     <MoveSpeed>120</MoveSpeed>
     <TurnSpeed>50</TurnSpeed>
 
@@ -177,7 +193,7 @@
       <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
       <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
       <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
-      <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
+      <Weapon ProjectileType="LargeLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
       <Weapon ProjectileType="LargeLaser" Mount="Turret" TargetType="Large" Range="3000" Cooldown="500" Damage="100" MaxAngle="360" />
     </Weapons>
 
@@ -197,6 +213,8 @@
   </Type>
 
   <Type Name="HeavyCruiser" Sprite="Cruiser1" Scale="1" TargetType="Large">
+    <Description>Large powerful capital ship good at dealing damage to everything within range.\nUses both laser and missile weapons against all targets.</Description>
+
     <MoveSpeed>140</MoveSpeed>
     <TurnSpeed>60</TurnSpeed>
 
@@ -232,6 +250,8 @@
   </Type>
 
   <Type Name="Battleship" Sprite="Huge1" Scale="1" TargetType="Large">
+    <Description>Big and slow but dominates the battlefield with a huge array of powerful weapons.\nAble to soak up a large amount of damage with powerful shields.\nUses both lasers and missile weapons against all targets.</Description>
+
     <MoveSpeed>80</MoveSpeed>
     <TurnSpeed>40</TurnSpeed>
 
@@ -274,6 +294,8 @@
   </Type>
 
   <Type Name="Carrier" Sprite="Carrier1" Scale="1" TargetType="Large">
+    <Description>Moves slowly but attacks at long range using it's own swarm of fighters and bombers.\nCan take a lot of damage with powerful shields.\nAlso uses a small number of laser and missile weapons.</Description>
+
     <MoveSpeed>80</MoveSpeed>
     <TurnSpeed>40</TurnSpeed>
 

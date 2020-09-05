@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Config>
+  <Player StartingMiners="3" />
+  <World Width="50000" Height="50000" />
+  
+  <!-- Wave timers in seconds (most other values are in ms) -->
+  <EnemyWaves StartingValue="500" IncreasePerWave="250" StartingTimer="30" WaveTimer="180" StartPosition="5000,5000" />
+  
+  <!-- Battle testing for debugging, if you uncomment this, these will spawn at the start of the game -->
+  <TestShips>
+    <!--<Ship Type="MissileFrigate" Player="true" Count="1" />
+    <Ship Type="BeamFrigate" Player="true" Count="1" />
+    <Ship Type="SupportCruiser" Player="true" Count="1" />
+    <Ship Type="HeavyCruiser" Player="true" Count="1" />
+    <Ship Type="Battleship" Player="true" Count="1" />
+    <Ship Type="Carrier" Player="true" Count="10" />
+
+    <Ship Type="MissileFrigate" Player="false" Count="1" />
+    <Ship Type="BeamFrigate" Player="false" Count="1" />
+    <Ship Type="SupportCruiser" Player="false" Count="1" />
+    <Ship Type="HeavyCruiser" Player="false" Count="1" />
+    <Ship Type="Battleship" Player="false" Count="1" />
+    <Ship Type="Carrier" Player="false" Count="1" />-->
+  </TestShips>
+</Config>

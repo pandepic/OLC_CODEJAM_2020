@@ -110,7 +110,14 @@ namespace PandaMonogame.UI
                             Text = newText,
                         };
 
-                        currentPosition.X = newTextSection.Position.X + newTextSection.Size.X;
+                        // quick hack to make build tooltips work
+                        if (newTextSection.Position.X == 0 && newTextSection.Text.Contains("\n\n"))
+                        {
+                        }
+                        else
+                        {
+                            currentPosition.X = newTextSection.Position.X + newTextSection.Size.X;
+                        }
 
                         textSections.Add(newTextSection);
 
