@@ -151,6 +151,12 @@ namespace WindowsClient
                     }
                     break;
 
+                case (int)GameStateType.Loading:
+                    {
+                        _currentGameState = new LoadingState();
+                    }
+                    break;
+
                 case (int)GameStateType.Play:
                     {
                         _currentGameState = new GameplayState();

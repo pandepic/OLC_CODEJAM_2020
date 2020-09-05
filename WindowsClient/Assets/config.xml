@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Config>
-  <Player StartingMiners="3" />
-  <World Width="50000" Height="50000" />
+  <Player StartingMiners="3" StartPosition="5000,5000" />
+  <World Width="50000" Height="50000" AsteroidRegionWidth="500" AsteroidRegionHeight="500" />
   
   <!-- Wave timers in seconds (most other values are in ms) -->
-  <EnemyWaves StartingValue="500" IncreasePerWave="250" StartingTimer="30" WaveTimer="180" StartPosition="5000,5000" />
+  <EnemyWaves StartingValue="10" IncreasePerWave="5" StartingTimer="10" WaveTimer="20" />
   
   <!-- Battle testing for debugging, if you uncomment this, these will spawn at the start of the game -->
   <TestShips>

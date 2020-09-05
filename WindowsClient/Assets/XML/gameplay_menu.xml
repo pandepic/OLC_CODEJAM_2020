@@ -46,6 +46,42 @@
       </Size>
 
       <Widgets>
+        <Label Name="lblNextEnemyWaveTimer" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>top</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>25</Y>
+          </Offset>
+        </Label>
+
+        <Label Name="lblNextEnemyWavePosition" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>top</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>50</Y>
+          </Offset>
+        </Label>
+
+        <Label Name="lblEnemyCount" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>top</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>75</Y>
+          </Offset>
+        </Label>
+        
         <Label Name="lblSelection" Template="DebugLabel">
           <Text></Text>
           <Position>
@@ -434,7 +470,7 @@ points to repair the hyperdrive to escape the asteroid field and win the game.</
         </Label>
 
         <Label Name="lblHelpKeysRight">
-          <Text>Open/close ship production.\nOpen/close upgrades.\nOpen/close help.\nMove the camera.\nFocus camera on War Machine.\nClick or drag to select ships.\nCommand selected ships.</Text>
+          <Text>Open/close ship production.\nOpen/close upgrades.\nOpen/close help.\nMove the camera.\nFocus camera on War Machine.\nClick or drag to select ships.\nCommand selected ships.\nZoom in/out.</Text>
           <FontName>latoblack</FontName>
           <FontSize>20</FontSize>
           <Position>

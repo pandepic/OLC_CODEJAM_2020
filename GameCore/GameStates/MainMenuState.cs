@@ -20,7 +20,7 @@ namespace GameCore
         #region Python Methods
         protected void StartNewGame(params object[] args)
         {
-            _nextGameState = (int)GameStateType.Play;
+            _nextGameState = (int)GameStateType.Loading;
         }
 
         protected void Settings(params object[] args)

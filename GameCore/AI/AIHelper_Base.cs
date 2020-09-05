@@ -264,7 +264,7 @@ namespace GameCore.AI
                 if (!TrySmallAttackClosestEnemy(ship))
                     ship.NextDefendScan = ship.DefendScanFrequency;
             }
-        } // ScanForTarget
+        } // SmallAttackingScanForTarget
 
         public static void HandleTurret(Ship ship, Weapon turret, GameTime gameTime)
         {

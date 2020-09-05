@@ -117,9 +117,9 @@ namespace GameCore
 
             _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
 
+            Config.Load();
             EntityData.Load();
             WorldData.Load();
-            Config.Load();
 
             _lblProductionQueue = _menu.GetWidget<PUIWLabel>("lblProductionQueue");
             _lblMetal = _menu.GetWidget<PUIWLabel>("lblMetal");
@@ -232,6 +232,10 @@ namespace GameCore
             EffectsManager.Update(gameTime);
             EnemyWaveManager.Update(gameTime);
 
+            _menu.GetWidget<PUIWLabel>("lblNextEnemyWaveTimer").Text = "Next Enemy Wave: " + (EnemyWaveManager.NextWaveTimer / 1000.0f).ToString("0");
+            _menu.GetWidget<PUIWLabel>("lblNextEnemyWavePosition").Text = "Next Wave Spawn: " + EnemyWaveManager.NextWavePosition.Name;
+            _menu.GetWidget<PUIWLabel>("lblEnemyCount").Text = "Enemies Alive: " + WorldManager.EnemyShips.Count.ToString();
+            
             return _nextGameState;
         }
 

@@ -20,7 +20,7 @@ namespace GameCore.Entities
 
         public override void Update(GameTime gameTime)
         {
-            AIHelper.BigWarshipAI(this);
+            AIHelper.BigWarshipAI(this, gameTime);
             base.Update(gameTime);
         }
     }

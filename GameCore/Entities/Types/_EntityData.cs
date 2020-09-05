@@ -78,6 +78,7 @@ namespace GameCore.Entities
                         Weapons = new List<Weapon>(),
                         SpecialAttributes = new Dictionary<string, string>(),
                         Description = el.Element("Description").Value,
+                        WaveValue = el.Attribute("WaveValue") == null ? -1 : int.Parse(el.Attribute("WaveValue").Value),
                     };
 
                     var elBuildCost = el.Element("BuildCost");

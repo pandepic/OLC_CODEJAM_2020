@@ -14,6 +14,7 @@
   <Asset Name="MainMenuScript" FilePath="Assets/Py/main_menu.py" />
   <Asset Name="GameplayMenuDefinition" FilePath="Assets/XML/gameplay_menu.xml" />
   <Asset Name="GameplayMenuScript" FilePath="Assets/Py/gameplay_menu.py" />
+  <Asset Name="LoadingMenuDefinition" FilePath="Assets/XML/loading_menu.xml" />
   
   <!-- UI Textures -->
   <Asset Name="MenuBG" FilePath="Assets/UI/menu_bg.jpg" />

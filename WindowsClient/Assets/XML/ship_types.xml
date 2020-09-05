@@ -33,7 +33,7 @@
     
   </Type>
 
-  <Type Name="Fighter" Sprite="Fighter1" Scale="1" TargetType="Small">
+  <Type Name="Fighter" Sprite="Fighter1" Scale="1" TargetType="Small" WaveValue="1">
     <Description>Protect your fleet from bombers.</Description>
 
     <MoveSpeed>250</MoveSpeed>
@@ -58,7 +58,7 @@
     </TargetPriorities>
   </Type>
 
-  <Type Name="Bomber" Sprite="Alien2" Scale="1" TargetType="Small">
+  <Type Name="Bomber" Sprite="Alien2" Scale="1" TargetType="Small" WaveValue="1">
     <Description>Fast and can destroy capital ships.</Description>
 
     <MoveSpeed>220</MoveSpeed>
@@ -108,7 +108,7 @@
     
   </Type>
 
-  <Type Name="MissileFrigate" Sprite="Frigate2" Scale="1" TargetType="Large">
+  <Type Name="MissileFrigate" Sprite="Frigate2" Scale="1" TargetType="Large" WaveValue="5">
     <Description>Small but agile capital ship with powerful long range missiles.</Description>
 
     <MoveSpeed>160</MoveSpeed>
@@ -142,7 +142,7 @@
     </TargetPriorities>
   </Type>
 
-  <Type Name="BeamFrigate" Sprite="Frigate1" Scale="1" TargetType="Large">
+  <Type Name="BeamFrigate" Sprite="Frigate1" Scale="1" TargetType="Large" WaveValue="5">
     <Description>Small but agile capital ship good at destroying fighters and bombers.\nAlso has a powerful anti capital laser.</Description>
 
     <MoveSpeed>160</MoveSpeed>
@@ -176,7 +176,7 @@
     </TargetPriorities>
   </Type>
 
-  <Type Name="SupportCruiser" Sprite="Cruiser2" Scale="1" TargetType="Large">
+  <Type Name="SupportCruiser" Sprite="Cruiser2" Scale="1" TargetType="Large" WaveValue="10">
     <Description>Large capital ship capable of destroying swarms of fighters and bombers.\nCan also deal some damage to enemy capital ships.</Description>
 
     <MoveSpeed>120</MoveSpeed>
@@ -212,7 +212,7 @@
     </TargetPriorities>
   </Type>
 
-  <Type Name="HeavyCruiser" Sprite="Cruiser1" Scale="1" TargetType="Large">
+  <Type Name="HeavyCruiser" Sprite="Cruiser1" Scale="1" TargetType="Large" WaveValue="10">
     <Description>Large powerful capital ship good at dealing damage to everything within range.\nUses both laser and missile weapons against all targets.</Description>
 
     <MoveSpeed>140</MoveSpeed>
@@ -249,7 +249,7 @@
     </TargetPriorities>
   </Type>
 
-  <Type Name="Battleship" Sprite="Huge1" Scale="1" TargetType="Large">
+  <Type Name="Battleship" Sprite="Huge1" Scale="1" TargetType="Large" WaveValue="30">
     <Description>Big and slow but dominates the battlefield with a huge array of\npowerful weapons.\nAble to soak up a large amount of damage with powerful shields.\nUses both lasers and missile weapons against all targets.</Description>
 
     <MoveSpeed>80</MoveSpeed>
@@ -293,7 +293,7 @@
     </TargetPriorities>
   </Type>
 
-  <Type Name="Carrier" Sprite="Carrier1" Scale="1" TargetType="Large">
+  <Type Name="Carrier" Sprite="Carrier1" Scale="1" TargetType="Large" WaveValue="30">
     <Description>Moves slowly but attacks at long range using it's own swarm\nof fighters and bombers.\nCan take a lot of damage with powerful shields.\nAlso uses a small number of laser and missile weapons.</Description>
 
     <MoveSpeed>80</MoveSpeed>

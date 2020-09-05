@@ -24,6 +24,7 @@ namespace GameCore
         None,
         Startup,
         Menu,
+        Loading,
         Play,
         Settings,
         GameOver,
@@ -86,18 +87,45 @@ namespace GameCore
 
     public static class Config
     {
-        public static int StartingMiners = 3;
-        public static int WorldWidth = 50000;
-        public static int WorldHeight = 50000;
-        public static int AsteroidRegionWidth = 500;
-        public static int AsteroidRegionHeight = 500;
-        public static Vector2 PlayerStartPosition = new Vector2(5000, 5000);
+        // player
+        public static int StartingMiners;
+        public static Vector2 PlayerStartPosition;
+
+        // world
+        public static int WorldWidth;
+        public static int WorldHeight;
+        public static int AsteroidRegionWidth;
+        public static int AsteroidRegionHeight;
+
+        // enemy waves
+        public static int StartingWaveValue;
+        public static int IncreasePerWave;
+        public static float StartingWaveTimer; // in ms
+        public static float WaveTimer; // in ms
 
         public static void Load()
         {
             var configDoc = XDocument.Load("Assets/config.xml");
-        }
-    }
+
+            var elPlayer = configDoc.Root.Element("Player");
+            var elWorld = configDoc.Root.Element("World");
+            var elEnemyWaves = configDoc.Root.Element("EnemyWaves");
+
+            StartingMiners = int.Parse(elPlayer.Attribute("StartingMiners").Value);
+            var startPosSplit = elPlayer.Attribute("StartPosition").Value.Split(',');
+            PlayerStartPosition = new Vector2(float.Parse(startPosSplit[0]), float.Parse(startPosSplit[1]));
+
+            WorldWidth = int.Parse(elWorld.Attribute("Width").Value);
+            WorldHeight = int.Parse(elWorld.Attribute("Height").Value);
+            AsteroidRegionWidth = int.Parse(elWorld.Attribute("AsteroidRegionWidth").Value);
+            AsteroidRegionHeight = int.Parse(elWorld.Attribute("AsteroidRegionHeight").Value);
+
+            StartingWaveValue = int.Parse(elEnemyWaves.Attribute("StartingValue").Value);
+            IncreasePerWave = int.Parse(elEnemyWaves.Attribute("IncreasePerWave").Value);
+            StartingWaveTimer = float.Parse(elEnemyWaves.Attribute("StartingTimer").Value) * 1000.0f;
+            WaveTimer = float.Parse(elEnemyWaves.Attribute("WaveTimer").Value) * 1000.0f;
+        } // Load
+    } // Config
 
     public static class WorldData
     {

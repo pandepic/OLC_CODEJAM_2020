@@ -7,12 +7,15 @@ namespace WindowsClient
     {
         static void Main(string[] args)
         {
+#if RELEASE
             try
             {
-                using (var game = new WindowsClient())
-                {
-                    game.Run();
-                }
+#endif
+            using (var game = new WindowsClient())
+            {
+                game.Run();
+            }
+#if RELEASE
             }
             catch (Exception ex)
             {
@@ -22,6 +25,7 @@ namespace WindowsClient
                     s.WriteLine(ex.ToString());
                 }
             }
+#endif
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Menu>
+  <Font AssetName="latoblack" />
+
+  <Scene Name="mainScene">
+    <Frame Name="mainFrame">
+      <Position>
+        <X>center</X>
+        <Y>center</Y>
+      </Position>
+      <Size>
+        <Width>auto</Width>
+        <Height>auto</Height>
+      </Size>
+
+      <Widgets>
+        <Label Name="lblLoading">
+          <Text>Loading...</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>60</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>center</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+          <UpdateMethod></UpdateMethod>
+        </Label>
+      </Widgets>
+    </Frame>
+  </Scene>
+</Menu>

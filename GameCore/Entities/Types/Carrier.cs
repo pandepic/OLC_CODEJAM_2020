@@ -64,7 +64,7 @@ namespace GameCore.Entities
                 }
             }
 
-            AIHelper.BigWarshipAI(this);
+            AIHelper.BigWarshipAI(this, gameTime);
             base.Update(gameTime);
         } // Update
 

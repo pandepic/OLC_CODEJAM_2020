@@ -29,6 +29,7 @@
     <None Remove="Assets\UI\resources.png" />
     <None Remove="Assets\UI\resources.xml" />
     <None Remove="Assets\UI\resource_bar.png" />
+    <None Remove="Assets\XML\loading_menu.xml" />
     <None Remove="Assets\XML\projectile_types.xml" />
   </ItemGroup>
 

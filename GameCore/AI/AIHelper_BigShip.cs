@@ -104,15 +104,39 @@ namespace GameCore.AI
             ship.StateMachine.Start<ShipIdleState>();
         } // SetupBigWarshipStates
 
-        public static void BigWarshipAI(Ship ship)
+        public static void BigWarshipScanForTarget(Ship ship, GameTime gameTime)
+        {
+            ship.NextDefendScan -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (ship.NextDefendScan <= 0)
+            {
+                ship.NextDefendScan = 0;
+
+                if (!TryBigAttackClosestEnemy(ship))
+                    ship.NextDefendScan = ship.DefendScanFrequency;
+            }
+        } // BigWarshipScanForTarget
+
+        public static void BigWarshipAI(Ship ship, GameTime gameTime)
         {
             switch (ship.StateMachine.CurrentState)
             {
+                case ShipFollowPositionState followPosition:
+                    {
+                        BigWarshipScanForTarget(ship, gameTime);
+                    }
+                    break;
+
                 case ShipFollowingState following:
                     {
                         if (following.Target.IsDead)
                         {
                             ship.SetState<ShipIdleState>();
+                        }
+                        else
+                        {
+                            if (following.Target.IsPlayerShip)
+                                BigWarshipScanForTarget(ship, gameTime);
                         }
                     }
                     break;
@@ -121,7 +145,7 @@ namespace GameCore.AI
                     {
                         if (ship.Stance == ShipStance.Aggressive)
                         {
-                            TryBigAttackClosestEnemy(ship);
+                            BigWarshipScanForTarget(ship, gameTime);
                         }
                         else
                         {
