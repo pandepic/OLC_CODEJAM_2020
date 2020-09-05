@@ -403,7 +403,7 @@ upgrade points to repair the War Machine and improve your ships. Use your upgrad
 points to repair the hyperdrive to escape the asteroid field and win the game.</Text>
           
           <FontName>latoblack</FontName>
-          <FontSize>24</FontSize>
+          <FontSize>20</FontSize>
           <Position>
             <X>25</X>
             <Y>75</Y>
@@ -414,32 +414,32 @@ points to repair the hyperdrive to escape the asteroid field and win the game.</
         <Label Name="lblHelpKeysTitle">
           <Text>Controls:</Text>
           <FontName>latoblack</FontName>
-          <FontSize>32</FontSize>
+          <FontSize>24</FontSize>
           <Position>
             <X>25</X>
-            <Y>305</Y>
+            <Y>270</Y>
           </Position>
           <Color>#FFFFFF</Color>
         </Label>
 
         <Label Name="lblHelpKeysLeft">
-          <Text>B:\nU:\nTab:\nWASD:\nArrow keys:\nMouse:</Text>
+          <Text>B:\nU:\nTab:\nWASD/Arrows:\nSpacebar:\nLeft mouse button:\nRight mouse button:\nMouse wheel:</Text>
           <FontName>latoblack</FontName>
-          <FontSize>24</FontSize>
+          <FontSize>20</FontSize>
           <Position>
             <X>25</X>
-            <Y>350</Y>
+            <Y>300</Y>
           </Position>
           <Color>#FFFFFF</Color>
         </Label>
 
         <Label Name="lblHelpKeysRight">
-          <Text>Open/close ship production.\nOpen/close upgrades.\nOpen/close help.\nMove the camera.\nMove the camera.\nMiddle button to move the camera,\nleft button to select ships, right button to command them.</Text>
+          <Text>Open/close ship production.\nOpen/close upgrades.\nOpen/close help.\nMove the camera.\nFocus camera on War Machine.\nClick or drag to select ships.\nCommand selected ships.</Text>
           <FontName>latoblack</FontName>
-          <FontSize>24</FontSize>
+          <FontSize>20</FontSize>
           <Position>
-            <X>150</X>
-            <Y>350</Y>
+            <X>200</X>
+            <Y>300</Y>
           </Position>
           <Color>#FFFFFF</Color>
         </Label>

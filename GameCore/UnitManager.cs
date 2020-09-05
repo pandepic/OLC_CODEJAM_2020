@@ -68,6 +68,9 @@ namespace GameCore
                 SBSelection.Append("[" + kvp.Key.ToString() + " x" + kvp.Value.Count.ToString() + "] ");
             }
 
+            if (SBSelection.Length == 0)
+                SBSelection.Append("[War Machine]");
+
             Menu.GetWidget<PUIWLabel>("lblSelection").Text = SBSelection.ToString();
 
             if (Dragging)
@@ -448,9 +451,19 @@ namespace GameCore
 
                                     if (newDefendTarget != null)
                                     {
-                                        foreach (Ship ship in kvp.Value)
+                                        if (newDefendTarget.IsPlayerShip)
                                         {
-                                            AIHelper.SmallDefendTarget(ship, newDefendTarget);
+                                            foreach (Ship ship in kvp.Value)
+                                            {
+                                                AIHelper.SmallDefendTarget(ship, newDefendTarget);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foreach (Ship ship in kvp.Value)
+                                            {
+                                                AIHelper.TrySmallAttackTarget(ship, newDefendTarget);
+                                            }
                                         }
                                     }
                                     else
@@ -505,9 +518,19 @@ namespace GameCore
 
                                     if (newDefendTarget != null)
                                     {
-                                        foreach (Ship ship in kvp.Value)
+                                        if (newDefendTarget.IsPlayerShip)
                                         {
-                                            AIHelper.BigDefendTarget(ship, newDefendTarget);
+                                            foreach (Ship ship in kvp.Value)
+                                            {
+                                                AIHelper.BigDefendTarget(ship, newDefendTarget);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foreach (Ship ship in kvp.Value)
+                                            {
+                                                AIHelper.TryBigAttackTarget(ship, newDefendTarget);
+                                            }
                                         }
                                     }
                                     else

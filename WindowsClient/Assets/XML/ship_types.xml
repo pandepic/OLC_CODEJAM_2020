@@ -250,7 +250,7 @@
   </Type>
 
   <Type Name="Battleship" Sprite="Huge1" Scale="1" TargetType="Large">
-    <Description>Big and slow but dominates the battlefield with a huge array of powerful weapons.\nAble to soak up a large amount of damage with powerful shields.\nUses both lasers and missile weapons against all targets.</Description>
+    <Description>Big and slow but dominates the battlefield with a huge array of\npowerful weapons.\nAble to soak up a large amount of damage with powerful shields.\nUses both lasers and missile weapons against all targets.</Description>
 
     <MoveSpeed>80</MoveSpeed>
     <TurnSpeed>40</TurnSpeed>
@@ -294,7 +294,7 @@
   </Type>
 
   <Type Name="Carrier" Sprite="Carrier1" Scale="1" TargetType="Large">
-    <Description>Moves slowly but attacks at long range using it's own swarm of fighters and bombers.\nCan take a lot of damage with powerful shields.\nAlso uses a small number of laser and missile weapons.</Description>
+    <Description>Moves slowly but attacks at long range using it's own swarm\nof fighters and bombers.\nCan take a lot of damage with powerful shields.\nAlso uses a small number of laser and missile weapons.</Description>
 
     <MoveSpeed>80</MoveSpeed>
     <TurnSpeed>40</TurnSpeed>

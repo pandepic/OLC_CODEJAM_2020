@@ -14,16 +14,35 @@ namespace GameCore.AI
 
             if (newTarget != null)
             {
-                ship.EnemyTarget = newTarget;
-                var attacking = ship.GetState<SmallShipAttackingState>();
-                attacking.Target = ship.EnemyTarget;
-                ship.SetState(attacking);
-
-                return true;
+                return TrySmallAttackTarget(ship, newTarget);
             }
 
             return false;
         } // TrySmallAttackClosestEnemy
+
+        public static bool TrySmallAttackTarget(Ship ship, Ship target)
+        {
+            if (ship.IsPlayerShip == target.IsPlayerShip)
+                return false;
+
+            var validTarget = false;
+
+            foreach (var weapon in ship.Weapons)
+            {
+                if (weapon.TargetType == target.TargetType)
+                    validTarget = true;
+            }
+
+            if (!validTarget)
+                return false;
+
+            ship.EnemyTarget = target;
+            var attacking = ship.GetState<SmallShipAttackingState>();
+            attacking.Target = ship.EnemyTarget;
+            ship.SetState(attacking);
+
+            return true;
+        } // TrySmallAttackTarget
 
         public static void SmallDefendTarget(Ship ship, Ship target)
         {
@@ -47,6 +66,26 @@ namespace GameCore.AI
             patrolPosition.Target = ship.DefendPosition.Value;
             ship.SetState(patrolPosition);
         } // SmallDefendPosition
+
+        public static void SetupSmallAttackingShipStates(Ship ship)
+        {
+            ship.StateMachine.RegisterState(new ShipPatrolFollowState(ship));
+            ship.StateMachine.RegisterState(new SmallShipAttackingState(ship));
+            ship.StateMachine.RegisterState(new ShipIdleState(ship));
+            ship.StateMachine.RegisterState(new ShipPatrolPositionState(ship));
+
+            if (ship.Owner == null)
+            {
+                ship.Stance = ShipStance.Aggressive;
+            }
+            else
+            {
+                ship.DefendTarget = ship.Owner;
+                ship.Stance = ShipStance.Defensive;
+            }
+
+            ship.StateMachine.Start<ShipIdleState>();
+        } // SetupBigWarshipStates
 
         public static void SmallAttackingShipAI(Ship ship, GameTime gameTime)
         {

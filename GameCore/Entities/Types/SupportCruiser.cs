@@ -15,17 +15,6 @@ namespace GameCore.Entities
             Position = position;
 
             LoadData();
-
-            if (IsPlayerShip)
-            {
-                Stance = ShipStance.Defensive;
-                DefendTarget = Owner;
-            }
-            else
-            {
-                Stance = ShipStance.Aggressive;
-            }
-
             AIHelper.SetupBigWarshipStates(this);
         }
 

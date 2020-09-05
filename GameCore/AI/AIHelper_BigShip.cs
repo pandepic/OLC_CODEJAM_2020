@@ -14,12 +14,37 @@ namespace GameCore.AI
 
             if (newTarget != null)
             {
-                BigAttackTarget(ship, newTarget);
-                return true;
+                return TryBigAttackTarget(ship, newTarget);
             }
 
             return false;
         } // TryBigAttackClosestEnemy
+
+        public static bool TryBigAttackTarget(Ship ship, Ship target)
+        {
+            if (ship.IsPlayerShip == target.IsPlayerShip)
+                return false;
+
+            var validTarget = false;
+
+            foreach (var weapon in ship.Weapons)
+            {
+                if (weapon.TargetType == target.TargetType)
+                    validTarget = true;
+            }
+
+            if (!validTarget)
+                return false;
+
+            ship.DefendPosition = null;
+            ship.DefendTarget = target;
+
+            var follow = ship.StateMachine.GetState<ShipFollowingState>();
+            follow.Target = ship.DefendTarget;
+            ship.SetState(follow);
+
+            return true;
+        } // TryBigAttackTarget
 
         public static void BigDefendTarget(Ship ship, Ship target)
         {
@@ -44,19 +69,6 @@ namespace GameCore.AI
             ship.SetState(followPosition);
         } // SmallDefendPosition
 
-        public static void BigAttackTarget(Ship ship, Ship target)
-        {
-            if (ship.IsPlayerShip == target.IsPlayerShip)
-                return;
-
-            ship.DefendPosition = null;
-            ship.DefendTarget = target;
-
-            var follow = ship.StateMachine.GetState<ShipFollowingState>();
-            follow.Target = ship.DefendTarget;
-            ship.SetState(follow);
-        } // SmallDefendTarget
-
         public static void BigSetFollowState(Ship ship)
         {
             if (ship.DefendTarget != null)
@@ -75,6 +87,16 @@ namespace GameCore.AI
 
         public static void SetupBigWarshipStates(Ship ship)
         {
+            if (ship.IsPlayerShip)
+            {
+                ship.Stance = ShipStance.Defensive;
+                ship.DefendTarget = ship.Owner;
+            }
+            else
+            {
+                ship.Stance = ShipStance.Aggressive;
+            }
+
             ship.StateMachine.RegisterState(new ShipFollowingState(ship));
             ship.StateMachine.RegisterState(new ShipFollowPositionState(ship));
             ship.StateMachine.RegisterState(new ShipIdleState(ship));

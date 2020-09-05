@@ -31,16 +31,6 @@ namespace GameCore.Entities
             FighterBuildTime = FighterData.BuildTime;
             BomberBuildTime = BomberData.BuildTime;
 
-            if (IsPlayerShip)
-            {
-                Stance = ShipStance.Defensive;
-                DefendTarget = Owner;
-            }
-            else
-            {
-                Stance = ShipStance.Aggressive;
-            }
-
             AIHelper.SetupBigWarshipStates(this);
         } // Carrier
 

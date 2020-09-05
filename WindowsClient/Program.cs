@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace WindowsClient
 {
@@ -6,8 +7,21 @@ namespace WindowsClient
     {
         static void Main(string[] args)
         {
-            using (var game = new WindowsClient())
-                game.Run();
+            try
+            {
+                using (var game = new WindowsClient())
+                {
+                    game.Run();
+                }
+            }
+            catch (Exception ex)
+            {
+                using (var fs = File.OpenWrite("CrashLog.txt"))
+                using (var s = new StreamWriter(fs))
+                {
+                    s.WriteLine(ex.ToString());
+                }
+            }
         }
     }
 }

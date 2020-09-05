@@ -221,9 +221,9 @@ namespace GameCore
 
         public Ship GetShipAtWorldPosition(Vector2 position, bool playerShip = true, List<ShipType> filter = null)
         {
-            var targets = PlayerShips;
-            if (!playerShip)
-                targets = EnemyShips;
+            var targets = Ships;
+            //if (!playerShip)
+            //    targets = EnemyShips;
 
             for (var i = 0; i < targets.Count; i++)
             {

@@ -14,7 +14,7 @@
     <Ship Type="SupportCruiser" Player="true" Count="1" />
     <Ship Type="HeavyCruiser" Player="true" Count="1" />
     <Ship Type="Battleship" Player="true" Count="1" />
-    <Ship Type="Carrier" Player="true" Count="10" />
+    <Ship Type="Carrier" Player="true" Count="1" />
 
     <Ship Type="MissileFrigate" Player="false" Count="1" />
     <Ship Type="BeamFrigate" Player="false" Count="1" />

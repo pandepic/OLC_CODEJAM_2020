@@ -28,6 +28,10 @@ namespace GameCore.AI
                 ParentShip.StopMovement();
                 Parent.SetState<ShipIdleState>();
             }
+            else
+            {
+                ParentShip.SetDestination(Target);
+            }
         }
     }
 }
