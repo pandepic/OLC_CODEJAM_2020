@@ -71,6 +71,8 @@ namespace WindowsClient
             ModManager.Instance.SoundManager.SetVolume((int)SoundType.SoundEffect, SettingsManager.Instance.GetSetting<float>("sound", "sfxvolume"));
             ModManager.Instance.SoundManager.SetVolume((int)SoundType.UI, SettingsManager.Instance.GetSetting<float>("sound", "uivolume"));
 
+            Config.HelpSeen = SettingsManager.Instance.GetSetting<bool>("general", "helpseen");
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Sprites.Load(GraphicsDevice);
@@ -92,6 +94,7 @@ namespace WindowsClient
 
         protected override void UnloadContent()
         {
+            SettingsManager.Instance.Save("Assets\\settings.xml");
             PandaUtil.Cleanup();
         }
 

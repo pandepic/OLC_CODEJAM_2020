@@ -105,6 +105,8 @@ namespace GameCore
         public static float WaveTimer; // in ms
         public static int Difficulty = 5;
 
+        public static bool HelpSeen = false;
+
         public static void Load()
         {
             using (var fs = ModManager.Instance.AssetManager.GetFileStreamByAsset("Config"))

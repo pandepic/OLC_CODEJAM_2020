@@ -196,6 +196,17 @@ namespace GameCore
             EntityData.Load();
             WorldData.Load();
 
+            if (Config.HelpSeen)
+            {
+                var helpFrame = Menu.GetFrame("frmHelp");
+
+                helpFrame.Visible = false;
+                helpFrame.Active = false;
+            }
+
+            Config.HelpSeen = true;
+            SettingsManager.Instance.UpdateSetting("general", "helpseen", "true");
+
             _lblProductionQueue = Menu.GetWidget<PUIWLabel>("lblProductionQueue");
             _lblMetal = Menu.GetWidget<PUIWLabel>("lblMetal");
             _lblGas = Menu.GetWidget<PUIWLabel>("lblGas");

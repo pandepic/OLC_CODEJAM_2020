@@ -43,7 +43,7 @@ namespace GameCore
             // todo - set world seed
             WorldData.RNG = new Random();
 
-            var bg = 1;// WorldData.RNG.Next(1, 9);
+            var bg = WorldData.RNG.Next(1, 9);
 
             var planet = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Planet" + WorldData.RNG.Next(1, 11).ToString(), true);
             var background = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "Background" + bg.ToString(), true);
@@ -195,14 +195,15 @@ namespace GameCore
         public void DrawScreen(SpriteBatch spriteBatch)
         {
             // todo : fix bg not lining up at right edge
+            var worldSizeBG = new Vector2(Config.WorldWidth, Config.WorldHeight) * 1.6f;
             var worldSize = new Vector2(Config.WorldWidth, Config.WorldHeight);
             var bgSize = new Vector2(Background.Width, Background.Height);
-            var bgProportionalSize = (float)bgSize.X / (float)worldSize.X;
+            var bgProportionalSize = (float)bgSize.X / (float)worldSizeBG.X;
             float bgZoom = 1.0f - ((1.0f - GameplayState.Camera.Zoom) * bgProportionalSize);
 
             var screenPosWorld = GameplayState.Camera.ScreenToWorldPosition(Vector2.Zero);
 
-            var backgroundPos = ((screenPosWorld / worldSize) * bgSize) * bgZoom;
+            var backgroundPos = ((screenPosWorld / worldSizeBG) * bgSize) * bgZoom;
 
             spriteBatch.Draw(
                         Background,

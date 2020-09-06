@@ -9,4 +9,7 @@
     <Setting Name="sfxvolume" Value="0.25" />
     <Setting Name="uivolume" Value="0.5" />
   </Section>
+  <Section Name="general">
+    <Setting Name="helpseen" Value="false" />
+  </Section>
 </Settings>
