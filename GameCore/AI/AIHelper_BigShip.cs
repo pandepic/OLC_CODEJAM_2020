@@ -87,14 +87,14 @@ namespace GameCore.AI
 
         public static void SetupBigWarshipStates(Ship ship)
         {
-            if (ship.IsPlayerShip)
+            if (ship.Owner == null)
             {
-                ship.Stance = ShipStance.Defensive;
-                ship.DefendTarget = ship.Owner;
+                ship.Stance = ShipStance.Aggressive;
             }
             else
             {
-                ship.Stance = ShipStance.Aggressive;
+                ship.Stance = ShipStance.Defensive;
+                ship.DefendTarget = ship.Owner;
             }
 
             ship.StateMachine.RegisterState(new ShipFollowingState(ship));
@@ -123,7 +123,8 @@ namespace GameCore.AI
             {
                 case ShipFollowPositionState followPosition:
                     {
-                        BigWarshipScanForTarget(ship, gameTime);
+                        if (!ship.IsMoving)
+                            BigWarshipScanForTarget(ship, gameTime);
                     }
                     break;
 

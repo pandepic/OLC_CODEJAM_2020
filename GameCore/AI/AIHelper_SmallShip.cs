@@ -99,9 +99,7 @@ namespace GameCore.AI
                         }
                         else if (ship.Stance == ShipStance.Defensive)
                         {
-                            var patrolFollow = ship.GetState<ShipPatrolFollowState>();
-                            patrolFollow.Target = ship.DefendTarget;
-                            ship.SetState(patrolFollow);
+                            SmallDefendTarget(ship, ship.DefendTarget);
                             ship.NextDefendScan = ship.DefendScanFrequency;
                         }
                     }
@@ -147,7 +145,22 @@ namespace GameCore.AI
 
                 case ShipPatrolFollowState patrolFollow:
                     {
-                        SmallAttackingScanForTarget(ship, gameTime);
+                        if (patrolFollow.Target.IsDead)
+                        {
+                            if (ship.IsPlayerShip)
+                            {
+                                SmallDefendTarget(ship, ship.Owner);
+                            }
+                            else
+                            {
+                                ship.Stance = ShipStance.Aggressive;
+                                ship.SetState<ShipIdleState>();
+                            }
+                        }
+                        else
+                        {
+                            SmallAttackingScanForTarget(ship, gameTime);
+                        }
                     }
                     break;
 

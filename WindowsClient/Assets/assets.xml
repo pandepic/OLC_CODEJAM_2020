@@ -4,7 +4,8 @@
   <!-- Fonts -->
   <Asset Name="latoblack" FilePath="Assets/UI/Lato-Bold.ttf" />
   
-  <!-- Entity Data -->
+  <!-- Game Data -->
+  <Asset Name="Config" FilePath="Assets/config.xml" />
   <Asset Name="ShipTypes" FilePath="Assets/XML/ship_types.xml" />
   <Asset Name="ProjectileTypes" FilePath="Assets/XML/projectile_types.xml" />
   

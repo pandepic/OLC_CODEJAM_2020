@@ -99,29 +99,32 @@ namespace GameCore
             }
 
             // TEMP TEST SPAWNING
-            var configDoc = XDocument.Load("Assets/config.xml");
-            var elTestShips = configDoc.Root.Element("TestShips");
-
-            if (elTestShips != null)
+            using (var fs = ModManager.Instance.AssetManager.GetFileStreamByAsset("Config"))
             {
-                foreach (var ship in elTestShips.Elements("Ship"))
+                var configDoc = XDocument.Load(fs);
+                var elTestShips = configDoc.Root.Element("TestShips");
+
+                if (elTestShips != null)
                 {
-                    var isPlayer = bool.Parse(ship.Attribute("Player").Value);
-                    var shipType = ship.Attribute("Type").Value.ToEnum<ShipType>();
-                    var count = int.Parse(ship.Attribute("Count").Value);
-
-                    for (var i = 0; i < count; i++)
+                    foreach (var ship in elTestShips.Elements("Ship"))
                     {
-                        var position = new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000));
-                        Ship owner = PlayerEntity;
+                        var isPlayer = bool.Parse(ship.Attribute("Player").Value);
+                        var shipType = ship.Attribute("Type").Value.ToEnum<ShipType>();
+                        var count = int.Parse(ship.Attribute("Count").Value);
 
-                        if (!isPlayer)
+                        for (var i = 0; i < count; i++)
                         {
-                            position = new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000));
-                            owner = null;
-                        }
+                            var position = new Vector2(4200, 4200) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000));
+                            Ship owner = PlayerEntity;
 
-                        GameplayState.UnitManager.SpawnShip(shipType, position, owner);
+                            if (!isPlayer)
+                            {
+                                position = new Vector2(1000, 1000) + new Vector2(WorldData.RNG.Next(-1000, 1000), WorldData.RNG.Next(-1000, 1000));
+                                owner = null;
+                            }
+
+                            GameplayState.UnitManager.SpawnShip(shipType, position, owner);
+                        }
                     }
                 }
             }

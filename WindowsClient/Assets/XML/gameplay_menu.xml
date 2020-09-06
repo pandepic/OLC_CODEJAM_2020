@@ -436,7 +436,8 @@ to our distress call. Our sensors detect the enemy is still searching for us.
 Use your miners to gather resources from asteroids and build ships to defend
 yourself from the incoming enemy fleets. Destroying enemy ships will give you
 upgrade points to repair the War Machine and improve your ships. Use your upgrade
-points to repair the hyperdrive to escape the asteroid field and win the game.</Text>
+points to repair the hyperdrive to escape the asteroid field and win the game.
+Enemies will come from the closest corner of the map to the War Machine.</Text>
           
           <FontName>latoblack</FontName>
           <FontSize>20</FontSize>
@@ -453,7 +454,7 @@ points to repair the hyperdrive to escape the asteroid field and win the game.</
           <FontSize>24</FontSize>
           <Position>
             <X>25</X>
-            <Y>270</Y>
+            <Y>285</Y>
           </Position>
           <Color>#FFFFFF</Color>
         </Label>
@@ -464,7 +465,7 @@ points to repair the hyperdrive to escape the asteroid field and win the game.</
           <FontSize>20</FontSize>
           <Position>
             <X>25</X>
-            <Y>300</Y>
+            <Y>315</Y>
           </Position>
           <Color>#FFFFFF</Color>
         </Label>
@@ -475,7 +476,7 @@ points to repair the hyperdrive to escape the asteroid field and win the game.</
           <FontSize>20</FontSize>
           <Position>
             <X>200</X>
-            <Y>300</Y>
+            <Y>315</Y>
           </Position>
           <Color>#FFFFFF</Color>
         </Label>

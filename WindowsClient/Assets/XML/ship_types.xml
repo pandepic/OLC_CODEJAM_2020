@@ -29,7 +29,7 @@
     <BuildCost Metal="100" Gas="50" />
     <BuildTime>5000</BuildTime>
 
-    <SpecialAttributes GatherRate="10" />
+    <SpecialAttributes GatherRate="25" />
     
   </Type>
 
@@ -39,11 +39,11 @@
     <MoveSpeed>250</MoveSpeed>
     <TurnSpeed>120</TurnSpeed>
 
-    <ArmourHP>100</ArmourHP>
-    <ShieldHP>100</ShieldHP>
+    <ArmourHP>200</ArmourHP>
+    <ShieldHP>200</ShieldHP>
     <ShieldRegenRate>2</ShieldRegenRate>
 
-    <BuildCost Metal="200" Gas="100" />
+    <BuildCost Metal="200" Gas="100" Uranium="25" />
     <BuildTime>3000</BuildTime>
 
     <Weapons>
@@ -64,11 +64,11 @@
     <MoveSpeed>220</MoveSpeed>
     <TurnSpeed>80</TurnSpeed>
 
-    <ArmourHP>150</ArmourHP>
-    <ShieldHP>150</ShieldHP>
+    <ArmourHP>250</ArmourHP>
+    <ShieldHP>250</ShieldHP>
     <ShieldRegenRate>2</ShieldRegenRate>
 
-    <BuildCost Metal="250" Gas="150" />
+    <BuildCost Metal="225" Gas="125" Uranium="25" />
     <BuildTime>3000</BuildTime>
 
     <Weapons>
@@ -101,7 +101,7 @@
     <ShieldHP>200</ShieldHP>
     <ShieldRegenRate>2</ShieldRegenRate>
 
-    <BuildCost Metal="500" Gas="250" />
+    <BuildCost Metal="750" Gas="500" Water="200" Uranium="200" />
     <BuildTime>5000</BuildTime>
 
     <SpecialAttributes RepairRate="50" />
@@ -118,7 +118,7 @@
     <ShieldHP>2500</ShieldHP>
     <ShieldRegenRate>10</ShieldRegenRate>
 
-    <BuildCost Metal="1000" Gas="500" />
+    <BuildCost Metal="1000" Gas="450" Water="100" Uranium="100" />
     <BuildTime>10000</BuildTime>
 
     <Weapons>
@@ -143,7 +143,7 @@
   </Type>
 
   <Type Name="BeamFrigate" Sprite="Frigate1" Scale="1" TargetType="Large" WaveValue="5">
-    <Description>Small but agile capital ship good at destroying fighters and bombers.\nAlso has a powerful anti capital laser.</Description>
+    <Description>Small but agile capital ship good at\ndestroying fighters and bombers.\nAlso has a powerful anti capital laser.</Description>
 
     <MoveSpeed>160</MoveSpeed>
     <TurnSpeed>60</TurnSpeed>
@@ -152,7 +152,7 @@
     <ShieldHP>2500</ShieldHP>
     <ShieldRegenRate>10</ShieldRegenRate>
 
-    <BuildCost Metal="1000" Gas="500" />
+    <BuildCost Metal="1000" Gas="450" Crystal="100" Uranium="100" />
     <BuildTime>10000</BuildTime>
 
     <Weapons>
@@ -177,7 +177,7 @@
   </Type>
 
   <Type Name="SupportCruiser" Sprite="Cruiser2" Scale="1" TargetType="Large" WaveValue="10">
-    <Description>Large capital ship capable of destroying swarms of fighters and bombers.\nCan also deal some damage to enemy capital ships.</Description>
+    <Description>Large capital ship capable of destroying swarms\nof fighters and bombers.\nCan also deal some damage to enemy capital ships.</Description>
 
     <MoveSpeed>120</MoveSpeed>
     <TurnSpeed>50</TurnSpeed>
@@ -186,7 +186,7 @@
     <ShieldHP>4000</ShieldHP>
     <ShieldRegenRate>20</ShieldRegenRate>
 
-    <BuildCost Metal="2000" Gas="1000" />
+    <BuildCost Metal="2500" Gas="1000" Crystal="200" Uranium="200" />
     <BuildTime>20000</BuildTime>
 
     <Weapons>
@@ -213,7 +213,7 @@
   </Type>
 
   <Type Name="HeavyCruiser" Sprite="Cruiser1" Scale="1" TargetType="Large" WaveValue="10">
-    <Description>Large powerful capital ship good at dealing damage to everything within range.\nUses both laser and missile weapons against all targets.</Description>
+    <Description>Large powerful capital ship good at dealing damage\nto everything within range.\nUses both laser and missile weapons against all targets.</Description>
 
     <MoveSpeed>140</MoveSpeed>
     <TurnSpeed>60</TurnSpeed>
@@ -222,7 +222,7 @@
     <ShieldHP>6000</ShieldHP>
     <ShieldRegenRate>20</ShieldRegenRate>
 
-    <BuildCost Metal="3000" Gas="1500" />
+    <BuildCost Metal="2500" Gas="1250" Water="200" Crystal="200" Uranium="200" />
     <BuildTime>20000</BuildTime>
 
     <Weapons>
@@ -259,7 +259,7 @@
     <ShieldHP>25000</ShieldHP>
     <ShieldRegenRate>40</ShieldRegenRate>
 
-    <BuildCost Metal="9000" Gas="4500" />
+    <BuildCost Metal="5500" Gas="2500" Water="750" Crystal="750" Uranium="750" />
     <BuildTime>30000</BuildTime>
 
     <Weapons>
@@ -303,7 +303,7 @@
     <ShieldHP>20000</ShieldHP>
     <ShieldRegenRate>40</ShieldRegenRate>
 
-    <BuildCost Metal="9000" Gas="4500" />
+    <BuildCost Metal="6500" Gas="3000" Water="550" Crystal="550" Uranium="550" />
     <BuildTime>30000</BuildTime>
 
     <Weapons>

@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+warmachine-windows/
+warmachine-linux/
+*.7z
+
 # User-specific files
 *.rsuser
 *.suo

@@ -176,10 +176,9 @@ namespace GameCore
             ProjectileManager = new ProjectileManager();
             EnemyWaveManager = new EnemyWaveManager();
 
-            EnemyWaveManager.Start();
-
             UnitManager.Setup(graphics, _menu);
             WorldManager.Setup(graphics);
+            EnemyWaveManager.Start();
 
             Camera.CenterPosition(WorldManager.PlayerEntity.Position);
         } // Load
