@@ -498,7 +498,7 @@ Enemies will come from the closest corner of the map to the War Machine.</Text>
       </Size>
 
       <Widgets>
-        <ImageBox Name="imgMinimap" Tooltip="Minimap">
+        <ImageBox Name="imgMinimap">
           <Position>
             <X>0</X>
             <Y>0</Y>
