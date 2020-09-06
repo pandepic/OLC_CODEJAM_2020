@@ -257,7 +257,7 @@
 
     <ArmourHP>25000</ArmourHP>
     <ShieldHP>25000</ShieldHP>
-    <ShieldRegenRate>40</ShieldRegenRate>
+    <ShieldRegenRate>50</ShieldRegenRate>
 
     <BuildCost Metal="5500" Gas="2500" Water="950" Crystal="950" Uranium="950" />
     <BuildTime>30000</BuildTime>
