@@ -123,8 +123,8 @@ namespace GameCore.AI
             {
                 case ShipFollowPositionState followPosition:
                     {
-                        if (!ship.IsMoving)
-                            BigWarshipScanForTarget(ship, gameTime);
+                        //if (!ship.IsMoving)
+                        //    BigWarshipScanForTarget(ship, gameTime);
                     }
                     break;
 
@@ -136,8 +136,10 @@ namespace GameCore.AI
                         }
                         else
                         {
-                            if (following.Target.IsPlayerShip)
+                            if (ship.Stance == ShipStance.Aggressive)
+                            {
                                 BigWarshipScanForTarget(ship, gameTime);
+                            }
                         }
                     }
                     break;
