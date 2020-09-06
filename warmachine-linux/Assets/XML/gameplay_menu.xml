@@ -1,0 +1,713 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Menu>
+  <Font AssetName="latoblack" />
+
+  <Script>
+    <Name>GameplayMenuScript</Name>
+    <AssetName>GameplayMenuScript</AssetName>
+    <Class Name="GameplayMenu" />
+  </Script>
+
+  <Scene Name="mainScene">
+    <Frame Name="debugFrame" DrawOrder="0" Visible="false" Active="false">
+      <Position>
+        <X>0</X>
+        <Y>0</Y>
+      </Position>
+      <Size>
+        <Width>fill</Width>
+        <Height>fill</Height>
+      </Size>
+
+      <Widgets>
+        <Label Name="lblDebug" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>right</X>
+            <Y>top</Y>
+          </Position>
+          <Offset>
+            <X>-25</X>
+            <Y>25</Y>
+          </Offset>
+        </Label>
+      </Widgets>
+    </Frame>
+    
+    <Frame Name="mainFrame">
+      <Position>
+        <X>0</X>
+        <Y>0</Y>
+      </Position>
+      <Size>
+        <Width>fill</Width>
+        <Height>fill</Height>
+      </Size>
+
+      <Widgets>
+        <Label Name="lblNextEnemyWaveTimer" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>top</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>25</Y>
+          </Offset>
+        </Label>
+
+        <Label Name="lblNextEnemyWavePosition" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>top</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>50</Y>
+          </Offset>
+        </Label>
+
+        <Label Name="lblEnemyCount" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>top</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>75</Y>
+          </Offset>
+        </Label>
+
+        <Label Name="lblMinerCount" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>top</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>100</Y>
+          </Offset>
+        </Label>
+
+        <Button Name="btnQuit" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Quit to Menu</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.ExitToMenuClicked</OnClick>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-375</Y>
+          </Offset>
+        </Button>
+        
+        <Button Name="btnHelp" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Help</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.HelpClicked</OnClick>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-300</Y>
+          </Offset>
+        </Button>
+
+        <Button Name="btnUpgrades" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Upgrades</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradesClicked</OnClick>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-225</Y>
+          </Offset>
+        </Button>
+
+        <Button Name="btnBuild" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Build</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildClicked</OnClick>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-150</Y>
+          </Offset>
+        </Button>
+
+        <Button Name="btnIdleMiners" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Idle Miners</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.IdleMinersClicked</OnClick>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-75</Y>
+          </Offset>
+        </Button>
+        
+        <Label Name="lblSelection" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-25</Y>
+          </Offset>
+        </Label>
+      </Widgets>
+    </Frame>
+
+    <Frame Name="frmResources" DrawOrder="1" Visible="true" Active="true">
+      <Position>
+        <X>center</X>
+        <Y>0</Y>
+      </Position>
+      <Size>
+        <Width>bg</Width>
+        <Height>bg</Height>
+      </Size>
+      
+      <BackgroundImage>ResourceBar</BackgroundImage>
+      <PreMultiplyAlpha>True</PreMultiplyAlpha>
+
+      <Widgets>
+        <ImageBox Name="imgMetal" Tooltip="Metal">
+          <Position>
+            <X>16</X>
+            <Y>16</Y>
+          </Position>
+          <AssetName>ResourcesTexture</AssetName>
+          <PreMultiplyAlpha>False</PreMultiplyAlpha>
+          <SourceRect X="32" Y="0" Width="32" Height="32" />
+        </ImageBox>
+
+        <Label Name="lblMetal" Template="DebugLabel" Tooltip="Metal">
+          <Text></Text>
+          <Position>
+            <X>16</X>
+            <Y>16</Y>
+          </Position>
+          <Offset>
+            <X>40</X>
+            <Y>5</Y>
+          </Offset>
+        </Label>
+
+        <ImageBox Name="imgGas" Tooltip="Gas">
+          <Position>
+            <X>169</X>
+            <Y>16</Y>
+          </Position>
+          <AssetName>ResourcesTexture</AssetName>
+          <PreMultiplyAlpha>False</PreMultiplyAlpha>
+          <SourceRect X="0" Y="0" Width="32" Height="32" />
+        </ImageBox>
+
+        <Label Name="lblGas" Template="DebugLabel" Tooltip="Gas">
+          <Text></Text>
+          <Position>
+            <X>169</X>
+            <Y>16</Y>
+          </Position>
+          <Offset>
+            <X>40</X>
+            <Y>5</Y>
+          </Offset>
+        </Label>
+
+        <ImageBox Name="imgWater" Tooltip="Water">
+          <Position>
+            <X>322</X>
+            <Y>16</Y>
+          </Position>
+          <AssetName>ResourcesTexture</AssetName>
+          <PreMultiplyAlpha>False</PreMultiplyAlpha>
+          <SourceRect X="64" Y="0" Width="32" Height="32" />
+        </ImageBox>
+
+        <Label Name="lblWater" Template="DebugLabel" Tooltip="Water">
+          <Text></Text>
+          <Position>
+            <X>322</X>
+            <Y>16</Y>
+          </Position>
+          <Offset>
+            <X>40</X>
+            <Y>5</Y>
+          </Offset>
+        </Label>
+
+        <ImageBox Name="imgCrystal" Tooltip="Crystal">
+          <Position>
+            <X>475</X>
+            <Y>16</Y>
+          </Position>
+          <AssetName>ResourcesTexture</AssetName>
+          <PreMultiplyAlpha>False</PreMultiplyAlpha>
+          <SourceRect X="96" Y="0" Width="32" Height="32" />
+        </ImageBox>
+
+        <Label Name="lblCrystal" Template="DebugLabel" Tooltip="Crystal">
+          <Text></Text>
+          <Position>
+            <X>475</X>
+            <Y>16</Y>
+          </Position>
+          <Offset>
+            <X>40</X>
+            <Y>5</Y>
+          </Offset>
+        </Label>
+
+        <ImageBox Name="imgUranium" Tooltip="Uranium">
+          <Position>
+            <X>628</X>
+            <Y>16</Y>
+          </Position>
+          <AssetName>ResourcesTexture</AssetName>
+          <PreMultiplyAlpha>False</PreMultiplyAlpha>
+          <SourceRect X="128" Y="0" Width="32" Height="32" />
+        </ImageBox>
+
+        <Label Name="lblUranium" Template="DebugLabel" Tooltip="Uranium">
+          <Text></Text>
+          <Position>
+            <X>628</X>
+            <Y>16</Y>
+          </Position>
+          <Offset>
+            <X>40</X>
+            <Y>5</Y>
+          </Offset>
+        </Label>
+        
+      </Widgets>
+    </Frame> <!-- frmResources -->
+
+    <Frame Name="frmProduction" DrawOrder="2" Visible="false" Active="false" Draggable="true" DraggableRect="0,0,fill,60">
+      <Position>
+        <X>center</X>
+        <Y>center</Y>
+      </Position>
+      <Size>
+        <Width>bg</Width>
+        <Height>bg</Height>
+      </Size>
+      
+      <BackgroundImage>UIFrame</BackgroundImage>
+      <PreMultiplyAlpha>True</PreMultiplyAlpha>
+      
+      <Widgets>
+
+        <Label Name="lblProductionTitle">
+          <Text>Ship Production</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>32</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>18</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+          <UpdateMethod></UpdateMethod>
+        </Label>
+        
+        <Button Name="btnBuildMiner" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Miner</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildMinerClicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>80</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildFighter" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Fighter</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildFighterClicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>160</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildBomber" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Bomber</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildBomberClicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>240</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildRepairShip" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Repair Ship</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildRepairShipClicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>320</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildMissileFrigate" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Missile Frigate</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildMissileFrigateClicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>400</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildBeamFrigate" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Beam Frigate</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildBeamFrigateClicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>80</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildSupportCruiser" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Support Cruiser</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildSupportCruiserClicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>160</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildHeavyCruiser" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Heavy Cruiser</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildHeavyCruiserClicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>240</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildBattleship" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Battleship</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildBattleshipClicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>320</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnBuildCarrier" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Carrier</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildCarrierClicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>400</Y>
+          </Position>
+        </Button>
+
+        <Label Name="lblProductionQueue" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>20</X>
+            <Y>-20</Y>
+          </Offset>
+        </Label>
+        
+      </Widgets>
+    </Frame> <!-- frmProduction -->
+
+    <Frame Name="frmUpgrades" DrawOrder="2" Visible="false" Active="false" Draggable="true" DraggableRect="0,0,fill,60">
+      <Position>
+        <X>center</X>
+        <Y>center</Y>
+      </Position>
+      <Size>
+        <Width>bg</Width>
+        <Height>bg</Height>
+      </Size>
+
+      <BackgroundImage>UIFrame</BackgroundImage>
+      <PreMultiplyAlpha>True</PreMultiplyAlpha>
+
+      <Widgets>
+        <Label Name="lblUpgradesTitle">
+          <Text>Upgrades</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>32</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>18</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+
+        <Button Name="btnUpgradeMinerCap1" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+5 Max Miners</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeMinerCap1Clicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>80</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeMinerCap2" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+10 Max Miners</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeMinerCap2Clicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>160</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeMiningRate1" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+5 Mining Rate</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeMiningRate1Clicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>240</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeMiningRate2" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+10 Mining Rate</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeMiningRate2Clicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>320</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeRepairRate" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+25 Repair Rate</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeRepairRateClicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>400</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeShieldRegen1" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+10 Shield Regen</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeShieldRegen1Clicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>80</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeShieldRegen2" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+20 Shield Regen</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeShieldRegen2Clicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>160</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeWarmachine1" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+ Warmachine beams</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeWarmachine1Clicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>240</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeWarmachine2" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+ Warmachine missiles</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeWarmachine2Clicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>320</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeHyperdrive" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Fix Hyperdrive (Victory)</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeHyperdriveClicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>400</Y>
+          </Position>
+        </Button>
+      </Widgets>
+    </Frame>
+
+    <Frame Name="frmHelp" DrawOrder="2" Visible="true" Active="true" Draggable="true" DraggableRect="0,0,fill,60">
+      <Position>
+        <X>center</X>
+        <Y>center</Y>
+      </Position>
+      <Size>
+        <Width>bg</Width>
+        <Height>bg</Height>
+      </Size>
+
+      <BackgroundImage>UIFrame</BackgroundImage>
+      <PreMultiplyAlpha>True</PreMultiplyAlpha>
+
+      <Widgets>
+        <Label Name="lblHelpTitle">
+          <Text>Help</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>32</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>18</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+
+        <Label Name="lblInstructions">
+          <Text>The Great "War Machine", pride of the imperial fleet, was damaged escaping from a
+disastrous battle. With our engines overloading, we made one last emergency
+hypserspace jump to this asteroid field where some friendly miners have responded
+to our distress call. Our sensors detect the enemy is still searching for us.
+
+Use your miners to gather resources from asteroids and build ships to defend
+yourself from the incoming enemy fleets. Destroying enemy ships will give you
+upgrade points to repair the War Machine and improve your ships. Use your upgrade
+points to repair the hyperdrive to escape the asteroid field and win the game.
+Enemies will come from the closest corner of the map to the War Machine.</Text>
+          
+          <FontName>latoblack</FontName>
+          <FontSize>20</FontSize>
+          <Position>
+            <X>25</X>
+            <Y>75</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+
+        <Label Name="lblHelpKeysTitle">
+          <Text>Controls:</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>24</FontSize>
+          <Position>
+            <X>25</X>
+            <Y>285</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+
+        <Label Name="lblHelpKeysLeft">
+          <Text>B:\nU:\nTab:\nWASD/Arrows:\nSpacebar:\nLeft mouse button:\nRight mouse button:\nMouse wheel:</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>20</FontSize>
+          <Position>
+            <X>25</X>
+            <Y>315</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+
+        <Label Name="lblHelpKeysRight">
+          <Text>Open/close ship production.\nOpen/close upgrades.\nOpen/close help.\nMove the camera.\nFocus camera on War Machine.\nClick or drag to select ships.\nCommand selected ships.\nZoom in/out.</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>20</FontSize>
+          <Position>
+            <X>200</X>
+            <Y>315</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+        </Label>
+      </Widgets>
+    </Frame> <!-- frmHelp -->
+
+    <Frame Name="frmMinimap" DrawOrder="3" Visible="true" Active="true" Draggable="false">
+      <Position>
+        <X>right</X>
+        <Y>top</Y>
+      </Position>
+      <Offset>
+        <X>-25</X>
+        <Y>25</Y>
+      </Offset>
+      <Size>
+        <Width>250</Width>
+        <Height>250</Height>
+      </Size>
+
+      <Widgets>
+        <ImageBox Name="imgMinimap">
+          <Position>
+            <X>0</X>
+            <Y>0</Y>
+          </Position>
+          <Size>
+            <Width>250</Width>
+            <Height>250</Height>
+          </Size>
+          <AssetName>Minimap</AssetName>
+          <PreMultiplyAlpha>True</PreMultiplyAlpha>
+        </ImageBox>
+      </Widgets>
+    </Frame> <!-- frmMinimap -->
+  </Scene>
+</Menu>

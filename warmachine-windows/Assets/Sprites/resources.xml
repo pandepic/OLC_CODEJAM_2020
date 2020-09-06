@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<TextureAtlas AssetName="ResourcesTexture" Width="160" Height="32">
+  <Sprite Name="Gas" X="0" Y="0" Width="32" Height="32"/>
+  <Sprite Name="Metal" X="32" Y="0" Width="32" Height="32"/>
+  <Sprite Name="Water" X="64" Y="0" Width="32" Height="32"/>
+  <Sprite Name="Crystal" X="96" Y="0" Width="32" Height="32"/>
+  <Sprite Name="Uranium" X="128" Y="0" Width="32" Height="32"/>
+</TextureAtlas>

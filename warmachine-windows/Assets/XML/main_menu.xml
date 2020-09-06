@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Menu>
+  <Font AssetName="latoblack" />
+  
+  <Script>
+    <Name>MainMenuScript</Name>
+    <AssetName>MainMenuScript</AssetName>
+    <Class Name="MainMenu" />
+  </Script>
+
+  <Scene Name="mainScene">
+    <Frame Name="mainFrame">
+      <Position>
+        <X>center</X>
+        <Y>0</Y>
+      </Position>
+      <Size>
+        <Width>auto</Width>
+        <Height>auto</Height>
+      </Size>
+
+      <Widgets>
+        <Label Name="lblTitle">
+          <Text>WAR MACHINE</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>60</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>70</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+          <UpdateMethod></UpdateMethod>
+        </Label>
+
+        <Label Name="lblSubTitle">
+          <Text>OLC Code Jam 2020</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>36</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>150</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+          <UpdateMethod></UpdateMethod>
+        </Label>
+
+        <Button Name="btnNewGame" Template="StandardButton">
+          <Label>
+            <Text>NEW GAME</Text>
+          </Label>
+          <OnClick>MainMenuScript.MainMenu.StartNewGameClicked</OnClick>
+          <Position>
+            <X>center</X>
+            <Y>250</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnSettings" Template="StandardButton">
+          <Label>
+            <Text>SETTINGS</Text>
+          </Label>
+          <OnClick>MainMenuScript.MainMenu.SettingsClicked</OnClick>
+          <Position>
+            <X>center</X>
+            <Y>325</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnExit" Template="StandardButton">
+          <Label>
+            <Text>EXIT</Text>
+          </Label>
+          <OnClick>MainMenuScript.MainMenu.ExitClicked</OnClick>
+          <Position>
+            <X>center</X>
+            <Y>400</Y>
+          </Position>
+        </Button>
+      </Widgets>
+    </Frame>
+  </Scene>
+</Menu>

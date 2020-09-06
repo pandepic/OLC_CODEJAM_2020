@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<TextureAtlas AssetName="AsteroidsTexture" Width="199" Height="434">
+  <Sprite Name="Asteroid1" X="0"   Y="0"   Width="70"  Height="61"/>
+  <Sprite Name="Asteroid2" X="70"  Y="0"   Width="150" Height="112"/>
+  <Sprite Name="Asteroid3" X="0"   Y="112" Width="199" Height="165"/>
+  <Sprite Name="Asteroid4" X="0"   Y="277" Width="106" Height="96"/>
+  <Sprite Name="Asteroid5" X="106" Y="277" Width="67"  Height="60"/>
+</TextureAtlas>

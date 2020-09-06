@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Assets>
+  <!-- Fonts -->
+  <Asset Name="latoblack" FilePath="Assets/UI/Lato-Bold.ttf" />
+  
+  <!-- Game Data -->
+  <Asset Name="Config" FilePath="Assets/config.xml" />
+  <Asset Name="ShipTypes" FilePath="Assets/XML/ship_types.xml" />
+  <Asset Name="ProjectileTypes" FilePath="Assets/XML/projectile_types.xml" />
+  
+  <!-- Audio -->
+  <Asset Name="SFXButtonClick" FilePath="Assets/Audio/buttonclick.wav" />
+  <Asset Name="SFXLaser" FilePath="Assets/Audio/laser.wav" />
+  <Asset Name="SFXImpact" FilePath="Assets/Audio/impact.wav" />
+  <Asset Name="SFXSmallExplosion" FilePath="Assets/Audio/smallexplosion.wav" />
+  <Asset Name="SFXBigExplosion" FilePath="Assets/Audio/bigexplosion.wav" />
+  <Asset Name="SFXImpact" FilePath="Assets/Audio/impact.wav" />
+  <Asset Name="GameMusic" FilePath="Assets/Audio/gamemusic.wav" />
+  
+  <!-- UI Definitions -->
+  <Asset Name="UITemplates" FilePath="Assets/XML/ui_templates.xml" />
+  <Asset Name="MainMenuDefinition" FilePath="Assets/XML/main_menu.xml" />
+  <Asset Name="MainMenuScript" FilePath="Assets/Py/main_menu.py" />
+  <Asset Name="GameplayMenuDefinition" FilePath="Assets/XML/gameplay_menu.xml" />
+  <Asset Name="GameplayMenuScript" FilePath="Assets/Py/gameplay_menu.py" />
+  <Asset Name="LoadingMenuDefinition" FilePath="Assets/XML/loading_menu.xml" />
+  <Asset Name="SettingsMenuDefinition" FilePath="Assets/XML/settings_menu.xml" />
+  <Asset Name="SettingsMenuScript" FilePath="Assets/Py/settings_menu.py" />
+  <Asset Name="GameOverMenuDefinition" FilePath="Assets/XML/gameover_menu.xml" />
+  <Asset Name="GameOverMenuScript" FilePath="Assets/Py/gameover_menu.py" />
+  
+  <!-- UI Textures -->
+  <Asset Name="MenuBG" FilePath="Assets/UI/menu_bg.jpg" />
+  <Asset Name="StandardButton" FilePath="Assets/UI/standard_button.png" />
+  <Asset Name="StandardButton2" FilePath="Assets/UI/standard_button_2.png" />
+  <Asset Name="UIFrame" FilePath="Assets/UI/frame.png" />
+  <Asset Name="UIPanel" FilePath="Assets/UI/panel.png" />
+  <Asset Name="MenuButton" FilePath="Assets/UI/menu_button.png" />
+  <Asset Name="ResourceBar" FilePath="Assets/UI/resource_bar.png" />
+
+  <Asset Name="SettingsScrollbarLeft" FilePath="Assets/UI/scrollbar_left.png" />
+  <Asset Name="SettingsScrollbarRight" FilePath="Assets/UI/scrollbar_right.png" />
+  <Asset Name="SettingsScrollbarCenter" FilePath="Assets/UI/scrollbar_center.png" />
+  <Asset Name="SettingsScrollSlider" FilePath="Assets/UI/scrollbar_slider.png" />
+
+  <Asset Name="Minimap" FilePath="Assets/UI/minimap.png" />
+  <Asset Name="MinimapPlayer" FilePath="Assets/UI/Minimap/player.png" />
+  <Asset Name="MinimapEnemy" FilePath="Assets/UI/Minimap/enemy.png" />
+  
+  <!-- Sprites -->
+  <Asset Name="AsteroidsTexture" FilePath="Assets/Sprites/asteroids.png" />
+  <Asset Name="AsteroidsAtlas" FilePath="Assets/Sprites/asteroids.xml" />
+  <Asset Name="ShipsTexture" FilePath="Assets/Sprites/ships.png" />
+  <Asset Name="ShipsAtlas" FilePath="Assets/Sprites/ships.xml" />
+  <Asset Name="ParticlesTexture" FilePath="Assets/Sprites/particles.png" />
+  <Asset Name="ParticlesAtlas" FilePath="Assets/Sprites/particles.xml" />
+  <Asset Name="ResourcesTexture" FilePath="Assets/Sprites/resources.png" />
+  <Asset Name="ResourcesAtlas" FilePath="Assets/Sprites/resources.xml" />
+  
+  <!-- Particle Effects -->
+  <Asset Name="Shield" FilePath="Assets/Sprites/shield.png" />
+  
+  <!-- Backgrounds -->
+  <Asset Name="Background1" FilePath="Assets/Backgrounds/1.png" />
+  <Asset Name="Background2" FilePath="Assets/Backgrounds/2.png" />
+  <Asset Name="Background3" FilePath="Assets/Backgrounds/3.png" />
+  <Asset Name="Background4" FilePath="Assets/Backgrounds/4.png" />
+  <Asset Name="Background5" FilePath="Assets/Backgrounds/5.png" />
+  <Asset Name="Background6" FilePath="Assets/Backgrounds/6.png" />
+  <Asset Name="Background7" FilePath="Assets/Backgrounds/7.png" />
+  <Asset Name="Background8" FilePath="Assets/Backgrounds/8.png" />
+  
+  <!-- Background Elements -->
+  <Asset Name="BackgroundElement1" FilePath="Assets/Backgrounds/Elements/1.png" />
+  <Asset Name="BackgroundElement2" FilePath="Assets/Backgrounds/Elements/2.png" />
+  <Asset Name="BackgroundElement3" FilePath="Assets/Backgrounds/Elements/3.png" />
+  <Asset Name="BackgroundElement4" FilePath="Assets/Backgrounds/Elements/4.png" />
+  <Asset Name="BackgroundElement5" FilePath="Assets/Backgrounds/Elements/5.png" />
+  <Asset Name="BackgroundElement6" FilePath="Assets/Backgrounds/Elements/6.png" />
+  <Asset Name="BackgroundElement7" FilePath="Assets/Backgrounds/Elements/7.png" />
+  
+  <!-- Planets -->
+  <Asset Name="Planet1" FilePath="Assets/Backgrounds/Planets/1.png" />
+  <Asset Name="Planet2" FilePath="Assets/Backgrounds/Planets/2.png" />
+  <Asset Name="Planet3" FilePath="Assets/Backgrounds/Planets/3.png" />
+  <Asset Name="Planet4" FilePath="Assets/Backgrounds/Planets/4.png" />
+  <Asset Name="Planet5" FilePath="Assets/Backgrounds/Planets/5.png" />
+  <Asset Name="Planet6" FilePath="Assets/Backgrounds/Planets/6.png" />
+  <Asset Name="Planet7" FilePath="Assets/Backgrounds/Planets/7.png" />
+  <Asset Name="Planet8" FilePath="Assets/Backgrounds/Planets/8.png" />
+  <Asset Name="Planet9" FilePath="Assets/Backgrounds/Planets/9.png" />
+  <Asset Name="Planet10" FilePath="Assets/Backgrounds/Planets/10.png" />
+  
+</Assets>
