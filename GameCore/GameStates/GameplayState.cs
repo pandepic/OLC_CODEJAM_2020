@@ -30,11 +30,14 @@ namespace GameCore
         public static EffectsManager EffectsManager;
         public static EnemyWaveManager EnemyWaveManager;
 
+        public static GraphicsDevice Graphics;
+
         protected bool _mouseDragging = false;
         protected Vector2 _mouseDragPosition = Vector2.Zero;
 
         protected bool _lockCamera = false;
         public static bool ShowDebug = false;
+        public static bool GameOver = false;
 
         protected float ScrollSpeed = 1500.0f;
 
@@ -105,6 +108,8 @@ namespace GameCore
 
         public override void Load(ContentManager Content, GraphicsDevice graphics)
         {
+            Graphics = graphics;
+
             _menu.AddMethod(BuildMiner);
             _menu.AddMethod(BuildFighter);
             _menu.AddMethod(BuildBomber);
@@ -119,6 +124,8 @@ namespace GameCore
             _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
 
             MinimapFrame = _menu.GetFrame("frmMinimap");
+
+            GameOver = false;
 
             Config.Load();
             EntityData.Load();
@@ -188,6 +195,11 @@ namespace GameCore
 
         public override int Update(GameTime gameTime)
         {
+            if (GameOver)
+            {
+                return (int)GameStateType.GameOver;
+            }
+
             var mousePosition = MouseManager.GetMousePosition();
             var mouseWorldPos = Camera.ScreenToWorldPosition(mousePosition);
             var centerWorldPos = Camera.ScreenToWorldPosition(WorldManager.ScreenCenter);

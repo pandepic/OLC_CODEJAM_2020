@@ -86,7 +86,7 @@ namespace PandaMonogame
         /// <param name="loop">True if you want the sound to loop until manually stopped.</param>
         /// <param name="allowDuplicate">Do you want to allow multiple sounds from the same asset at the same time?</param>
         /// <returns>An integer sound ID on success or -1 on failure.</returns>
-        public int PlaySound(string assetName, int type, bool loop = false, bool allowDuplicate = false)
+        public int PlaySound(string assetName, int type, bool loop = false, bool allowDuplicate = false, float volumeMultiple = 1.0f)
         {
             if (!allowDuplicate)
             {
@@ -94,11 +94,23 @@ namespace PandaMonogame
                     if (_soundEffectsPlaying.ElementAt(i).Value.AssetName == assetName)
                         return -1;
             }
+            else
+            {
+                var maxDuplicates = 5;
+                var duplicateCount = 0;
+
+                for (var i = 0; i < _soundEffectsPlaying.Count; i++)
+                    if (_soundEffectsPlaying.ElementAt(i).Value.AssetName == assetName)
+                        duplicateCount += 1;
+
+                if (duplicateCount >= maxDuplicates)
+                    return -1;
+            }
 
             if (!_volumeSettings.ContainsKey(type))
                 _volumeSettings.Add(type, DefaultVolume);
 
-            var sfx = new SoundEffectPlaying(assetName, loop, type, _volumeSettings[type]);
+            var sfx = new SoundEffectPlaying(assetName, loop, type, _volumeSettings[type] * volumeMultiple);
             sfx.Play();
 
             var sfxID = _nextID;

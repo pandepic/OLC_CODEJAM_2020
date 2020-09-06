@@ -85,6 +85,17 @@ namespace GameCore.Combat
                 newProjectile.Target = target;
                 newProjectile.TargetRotation = AIHelper.GetAngleToTarget(newProjectile.Position, newProjectile.Rotation, newProjectile.Target.Position);
             }
+
+            if (newProjectile.TurnSpeed == 0)
+            {
+                var camPos = GameplayState.Camera.GetPosition() + GameplayState.Camera.GetOrigin();
+                var viewDistance = GameplayState.Graphics.PresentationParameters.BackBufferWidth / GameplayState.Camera.Zoom;
+
+                var distance = Vector2.Distance(newProjectile.Position, camPos);
+
+                if (distance < viewDistance)
+                    ModManager.Instance.SoundManager.PlaySound("SFXLaser", (int)SoundType.SoundEffect, false, true, 0.5f);
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -107,7 +118,17 @@ namespace GameCore.Combat
                 var projectile = DeadProjectiles[i];
 
                 if (projectile.DeathType == ProjectileDeathType.Explosion)
+                {
                     GameplayState.EffectsManager.AddExplosion(projectile);
+
+                    var camPos = GameplayState.Camera.GetPosition() + GameplayState.Camera.GetOrigin();
+                    var viewDistance = GameplayState.Graphics.PresentationParameters.BackBufferWidth / GameplayState.Camera.Zoom;
+
+                    var distance = Vector2.Distance(projectile.Position, camPos);
+
+                    if (distance < viewDistance)
+                        ModManager.Instance.SoundManager.PlaySound("SFXImpact", (int)SoundType.SoundEffect, false, true);
+                }
 
                 Projectiles.Delete(projectile);
             }
@@ -157,9 +178,21 @@ namespace GameCore.Combat
                 var anchor = DeadProjectileAnchors[i];
 
                 if (projectile.DeathType == ProjectileDeathType.Explosion)
+                {
                     GameplayState.EffectsManager.AddExplosion(projectile, anchor, 4.0f);
+
+                    var camPos = GameplayState.Camera.GetPosition() + GameplayState.Camera.GetOrigin();
+                    var viewDistance = GameplayState.Graphics.PresentationParameters.BackBufferWidth / GameplayState.Camera.Zoom;
+
+                    var distance = Vector2.Distance(projectile.Position, camPos);
+
+                    if (distance < viewDistance)
+                        ModManager.Instance.SoundManager.PlaySound("SFXImpact", (int)SoundType.SoundEffect, false, true);
+                }
                 else
+                {
                     GameplayState.EffectsManager.AddExplosion(projectile, Color.Cyan, anchor, 1.5f, 800.0f);
+                }
 
                 Projectiles.Delete(projectile);
             }

@@ -307,6 +307,19 @@ namespace GameCore
 
             GameplayState.EffectsManager.AddExplosion(ship, null, 15.0f, 2000.0f);
 
+            var camPos = GameplayState.Camera.GetPosition() + GameplayState.Camera.GetOrigin();
+            var viewDistance = GameplayState.Graphics.PresentationParameters.BackBufferWidth / GameplayState.Camera.Zoom;
+
+            var distance = Vector2.Distance(ship.Position, camPos);
+
+            if (distance < viewDistance)
+            {
+                if (ship.TargetType == TargetType.Large)
+                    ModManager.Instance.SoundManager.PlaySound("SFXBigExplosion", (int)SoundType.SoundEffect, false, true);
+                else
+                    ModManager.Instance.SoundManager.PlaySound("SFXSmallExplosion", (int)SoundType.SoundEffect, false, true);
+            }
+
             if (ship.IsSelected)
             {
                 SelectedShips.Remove(ship);
@@ -315,7 +328,7 @@ namespace GameCore
 
             if (ship.ShipType == ShipType.HomeShip)
             {
-                // todo : GAME OVER
+                GameplayState.GameOver = true;
             }
         }
 
@@ -420,7 +433,7 @@ namespace GameCore
                 if (SelectedShips.Count == 0)
                     SelectHomeShip();
             }
-            
+
             if (button == MouseButtonID.Left && MinimapDragging)
             {
                 var relativeMousePos = mousePosition - GameplayState.MinimapFrame.Position;

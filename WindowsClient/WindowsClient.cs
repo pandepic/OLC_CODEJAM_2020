@@ -49,6 +49,8 @@ namespace WindowsClient
 
             PandaMonogameConfig.Logging = true;
 
+            PandaMonogameConfig.UISoundType = (int)SoundType.UI;
+
             ModManager.Instance.Init(Content);
             ModManager.Instance.LoadList("Mods", "mods.xml", "assets.xml");
             ModManager.Instance.ImportAssets();
@@ -165,7 +167,13 @@ namespace WindowsClient
 
                 case (int)GameStateType.Settings:
                     {
-                        return;
+                        _currentGameState = new SettingsState();
+                    }
+                    break;
+
+                case (int)GameStateType.GameOver:
+                    {
+                        _currentGameState = new GameOverState();
                     }
                     break;
             }

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Menu>
+  <Font AssetName="latoblack" />
+
+  <Script>
+    <Name>GameOverMenuScript</Name>
+    <AssetName>GameOverMenuScript</AssetName>
+    <Class Name="GameOverMenu" />
+  </Script>
+
+  <Scene Name="mainScene">
+    <Frame Name="mainFrame">
+      <Position>
+        <X>center</X>
+        <Y>0</Y>
+      </Position>
+      <Size>
+        <Width>auto</Width>
+        <Height>auto</Height>
+      </Size>
+
+      <Widgets>
+        <Label Name="lblTitle">
+          <Text>Game Over</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>60</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>70</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+          <UpdateMethod></UpdateMethod>
+        </Label>
+      </Widgets>
+    </Frame>
+  </Scene>
+</Menu>

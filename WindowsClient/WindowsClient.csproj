@@ -20,7 +20,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Audio\bigexplosion.wav" />
+    <None Remove="Assets\Audio\buttonclick.wav" />
+    <None Remove="Assets\Audio\gamemusic.wav" />
+    <None Remove="Assets\Audio\impact.wav" />
+    <None Remove="Assets\Audio\laser.wav" />
+    <None Remove="Assets\Audio\smallexplosion.wav" />
     <None Remove="Assets\config.xml" />
+    <None Remove="Assets\Py\gameover_menu.py" />
+    <None Remove="Assets\Py\settings_menu.py" />
     <None Remove="Assets\Sprites\particles.png" />
     <None Remove="Assets\Sprites\particles.xml" />
     <None Remove="Assets\UI\frame.png" />
@@ -32,8 +40,14 @@
     <None Remove="Assets\UI\resources.png" />
     <None Remove="Assets\UI\resources.xml" />
     <None Remove="Assets\UI\resource_bar.png" />
+    <None Remove="Assets\UI\scrollbar_center.png" />
+    <None Remove="Assets\UI\scrollbar_left.png" />
+    <None Remove="Assets\UI\scrollbar_right.png" />
+    <None Remove="Assets\UI\scrollbar_slider.png" />
+    <None Remove="Assets\XML\gameover_menu.xml" />
     <None Remove="Assets\XML\loading_menu.xml" />
     <None Remove="Assets\XML\projectile_types.xml" />
+    <None Remove="Assets\XML\settings_menu.xml" />
   </ItemGroup>
 
   <ItemGroup>

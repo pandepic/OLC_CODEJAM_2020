@@ -45,6 +45,8 @@ namespace GameCore
             _menuBG.Position = Vector2.Zero;
             _menuBG.Center = Vector2.Zero; // otherwise scaling is weird
             _menuBG.Scale = ((float)graphics.PresentationParameters.BackBufferWidth / (float)_menuBG.Texture.Width);
+
+            ModManager.Instance.SoundManager.PlaySound("GameMusic", (int)SoundType.Music, true);
         }
 
         public override int Update(GameTime gameTime)

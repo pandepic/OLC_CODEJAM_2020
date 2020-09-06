@@ -9,6 +9,15 @@
   <Asset Name="ShipTypes" FilePath="Assets/XML/ship_types.xml" />
   <Asset Name="ProjectileTypes" FilePath="Assets/XML/projectile_types.xml" />
   
+  <!-- Audio -->
+  <Asset Name="SFXButtonClick" FilePath="Assets/Audio/buttonclick.wav" />
+  <Asset Name="SFXLaser" FilePath="Assets/Audio/laser.wav" />
+  <Asset Name="SFXImpact" FilePath="Assets/Audio/impact.wav" />
+  <Asset Name="SFXSmallExplosion" FilePath="Assets/Audio/smallexplosion.wav" />
+  <Asset Name="SFXBigExplosion" FilePath="Assets/Audio/bigexplosion.wav" />
+  <Asset Name="SFXImpact" FilePath="Assets/Audio/impact.wav" />
+  <Asset Name="GameMusic" FilePath="Assets/Audio/gamemusic.wav" />
+  
   <!-- UI Definitions -->
   <Asset Name="UITemplates" FilePath="Assets/XML/ui_templates.xml" />
   <Asset Name="MainMenuDefinition" FilePath="Assets/XML/main_menu.xml" />
@@ -16,6 +25,10 @@
   <Asset Name="GameplayMenuDefinition" FilePath="Assets/XML/gameplay_menu.xml" />
   <Asset Name="GameplayMenuScript" FilePath="Assets/Py/gameplay_menu.py" />
   <Asset Name="LoadingMenuDefinition" FilePath="Assets/XML/loading_menu.xml" />
+  <Asset Name="SettingsMenuDefinition" FilePath="Assets/XML/settings_menu.xml" />
+  <Asset Name="SettingsMenuScript" FilePath="Assets/Py/settings_menu.py" />
+  <Asset Name="GameOverMenuDefinition" FilePath="Assets/XML/gameover_menu.xml" />
+  <Asset Name="GameOverMenuScript" FilePath="Assets/Py/gameover_menu.py" />
   
   <!-- UI Textures -->
   <Asset Name="MenuBG" FilePath="Assets/UI/menu_bg.jpg" />
@@ -25,8 +38,13 @@
   <Asset Name="UIPanel" FilePath="Assets/UI/panel.png" />
   <Asset Name="MenuButton" FilePath="Assets/UI/menu_button.png" />
   <Asset Name="ResourceBar" FilePath="Assets/UI/resource_bar.png" />
-  <Asset Name="Minimap" FilePath="Assets/UI/minimap.png" />
 
+  <Asset Name="SettingsScrollbarLeft" FilePath="Assets/UI/scrollbar_left.png" />
+  <Asset Name="SettingsScrollbarRight" FilePath="Assets/UI/scrollbar_right.png" />
+  <Asset Name="SettingsScrollbarCenter" FilePath="Assets/UI/scrollbar_center.png" />
+  <Asset Name="SettingsScrollSlider" FilePath="Assets/UI/scrollbar_slider.png" />
+
+  <Asset Name="Minimap" FilePath="Assets/UI/minimap.png" />
   <Asset Name="MinimapPlayer" FilePath="Assets/UI/Minimap/player.png" />
   <Asset Name="MinimapEnemy" FilePath="Assets/UI/Minimap/enemy.png" />
   
