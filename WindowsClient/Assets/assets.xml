@@ -25,6 +25,10 @@
   <Asset Name="UIPanel" FilePath="Assets/UI/panel.png" />
   <Asset Name="MenuButton" FilePath="Assets/UI/menu_button.png" />
   <Asset Name="ResourceBar" FilePath="Assets/UI/resource_bar.png" />
+  <Asset Name="Minimap" FilePath="Assets/UI/minimap.png" />
+
+  <Asset Name="MinimapPlayer" FilePath="Assets/UI/Minimap/player.png" />
+  <Asset Name="MinimapEnemy" FilePath="Assets/UI/Minimap/enemy.png" />
   
   <!-- Sprites -->
   <Asset Name="AsteroidsTexture" FilePath="Assets/Sprites/asteroids.png" />

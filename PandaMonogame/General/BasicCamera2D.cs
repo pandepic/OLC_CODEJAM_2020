@@ -169,6 +169,33 @@ namespace PandaMonogame
             return worldCamRect.Intersects(rect);
         }
 
+        public Rectangle GetCameraWorldRect()
+        {
+            var worldCamRectXY = GetCameraWorldRectXY();
+            var worldCamRectWH = GetCameraWorldRectWH();
+            var worldCamRect = new Rectangle()
+            {
+                X = (int)worldCamRectXY.X,
+                Y = (int)worldCamRectXY.Y,
+                Width = (int)worldCamRectWH.X,
+                Height = (int)worldCamRectWH.Y,
+            };
+
+            return worldCamRect;
+        }
+
+        public Vector2 GetCameraWorldRectXY()
+        {
+            return ScreenToWorldPosition(new Vector2(0, 0));
+        }
+
+        public Vector2 GetCameraWorldRectWH()
+        {
+            var xy = GetCameraWorldRectXY();
+            var wh = ScreenToWorldPosition(new Vector2(_view.Width, _view.Height));
+            return wh - xy;
+        }
+
         public Vector2 ScreenToWorldPosition(Vector2 pos)
         {
             return Vector2.Transform(pos, Matrix.Invert(GetViewMatrix()));

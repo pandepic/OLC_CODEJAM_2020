@@ -21,6 +21,7 @@ namespace GameCore
         protected int _nextGameState = (int)GameStateType.None;
 
         protected PUIMenu _menu = new PUIMenu();
+        public static PUIFrame MinimapFrame;
 
         public static BasicCamera2D Camera;
         public static WorldManager WorldManager;
@@ -116,6 +117,8 @@ namespace GameCore
             _menu.AddMethod(BuildCarrier);
 
             _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
+
+            MinimapFrame = _menu.GetFrame("frmMinimap");
 
             Config.Load();
             EntityData.Load();

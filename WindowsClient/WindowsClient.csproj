@@ -25,6 +25,9 @@
     <None Remove="Assets\Sprites\particles.xml" />
     <None Remove="Assets\UI\frame.png" />
     <None Remove="Assets\UI\menu_button.png" />
+    <None Remove="Assets\UI\minimap.png" />
+    <None Remove="Assets\UI\Minimap\enemy.png" />
+    <None Remove="Assets\UI\Minimap\player.png" />
     <None Remove="Assets\UI\panel.png" />
     <None Remove="Assets\UI\resources.png" />
     <None Remove="Assets\UI\resources.xml" />

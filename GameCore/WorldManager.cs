@@ -19,6 +19,8 @@ namespace GameCore
         public List<Ship> DeadShips = new List<Ship>();
         public Player PlayerEntity;
 
+        public Texture2D MinimapPlayer, MinimapEnemy;
+
         //public Texture2D Planet, Background;
         public Texture2D Background;
         public Vector2 ScreenCenter;
@@ -33,6 +35,9 @@ namespace GameCore
         {
             Graphics = graphics;
             ScreenCenter = new Vector2(graphics.PresentationParameters.BackBufferWidth / 2, graphics.PresentationParameters.BackBufferHeight / 2);
+
+            MinimapPlayer = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "MinimapPlayer", true);
+            MinimapEnemy = ModManager.Instance.AssetManager.LoadTexture2D(graphics, "MinimapEnemy", true);
 
             // todo - set world seed
             WorldData.RNG = new Random();
@@ -153,7 +158,7 @@ namespace GameCore
                 if (ship.CurrentArmourHP <= 0)
                     DeadShips.Add(ship);
             }
-
+            
             foreach (var ship in DeadShips)
                 GameplayState.UnitManager.DestroyShip(ship);
         }
@@ -207,6 +212,74 @@ namespace GameCore
                         SpriteEffects.None,
                         0.0f
                         );
+
+            var minimapSize = new Vector2(GameplayState.MinimapFrame.Width, GameplayState.MinimapFrame.Height);
+            var minimapRatio = minimapSize / worldSize;
+            var minimapOrigin = new Vector2(MinimapPlayer.Width / 2, MinimapPlayer.Height / 2) * 0.5f;
+
+            foreach (var ship in PlayerShips)
+            {
+                if (ship.TargetType == TargetType.Small)
+                    continue;
+
+                var shipMinimapPos = ship.Position * minimapRatio;
+
+                spriteBatch.Draw(
+                        MinimapPlayer,
+                        GameplayState.MinimapFrame.Position + shipMinimapPos,
+                        null,
+                        Color.White,
+                        0.0f,
+                        minimapOrigin,
+                        0.5f,
+                        SpriteEffects.None,
+                        0.0f
+                        );
+            }
+
+            foreach (var ship in EnemyShips)
+            {
+                if (ship.TargetType == TargetType.Small)
+                    continue;
+
+                var shipMinimapPos = ship.Position * minimapRatio;
+
+                spriteBatch.Draw(
+                        MinimapEnemy,
+                        GameplayState.MinimapFrame.Position + shipMinimapPos,
+                        null,
+                        Color.White,
+                        0.0f,
+                        minimapOrigin,
+                        0.5f,
+                        SpriteEffects.None,
+                        0.0f
+                        );
+            }
+
+            //var worldCamRectXY = (GameplayState.Camera.GetCameraWorldRectXY() * (0.5f * GameplayState.Camera.Zoom)) * minimapRatio;
+            //var worldCamRectWH = (GameplayState.Camera.GetCameraWorldRectWH() / (0.5f * GameplayState.Camera.Zoom)) * minimapRatio;
+
+            //var worldCamRect = new Rectangle()
+            //{
+            //    X = (int)worldCamRectXY.X,
+            //    Y = (int)worldCamRectXY.Y,
+            //    Width = (int)worldCamRectWH.X,
+            //    Height = (int)worldCamRectWH.Y,
+            //};
+
+            var worldCamRect = GameplayState.Camera.GetCameraWorldRect();
+
+            worldCamRect.X = (int)(worldCamRect.X * minimapRatio.X);
+            worldCamRect.Y = (int)(worldCamRect.Y * minimapRatio.Y);
+            worldCamRect.Width = (int)(worldCamRect.Width * minimapRatio.X);
+            worldCamRect.Height = (int)(worldCamRect.Height * minimapRatio.Y);
+
+            var worldCamDestRect = worldCamRect;
+            worldCamDestRect.X += (int)GameplayState.MinimapFrame.Position.X;
+            worldCamDestRect.Y += (int)GameplayState.MinimapFrame.Position.Y;
+
+            spriteBatch.Draw(GameplayState.UnitManager.DragSelectTexture, worldCamDestRect, worldCamRect, Color.White);
         }
 
         public Asteroid GetAsteroidAtWorldPosition(Vector2 position)

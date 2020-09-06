@@ -482,5 +482,35 @@ Enemies will come from the closest corner of the map to the War Machine.</Text>
         </Label>
       </Widgets>
     </Frame> <!-- frmHelp -->
+
+    <Frame Name="frmMinimap" DrawOrder="3" Visible="true" Active="true" Draggable="true">
+      <Position>
+        <X>right</X>
+        <Y>top</Y>
+      </Position>
+      <Offset>
+        <X>-25</X>
+        <Y>25</Y>
+      </Offset>
+      <Size>
+        <Width>250</Width>
+        <Height>250</Height>
+      </Size>
+
+      <Widgets>
+        <ImageBox Name="imgMinimap" Tooltip="Minimap">
+          <Position>
+            <X>0</X>
+            <Y>0</Y>
+          </Position>
+          <Size>
+            <Width>250</Width>
+            <Height>250</Height>
+          </Size>
+          <AssetName>Minimap</AssetName>
+          <PreMultiplyAlpha>True</PreMultiplyAlpha>
+        </ImageBox>
+      </Widgets>
+    </Frame> <!-- frmMinimap -->
   </Scene>
 </Menu>

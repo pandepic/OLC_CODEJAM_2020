@@ -171,15 +171,15 @@ namespace PandaMonogame.UI
             else
                 Height = int.Parse(frameSizeH);
 
-            X = (framePosition.Element("X").Value.ToUpper() != "CENTER"
-                ? int.Parse(framePosition.Element("X").Value)
-                : (int)((screenWidth / 2) - (Width / 2))
-                );
+            //X = (framePosition.Element("X").Value.ToUpper() != "CENTER"
+            //    ? int.Parse(framePosition.Element("X").Value)
+            //    : (int)((screenWidth / 2) - (Width / 2))
+            //    );
 
-            Y = (framePosition.Element("Y").Value.ToUpper() != "CENTER"
-                ? int.Parse(framePosition.Element("Y").Value)
-                : (int)((screenHeight / 2) - (Height / 2))
-                );
+            //Y = (framePosition.Element("Y").Value.ToUpper() != "CENTER"
+            //    ? int.Parse(framePosition.Element("Y").Value)
+            //    : (int)((screenHeight / 2) - (Height / 2))
+            //    );
 
             var frameX = framePosition.Element("X").Value.ToUpper();
             var frameY = framePosition.Element("Y").Value.ToUpper();
@@ -190,13 +190,17 @@ namespace PandaMonogame.UI
                 AnchorLeft = true;
             else if (frameX == "RIGHT")
                 AnchorRight = true;
+            else
+                X = int.Parse(framePosition.Element("X").Value);
 
             if (frameY == "CENTER")
                 CenterY = true;
-            if (frameY == "TOP")
+            else if (frameY == "TOP")
                 AnchorTop = true;
-            if (frameY == "BOTTOM")
+            else if (frameY == "BOTTOM")
                 AnchorBottom = true;
+            else
+                Y = int.Parse(framePosition.Element("Y").Value);
 
             var visibleAttribute = el.Attribute("Visible");
             var activeAttribute = el.Attribute("Active");
@@ -255,10 +259,10 @@ namespace PandaMonogame.UI
             if (AutoHeight)
                 Height = currentHeight;
 
-            if (AutoWidth && CenterX)
+            if (CenterX)
                 X = (int)((screenWidth / 2) - (Width / 2));
 
-            if (AutoHeight && CenterY)
+            if (CenterY)
                 Y = (int)((screenHeight / 2) - (Height / 2));
 
             if (AnchorLeft)
@@ -269,6 +273,14 @@ namespace PandaMonogame.UI
                 Y = 0;
             if (AnchorBottom)
                 Y = screenHeight - Height;
+
+            var elOffset = el.Element("Offset");
+
+            if (elOffset != null)
+            {
+                X += int.Parse(elOffset.Element("X").Value);
+                Y += int.Parse(elOffset.Element("Y").Value);
+            }
 
             var draggableRectAttribute = el.Attribute("DraggableRect");
             if (draggableRectAttribute != null)
