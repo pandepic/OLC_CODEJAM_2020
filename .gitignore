@@ -6,6 +6,7 @@
 warmachine-windows/
 warmachine-linux/
 *.7z
+*.zip
 
 # User-specific files
 *.rsuser

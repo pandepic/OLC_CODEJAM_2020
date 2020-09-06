@@ -9,18 +9,20 @@
   
   <!-- Battle testing for debugging, if you uncomment this, these will spawn at the start of the game -->
   <TestShips>
-    <!--<Ship Type="MissileFrigate" Player="true" Count="1" />
-    <Ship Type="BeamFrigate" Player="true" Count="1" />
-    <Ship Type="SupportCruiser" Player="true" Count="1" />
-    <Ship Type="HeavyCruiser" Player="true" Count="1" />
-    <Ship Type="Battleship" Player="true" Count="1" />
-    <Ship Type="Carrier" Player="true" Count="1" />
+    <!--<Ship Type="MissileFrigate" Player="true" Count="5" />
+    <Ship Type="BeamFrigate" Player="true" Count="4" />
+    <Ship Type="SupportCruiser" Player="true" Count="3" />
+    <Ship Type="HeavyCruiser" Player="true" Count="2" />
+    <Ship Type="Battleship" Player="true" Count="2" />
+    <Ship Type="Carrier" Player="true" Count="2" />
+    <Ship Type="Fighter" Player="true" Count="30" />
 
-    <Ship Type="MissileFrigate" Player="false" Count="1" />
-    <Ship Type="BeamFrigate" Player="false" Count="1" />
-    <Ship Type="SupportCruiser" Player="false" Count="1" />
-    <Ship Type="HeavyCruiser" Player="false" Count="1" />
-    <Ship Type="Battleship" Player="false" Count="1" />
-    <Ship Type="Carrier" Player="false" Count="1" />-->
+    <Ship Type="MissileFrigate" Player="false" Count="5" />
+    <Ship Type="BeamFrigate" Player="false" Count="4" />
+    <Ship Type="SupportCruiser" Player="false" Count="3" />
+    <Ship Type="HeavyCruiser" Player="false" Count="2" />
+    <Ship Type="Battleship" Player="false" Count="2" />
+    <Ship Type="Carrier" Player="false" Count="2" />
+    <Ship Type="Fighter" Player="false" Count="30" />-->
   </TestShips>
 </Config>
