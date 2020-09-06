@@ -122,8 +122,8 @@
     <BuildTime>10000</BuildTime>
 
     <Weapons>
-      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
-      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="150" MaxAngle="360" />
+      <Weapon ProjectileType="MediumTorpedo" Mount="Turret" TargetType="Large" Range="3000" Cooldown="2000" Damage="150" MaxAngle="360" />
       <Weapon ProjectileType="SmallMissile" Mount="Turret" TargetType="Small" Range="3000" Cooldown="1000" Damage="40" MaxAngle="360" />
     </Weapons>
 
@@ -158,7 +158,7 @@
     <Weapons>
       <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
       <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
-      <Weapon ProjectileType="LargeLaser" Mount="Turret" TargetType="Large" Range="3000" Cooldown="500" Damage="100" MaxAngle="360" />
+      <Weapon ProjectileType="LargeLaser" Mount="Turret" TargetType="Large" Range="2500" Cooldown="500" Damage="100" MaxAngle="360" />
     </Weapons>
 
     <TargetPriorities>

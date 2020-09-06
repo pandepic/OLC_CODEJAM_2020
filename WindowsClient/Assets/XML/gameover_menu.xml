@@ -45,5 +45,41 @@
         </Button>
       </Widgets>
     </Frame>
+    <Frame Name="statsFrame">
+      <Position>
+        <X>0</X>
+        <Y>0</Y>
+      </Position>
+      <Size>
+        <Width>fill</Width>
+        <Height>fill</Height>
+      </Size>
+
+      <Widgets>
+        <Label Name="lblStatsLeft">
+          <Text></Text>
+          <FontName>latoblack</FontName>
+          <FontSize>32</FontSize>
+          <Position>
+            <X>550</X>
+            <Y>150</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+          <UpdateMethod></UpdateMethod>
+        </Label>
+
+        <Label Name="lblStatsRight">
+          <Text></Text>
+          <FontName>latoblack</FontName>
+          <FontSize>32</FontSize>
+          <Position>
+            <X>950</X>
+            <Y>150</Y>
+          </Position>
+          <Color>#FFFFFF</Color>
+          <UpdateMethod></UpdateMethod>
+        </Label>
+      </Widgets>
+    </Frame>
   </Scene>
 </Menu>

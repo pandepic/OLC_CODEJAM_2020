@@ -129,6 +129,8 @@ namespace GameCore
 
         public void UnlockUpgrade(UpgradeType type)
         {
+            if (UpgradesUnlocked[type])
+                return;
             if (UpgradePoints < UpgradeCosts[type])
                 return;
 
@@ -159,11 +161,11 @@ namespace GameCore
 
                 case UpgradeType.MiningRate2:
                     {
-                        BonusMiningRate += 5;
+                        BonusMiningRate += 10;
 
                         foreach (Miner miner in GameplayState.WorldManager.Miners)
                         {
-                            miner.GatherRate += 5;
+                            miner.GatherRate += 10;
                         }
                     }
                     break;
@@ -184,13 +186,13 @@ namespace GameCore
 
                 case UpgradeType.ShieldRegen1:
                     {
-                        BonusShieldRegen += 5;
+                        BonusShieldRegen += 10;
                     }
                     break;
 
                 case UpgradeType.ShieldRegen2:
                     {
-                        BonusShieldRegen += 10;
+                        BonusShieldRegen += 20;
                     }
                     break;
 
@@ -203,27 +205,19 @@ namespace GameCore
                         {
                             if (weapon.ProjectileType.Contains("Laser"))
                             {
-                                newWeapons.Add(new Weapon()
+                                for (var i = 0; i < 4; i++)
                                 {
-                                    ProjectileType = weapon.ProjectileType,
-                                    MountType = weapon.MountType,
-                                    TargetType = weapon.TargetType,
-                                    Range = weapon.Range,
-                                    Cooldown = weapon.Cooldown,
-                                    Damage = weapon.Damage,
-                                    MaxAngle = weapon.MaxAngle,
-                                });
-
-                                newWeapons.Add(new Weapon()
-                                {
-                                    ProjectileType = weapon.ProjectileType,
-                                    MountType = weapon.MountType,
-                                    TargetType = weapon.TargetType,
-                                    Range = weapon.Range,
-                                    Cooldown = weapon.Cooldown,
-                                    Damage = weapon.Damage,
-                                    MaxAngle = weapon.MaxAngle,
-                                });
+                                    newWeapons.Add(new Weapon()
+                                    {
+                                        ProjectileType = weapon.ProjectileType,
+                                        MountType = weapon.MountType,
+                                        TargetType = weapon.TargetType,
+                                        Range = weapon.Range,
+                                        Cooldown = weapon.Cooldown,
+                                        Damage = weapon.Damage,
+                                        MaxAngle = weapon.MaxAngle,
+                                    });
+                                }
                             }
                         }
 
@@ -241,27 +235,19 @@ namespace GameCore
                         {
                             if (weapon.ProjectileType.Contains("Torpedo"))
                             {
-                                newWeapons.Add(new Weapon()
+                                for (var i = 0; i < 4; i++)
                                 {
-                                    ProjectileType = weapon.ProjectileType,
-                                    MountType = weapon.MountType,
-                                    TargetType = weapon.TargetType,
-                                    Range = weapon.Range,
-                                    Cooldown = weapon.Cooldown,
-                                    Damage = weapon.Damage,
-                                    MaxAngle = weapon.MaxAngle,
-                                });
-
-                                newWeapons.Add(new Weapon()
-                                {
-                                    ProjectileType = weapon.ProjectileType,
-                                    MountType = weapon.MountType,
-                                    TargetType = weapon.TargetType,
-                                    Range = weapon.Range,
-                                    Cooldown = weapon.Cooldown,
-                                    Damage = weapon.Damage,
-                                    MaxAngle = weapon.MaxAngle,
-                                });
+                                    newWeapons.Add(new Weapon()
+                                    {
+                                        ProjectileType = weapon.ProjectileType,
+                                        MountType = weapon.MountType,
+                                        TargetType = weapon.TargetType,
+                                        Range = weapon.Range,
+                                        Cooldown = weapon.Cooldown,
+                                        Damage = weapon.Damage,
+                                        MaxAngle = weapon.MaxAngle,
+                                    });
+                                }
                             }
                         }
 

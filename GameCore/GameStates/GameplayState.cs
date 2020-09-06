@@ -31,6 +31,9 @@ namespace GameCore
         public static EnemyWaveManager EnemyWaveManager;
         public static UpgradeManager UpgradeManager;
 
+        public static Dictionary<ShipType, int> ShipsKilled;
+        public static Dictionary<ShipType, int> ShipsLost;
+
         public static GraphicsDevice Graphics;
 
         protected bool _mouseDragging = false;
@@ -124,6 +127,14 @@ namespace GameCore
             upgradesFrame.Active = upgradesFrame.Visible;
         }
 
+        protected void Build(params object[] args)
+        {
+            var buildFrame = Menu.GetFrame("frmProduction");
+
+            buildFrame.Visible = !buildFrame.Visible;
+            buildFrame.Active = buildFrame.Visible;
+        }
+
         protected void Help(params object[] args)
         {
             var helpFrame = Menu.GetFrame("frmHelp");
@@ -162,6 +173,7 @@ namespace GameCore
             Menu.AddMethod(Upgrades);
             Menu.AddMethod(Help);
             Menu.AddMethod(ExitToMenu);
+            Menu.AddMethod(Build);
 
             Menu.AddMethod(UpgradeManager.UpgradeMinerCap1);
             Menu.AddMethod(UpgradeManager.UpgradeMinerCap2);
@@ -194,6 +206,15 @@ namespace GameCore
 
             _btnIdleMiners = Menu.GetWidget<PUIWBasicButton>("btnIdleMiners");
             _btnUpgrades = Menu.GetWidget<PUIWBasicButton>("btnUpgrades");
+
+            ShipsKilled = new Dictionary<ShipType, int>();
+            ShipsLost = new Dictionary<ShipType, int>();
+
+            foreach (var kvp in EntityData.ShipTypes)
+            {
+                ShipsKilled.Add(kvp.Key, 0);
+                ShipsLost.Add(kvp.Key, 0);
+            }
 
             // create build menu tooltips
             foreach (var kvp in EntityData.ShipTypes)
@@ -294,7 +315,7 @@ namespace GameCore
                 _sbGeneral.Remove(_sbGeneral.Length - 2, 2);
 
             if (queueListedCount < WorldManager.PlayerEntity.BuildQueue.Count)
-                _sbGeneral.Append(" +" + (WorldManager.PlayerEntity.BuildQueue.Count - queueListedCount).ToString() +  "");
+                _sbGeneral.Append(" +" + (WorldManager.PlayerEntity.BuildQueue.Count - queueListedCount).ToString() + "");
 
             _lblProductionQueue.Text = _sbGeneral.ToString();
 
@@ -403,7 +424,7 @@ namespace GameCore
         public override void OnMouseDown(MouseButtonID button, GameTime gameTime)
         {
             var mousePosition = MouseManager.GetMousePosition();
-            
+
             Menu.OnMouseDown(button, gameTime);
 
             if (!Menu.Focused)

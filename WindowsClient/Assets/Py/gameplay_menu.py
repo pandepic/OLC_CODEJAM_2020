@@ -38,6 +38,9 @@
     def UpgradesClicked(instance):
         Upgrades(None)
 
+    def BuildClicked(instance):
+        Build(None)
+
     def HelpClicked(instance):
         Help(None)
 

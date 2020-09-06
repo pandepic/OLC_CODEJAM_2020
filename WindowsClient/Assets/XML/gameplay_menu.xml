@@ -105,7 +105,7 @@
           </Position>
           <Offset>
             <X>25</X>
-            <Y>-300</Y>
+            <Y>-375</Y>
           </Offset>
         </Button>
         
@@ -120,7 +120,7 @@
           </Position>
           <Offset>
             <X>25</X>
-            <Y>-225</Y>
+            <Y>-300</Y>
           </Offset>
         </Button>
 
@@ -129,6 +129,21 @@
             <Text>Upgrades</Text>
           </Label>
           <OnClick>GameplayMenuScript.GameplayMenu.UpgradesClicked</OnClick>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-225</Y>
+          </Offset>
+        </Button>
+
+        <Button Name="btnBuild" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Build</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.BuildClicked</OnClick>
           <Position>
             <X>left</X>
             <Y>bottom</Y>
@@ -507,7 +522,7 @@
 
         <Button Name="btnUpgradeMiningRate2" Template="StandardButton" Visible="true" Active="true">
           <Label>
-            <Text>+5 Mining Rate</Text>
+            <Text>+10 Mining Rate</Text>
           </Label>
           <OnClick>GameplayMenuScript.GameplayMenu.UpgradeMiningRate2Clicked</OnClick>
           <Position>
@@ -529,7 +544,7 @@
 
         <Button Name="btnUpgradeShieldRegen1" Template="StandardButton" Visible="true" Active="true">
           <Label>
-            <Text>+5 Shield Regen</Text>
+            <Text>+10 Shield Regen</Text>
           </Label>
           <OnClick>GameplayMenuScript.GameplayMenu.UpgradeShieldRegen1Clicked</OnClick>
           <Position>
@@ -540,7 +555,7 @@
 
         <Button Name="btnUpgradeShieldRegen2" Template="StandardButton" Visible="true" Active="true">
           <Label>
-            <Text>+10 Shield Regen</Text>
+            <Text>+20 Shield Regen</Text>
           </Label>
           <OnClick>GameplayMenuScript.GameplayMenu.UpgradeShieldRegen2Clicked</OnClick>
           <Position>

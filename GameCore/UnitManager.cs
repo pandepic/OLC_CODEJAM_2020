@@ -366,6 +366,12 @@ namespace GameCore
                 {
                     GameplayState.UpgradeManager.UpgradePoints += data.WaveValue;
                 }
+
+                GameplayState.ShipsKilled[ship.ShipType] += 1;
+            }
+            else
+            {
+                GameplayState.ShipsLost[ship.ShipType] += 1;
             }
         }
 

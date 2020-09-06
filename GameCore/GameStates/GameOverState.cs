@@ -41,6 +41,21 @@ namespace GameCore
             {
                 _menu.GetWidget<PUIWLabel>("lblTitle").Text = "You Lost!";
             }
+
+            var lblLeft = _menu.GetWidget<PUIWLabel>("lblStatsLeft");
+            var lblRight = _menu.GetWidget<PUIWLabel>("lblStatsRight");
+
+            var sbLeft = new StringBuilder("Ship Type\n\n");
+            var sbRight = new StringBuilder("Killed / Lost\n\n");
+
+            foreach (var kvp in GameplayState.ShipsKilled)
+            {
+                sbLeft.AppendLine(kvp.Key.ToString());
+                sbRight.AppendLine(kvp.Value.ToString() + " / " + GameplayState.ShipsLost[kvp.Key].ToString());
+            }
+
+            lblLeft.Text = sbLeft.ToString();
+            lblRight.Text = sbRight.ToString();
         }
 
         public override int Update(GameTime gameTime)
