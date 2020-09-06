@@ -69,6 +69,20 @@ namespace GameCore.Entities
 
         public bool BuildShip(ShipType type)
         {
+            if (type == ShipType.Miner)
+            {
+                var minersInQueue = 0;
+
+                foreach (var q in BuildQueue)
+                {
+                    if (q.ShipType == ShipType.Miner)
+                        minersInQueue += 1;
+                }
+
+                if (GameplayState.WorldManager.Miners.Count + minersInQueue + 1 > Config.BaseMinerLimit)
+                    return false;
+            }
+
             var data = EntityData.ShipTypes[type];
             
             foreach (var kvp in data.BuildCost)

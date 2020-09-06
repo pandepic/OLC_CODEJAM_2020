@@ -53,6 +53,9 @@ namespace GameCore
 
         protected PUIWLabel _lblProductionQueue;
         protected PUIWLabel _lblMetal, _lblGas, _lblWater, _lblCrystal, _lblUranium;
+        protected PUIWBasicButton _btnIdleMiners;
+
+        protected Dictionary<ResourceType, int> MinerResourceCounts;
 
         #region python bound methods
         protected void BuildMiner(params object[] args)
@@ -104,6 +107,11 @@ namespace GameCore
         {
             WorldManager.PlayerEntity.BuildShip(ShipType.Carrier);
         }
+
+        protected void IdleMiners(params object[] args)
+        {
+            UnitManager.SelectIdleMiners = true;
+        }
         #endregion
 
         public override void Load(ContentManager Content, GraphicsDevice graphics)
@@ -120,6 +128,7 @@ namespace GameCore
             _menu.AddMethod(BuildHeavyCruiser);
             _menu.AddMethod(BuildBattleship);
             _menu.AddMethod(BuildCarrier);
+            _menu.AddMethod(IdleMiners);
 
             _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
 
@@ -137,6 +146,7 @@ namespace GameCore
             _lblWater = _menu.GetWidget<PUIWLabel>("lblWater");
             _lblCrystal = _menu.GetWidget<PUIWLabel>("lblCrystal");
             _lblUranium = _menu.GetWidget<PUIWLabel>("lblUranium");
+            _btnIdleMiners = _menu.GetWidget<PUIWBasicButton>("btnIdleMiners");
 
             // create build menu tooltips
             foreach (var kvp in EntityData.ShipTypes)
@@ -191,6 +201,12 @@ namespace GameCore
             EnemyWaveManager.Start();
 
             Camera.CenterPosition(WorldManager.PlayerEntity.Position);
+
+            MinerResourceCounts = new Dictionary<ResourceType, int>();
+
+            foreach (var type in WorldData.ResourceTypes)
+                MinerResourceCounts.Add(type, 0);
+
         } // Load
 
         public override int Update(GameTime gameTime)
@@ -213,12 +229,6 @@ namespace GameCore
                 mouseWorldPos.ToString() + "\n" +
                 centerWorldPos.ToString() + "\n" +
                 WorldManager.PlayerShips.Count.ToString() + " / " + WorldManager.EnemyShips.Count.ToString();
-
-            _lblMetal.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Metal].ToString();
-            _lblGas.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Gas].ToString();
-            _lblWater.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Water].ToString();
-            _lblCrystal.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Crystal].ToString();
-            _lblUranium.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Uranium].ToString();
 
             _sbGeneral.Clear();
             _sbGeneral.Append("Queue: ");
@@ -249,7 +259,42 @@ namespace GameCore
             _menu.GetWidget<PUIWLabel>("lblNextEnemyWaveTimer").Text = "Next Enemy Wave: " + (EnemyWaveManager.NextWaveTimer / 1000.0f).ToString("0");
             _menu.GetWidget<PUIWLabel>("lblNextEnemyWavePosition").Text = "Next Wave Spawn: " + EnemyWaveManager.NextWavePosition.Name;
             _menu.GetWidget<PUIWLabel>("lblEnemyCount").Text = "Enemies Alive: " + WorldManager.EnemyShips.Count.ToString();
-            
+            _menu.GetWidget<PUIWLabel>("lblMinerCount").Text = "Miners: " + WorldManager.Miners.Count.ToString() + " / " + Config.BaseMinerLimit.ToString();
+
+            var idleMiners = 0;
+
+            foreach (var type in WorldData.ResourceTypes)
+                MinerResourceCounts[type] = 0;
+
+            foreach (var m in WorldManager.Miners)
+            {
+                var miner = (Miner)m;
+
+                if (miner.CurrentMiningTarget == null)
+                    idleMiners += 1;
+                else
+                    MinerResourceCounts[miner.CurrentMiningTarget.ResourceType] += 1;
+            }
+
+            _btnIdleMiners.ButtonText = "Idle Miners (" + idleMiners.ToString() + ")";
+
+            if (idleMiners == 0)
+            {
+                _btnIdleMiners.Visible = false;
+                _btnIdleMiners.Active = false;
+            }
+            else
+            {
+                _btnIdleMiners.Visible = true;
+                _btnIdleMiners.Active = true;
+            }
+
+            _lblMetal.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Metal].ToString() + " (" + MinerResourceCounts[ResourceType.Metal].ToString() + ")";
+            _lblGas.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Gas].ToString() + " (" + MinerResourceCounts[ResourceType.Gas].ToString() + ")";
+            _lblWater.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Water].ToString() + " (" + MinerResourceCounts[ResourceType.Water].ToString() + ")";
+            _lblCrystal.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Crystal].ToString() + " (" + MinerResourceCounts[ResourceType.Crystal].ToString() + ")";
+            _lblUranium.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Uranium].ToString() + " (" + MinerResourceCounts[ResourceType.Uranium].ToString() + ")";
+
             return _nextGameState;
         }
 
@@ -381,9 +426,11 @@ namespace GameCore
 
             if (key == Keys.OemTilde)
             {
+#if DEBUG
                 ShowDebug = !ShowDebug;
                 _menu.GetFrame("debugFrame").Visible = ShowDebug;
                 _menu.GetFrame("debugFrame").Active = ShowDebug;
+#endif
             }
             else if (key == Keys.Space)
             {
@@ -392,7 +439,9 @@ namespace GameCore
             }
             else if (key == Keys.P)
             {
+#if DEBUG
                 WorldManager.PlayerEntity.Inventory.AddAll(1000);
+#endif
             }
             else if (key == Keys.B)
             {

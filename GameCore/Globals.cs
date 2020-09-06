@@ -90,6 +90,7 @@ namespace GameCore
         // player
         public static int StartingMiners;
         public static Vector2 PlayerStartPosition;
+        public static int BaseMinerLimit;
 
         // world
         public static int WorldWidth;
@@ -116,6 +117,7 @@ namespace GameCore
                 StartingMiners = int.Parse(elPlayer.Attribute("StartingMiners").Value);
                 var startPosSplit = elPlayer.Attribute("StartPosition").Value.Split(',');
                 PlayerStartPosition = new Vector2(float.Parse(startPosSplit[0]), float.Parse(startPosSplit[1]));
+                BaseMinerLimit = int.Parse(elPlayer.Attribute("BaseMinerLimit").Value);
 
                 WorldWidth = int.Parse(elWorld.Attribute("Width").Value);
                 WorldHeight = int.Parse(elWorld.Attribute("Height").Value);

@@ -81,6 +81,33 @@
             <Y>75</Y>
           </Offset>
         </Label>
+
+        <Label Name="lblMinerCount" Template="DebugLabel">
+          <Text></Text>
+          <Position>
+            <X>left</X>
+            <Y>top</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>100</Y>
+          </Offset>
+        </Label>
+
+        <Button Name="btnIdleMiners" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Idle Miners</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.IdleMinersClicked</OnClick>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-75</Y>
+          </Offset>
+        </Button>
         
         <Label Name="lblSelection" Template="DebugLabel">
           <Text></Text>

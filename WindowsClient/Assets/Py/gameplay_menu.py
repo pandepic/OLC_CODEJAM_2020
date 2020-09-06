@@ -31,3 +31,6 @@
 
     def BuildCarrierClicked(instance):
         BuildCarrier(None)
+
+    def IdleMinersClicked(instance):
+        IdleMiners(None)

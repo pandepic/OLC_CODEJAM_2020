@@ -30,6 +30,8 @@ namespace GameCore
         public Dictionary<ShipType, List<Ship>> SelectedShipTypes;
         public StringBuilder SBSelection = new StringBuilder();
 
+        public bool SelectIdleMiners = false;
+
         public UnitManager()
         {
         }
@@ -59,6 +61,26 @@ namespace GameCore
         {
             if (Dragging)
                 CheckSelection();
+
+            if (SelectIdleMiners)
+            {
+                ClearSelectedShips();
+
+                foreach (var m in GameplayState.WorldManager.Miners)
+                {
+                    var miner = (Miner)m;
+
+                    if (miner.CurrentMiningTarget == null)
+                    {
+                        SelectedShips.Add(miner);
+                        miner.IsSelected = true;
+                    }
+                }
+
+                UpdateSelectedShipTypes();
+
+                SelectIdleMiners = false;
+            }
         }
 
         public void DrawScreen(SpriteBatch spriteBatch)
@@ -145,6 +167,7 @@ namespace GameCore
             }
 
             SelectedShips.Clear();
+            UpdateSelectedShipTypes();
         }
 
         public void SelectHomeShip()
@@ -283,6 +306,9 @@ namespace GameCore
 
             GameplayState.WorldManager.Ships.Add(newShip);
 
+            if (newShip is Miner)
+                GameplayState.WorldManager.Miners.Add(newShip);
+
             return newShip;
         } // SpawnShip
 
@@ -290,9 +316,7 @@ namespace GameCore
         {
             ship.IsDead = true;
 
-            GameplayState.WorldManager.PlayerShips.Remove(ship);
-            GameplayState.WorldManager.EnemyShips.Remove(ship);
-            GameplayState.WorldManager.Ships.Remove(ship);
+            GameplayState.WorldManager.RemoveShip(ship);
 
             if (ship.Owner != null && ship.Owner is Carrier ownerCarrier)
             {

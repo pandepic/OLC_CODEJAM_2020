@@ -17,6 +17,7 @@ namespace GameCore
         public List<Ship> PlayerShips = new List<Ship>();
         public List<Ship> EnemyShips = new List<Ship>();
         public List<Ship> DeadShips = new List<Ship>();
+        public List<Ship> Miners = new List<Ship>();
         public Player PlayerEntity;
 
         public Texture2D MinimapPlayer, MinimapEnemy;
@@ -282,6 +283,14 @@ namespace GameCore
             worldCamDestRect.Y += (int)GameplayState.MinimapFrame.Position.Y;
 
             spriteBatch.Draw(GameplayState.UnitManager.DragSelectTexture, worldCamDestRect, worldCamRect, Color.White);
+        }
+
+        public void RemoveShip(Ship ship)
+        {
+            PlayerShips.Remove(ship);
+            EnemyShips.Remove(ship);
+            Ships.Remove(ship);
+            Miners.Remove(ship);
         }
 
         public Asteroid GetAsteroidAtWorldPosition(Vector2 position)
