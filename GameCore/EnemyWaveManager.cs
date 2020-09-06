@@ -104,7 +104,7 @@ namespace GameCore
             CurrentWaveValue = NextWaveValue;
             var waveSpawnPosition = NextWavePosition;
 
-            SetNextWave(Config.WaveTimer, Config.IncreasePerWave);
+            SetNextWave(Config.WaveTimer, Config.IncreasePerWave + Config.Difficulty);
 
             var reservedFighterBomber = CurrentWaveValue / 2;
             var otherReserved = CurrentWaveValue - reservedFighterBomber;

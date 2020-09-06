@@ -5,7 +5,7 @@
   <World Width="50000" Height="50000" AsteroidRegionWidth="500" AsteroidRegionHeight="500" />
   
   <!-- Wave timers in seconds (most other values are in ms) -->
-  <EnemyWaves StartingValue="10" IncreasePerWave="15" StartingTimer="5" WaveTimer="300" />
+  <EnemyWaves StartingValue="10" IncreasePerWave="10" StartingTimer="300" WaveTimer="240" />
   
   <!-- Battle testing for debugging, if you uncomment this, these will spawn at the start of the game -->
   <TestShips>

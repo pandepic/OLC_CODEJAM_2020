@@ -213,7 +213,7 @@ namespace PandaMonogame.UI
             if (_previousValue != _currentValue)
             {
                 HandleEvents?.Invoke((_onValueChanged == null ? null
-                    : _onValueChanged.Replace("{value}", _currentValue.ToString()).Replace("{fvalue}", FValue.ToString("0.00")))
+                    : _onValueChanged.Replace("{value}", _currentValue.ToString()).Replace("{fvalue}", FValue.ToString("0.00")).Replace("{pvalue}", (FValue * 100.0f).ToString("0")))
                 );
 
                 _previousValue = _currentValue;
@@ -238,7 +238,7 @@ namespace PandaMonogame.UI
 
             if (Font != null)
             {
-                LabelText = LabelTemplate.Replace("{value}", _currentValue.ToString()).Replace("{fvalue}", FValue.ToString("0.00"));
+                LabelText = LabelTemplate.Replace("{value}", _currentValue.ToString()).Replace("{fvalue}", FValue.ToString("0.00")).Replace("{pvalue}", (FValue * 100.0f).ToString("0"));
 
                 Font.Size = FontSize;
                 var labelSize = Font.MeasureString(LabelText);

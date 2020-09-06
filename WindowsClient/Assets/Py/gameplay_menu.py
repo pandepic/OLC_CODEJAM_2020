@@ -40,3 +40,33 @@
 
     def HelpClicked(instance):
         Help(None)
+
+    def UpgradeMinerCap1Clicked(instance):
+        UpgradeMinerCap1(None)
+
+    def UpgradeMinerCap2Clicked(instance):
+        UpgradeMinerCap2(None)
+
+    def UpgradeMiningRate1Clicked(instance):
+        UpgradeMiningRate1(None)
+
+    def UpgradeMiningRate2Clicked(instance):
+        UpgradeMiningRate2(None)
+
+    def UpgradeRepairRateClicked(instance):
+        UpgradeRepairRate(None)
+
+    def UpgradeShieldRegen1Clicked(instance):
+        UpgradeShieldRegen1(None)
+
+    def UpgradeShieldRegen2Clicked(instance):
+        UpgradeShieldRegen2(None)
+
+    def UpgradeWarmachine1Clicked(instance):
+        UpgradeWarmachine1(None)
+
+    def UpgradeWarmachine2Clicked(instance):
+        UpgradeWarmachine2(None)
+
+    def UpgradeHyperdriveClicked(instance):
+        UpgradeHyperdrive(None)

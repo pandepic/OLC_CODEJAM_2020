@@ -33,10 +33,33 @@
           <UpdateMethod></UpdateMethod>
         </Label>
 
+        <Label Name="lblDifficulty">
+          <Text>Difficulty</Text>
+          <FontName>latoblack</FontName>
+          <FontSize>24</FontSize>
+          <Position>
+            <X>center</X>
+            <Y>175</Y>
+          </Position>
+          <Color>#ffffff</Color>
+          <UpdateMethod></UpdateMethod>
+        </Label>
+
+        <HScrollBar Name="scrlDifficulty" Template="SettingsScrollbar" StartValue="0" MinValue="0" MaxValue="20" Increment="5">
+          <Label>
+            <Template>{pvalue}%</Template>
+          </Label>
+          <Position>
+            <X>center</X>
+            <Y>200</Y>
+          </Position>
+          <OnValueChanged>SettingsMenuScript.SettingsMenu.updateDifficulty({value})</OnValueChanged>
+        </HScrollBar>
+
         <Label Name="lblMusicVolume">
           <Text>Music Volume</Text>
           <FontName>latoblack</FontName>
-          <FontSize>16</FontSize>
+          <FontSize>24</FontSize>
           <Position>
             <X>center</X>
             <Y>275</Y>
@@ -59,7 +82,7 @@
         <Label Name="lblSFXVolume">
           <Text>Effect Volume</Text>
           <FontName>latoblack</FontName>
-          <FontSize>16</FontSize>
+          <FontSize>24</FontSize>
           <Position>
             <X>center</X>
             <Y>375</Y>
@@ -82,7 +105,7 @@
         <Label Name="lblUIVolume">
           <Text>UI Volume</Text>
           <FontName>latoblack</FontName>
-          <FontSize>16</FontSize>
+          <FontSize>24</FontSize>
           <Position>
             <X>center</X>
             <Y>475</Y>

@@ -17,6 +17,13 @@ namespace GameCore
         protected Sprite _menuBG = null;
 
         #region python bound methods
+
+        protected void updateDifficulty(params object[] args)
+        {
+            var difficulty = int.Parse(args[0].ToString());
+            Config.Difficulty = difficulty;
+        }
+
         protected void updateMusicVolume(params object[] args)
         {
             var volume = float.Parse(args[0].ToString());
@@ -46,6 +53,7 @@ namespace GameCore
 
         public override void Load(ContentManager Content, GraphicsDevice graphics)
         {
+            _menu.AddMethod(updateDifficulty);
             _menu.AddMethod(updateMusicVolume);
             _menu.AddMethod(updateSFXVolume);
             _menu.AddMethod(updateUIVolume);
@@ -59,6 +67,8 @@ namespace GameCore
             _menu.GetWidget<PUIWHScrollBar>("scrlMusicVolume").FValue = musicVolume;
             _menu.GetWidget<PUIWHScrollBar>("scrlSFXVolume").FValue = sfxVolume;
             _menu.GetWidget<PUIWHScrollBar>("scrlUIVolume").FValue = uiVolume;
+
+            _menu.GetWidget<PUIWHScrollBar>("scrlDifficulty").Value = Config.Difficulty;
 
             _menuBG = new Sprite(ModManager.Instance.AssetManager.LoadTexture2D(graphics, "MenuBG"));
             _menuBG.Position = Vector2.Zero;

@@ -103,6 +103,7 @@ namespace GameCore
         public static int IncreasePerWave;
         public static float StartingWaveTimer; // in ms
         public static float WaveTimer; // in ms
+        public static int Difficulty;
 
         public static void Load()
         {

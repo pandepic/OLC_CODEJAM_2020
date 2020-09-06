@@ -20,7 +20,7 @@ namespace GameCore
     {
         protected int _nextGameState = (int)GameStateType.None;
 
-        protected PUIMenu _menu = new PUIMenu();
+        public static PUIMenu Menu = new PUIMenu();
         public static PUIFrame MinimapFrame;
 
         public static BasicCamera2D Camera;
@@ -54,6 +54,7 @@ namespace GameCore
 
         protected PUIWLabel _lblProductionQueue;
         protected PUIWLabel _lblMetal, _lblGas, _lblWater, _lblCrystal, _lblUranium;
+        protected PUIWLabel _lblUpgradesTitle;
         protected PUIWBasicButton _btnIdleMiners, _btnUpgrades;
 
         protected Dictionary<ResourceType, int> MinerResourceCounts;
@@ -116,7 +117,7 @@ namespace GameCore
 
         protected void Upgrades(params object[] args)
         {
-            var upgradesFrame = _menu.GetFrame("frmUpgrades");
+            var upgradesFrame = Menu.GetFrame("frmUpgrades");
 
             upgradesFrame.Visible = !upgradesFrame.Visible;
             upgradesFrame.Active = upgradesFrame.Visible;
@@ -124,7 +125,7 @@ namespace GameCore
 
         protected void Help(params object[] args)
         {
-            var helpFrame = _menu.GetFrame("frmHelp");
+            var helpFrame = Menu.GetFrame("frmHelp");
 
             helpFrame.Visible = !helpFrame.Visible;
             helpFrame.Active = helpFrame.Visible;
@@ -135,23 +136,36 @@ namespace GameCore
         {
             Graphics = graphics;
 
-            _menu.AddMethod(BuildMiner);
-            _menu.AddMethod(BuildFighter);
-            _menu.AddMethod(BuildBomber);
-            _menu.AddMethod(BuildRepairShip);
-            _menu.AddMethod(BuildMissileFrigate);
-            _menu.AddMethod(BuildBeamFrigate);
-            _menu.AddMethod(BuildSupportCruiser);
-            _menu.AddMethod(BuildHeavyCruiser);
-            _menu.AddMethod(BuildBattleship);
-            _menu.AddMethod(BuildCarrier);
-            _menu.AddMethod(IdleMiners);
-            _menu.AddMethod(Upgrades);
-            _menu.AddMethod(Help);
+            UpgradeManager = new UpgradeManager();
 
-            _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
+            Menu.AddMethod(BuildMiner);
+            Menu.AddMethod(BuildFighter);
+            Menu.AddMethod(BuildBomber);
+            Menu.AddMethod(BuildRepairShip);
+            Menu.AddMethod(BuildMissileFrigate);
+            Menu.AddMethod(BuildBeamFrigate);
+            Menu.AddMethod(BuildSupportCruiser);
+            Menu.AddMethod(BuildHeavyCruiser);
+            Menu.AddMethod(BuildBattleship);
+            Menu.AddMethod(BuildCarrier);
+            Menu.AddMethod(IdleMiners);
+            Menu.AddMethod(Upgrades);
+            Menu.AddMethod(Help);
 
-            MinimapFrame = _menu.GetFrame("frmMinimap");
+            Menu.AddMethod(UpgradeManager.UpgradeMinerCap1);
+            Menu.AddMethod(UpgradeManager.UpgradeMinerCap2);
+            Menu.AddMethod(UpgradeManager.UpgradeMiningRate1);
+            Menu.AddMethod(UpgradeManager.UpgradeMiningRate2);
+            Menu.AddMethod(UpgradeManager.UpgradeRepairRate);
+            Menu.AddMethod(UpgradeManager.UpgradeShieldRegen1);
+            Menu.AddMethod(UpgradeManager.UpgradeShieldRegen2);
+            Menu.AddMethod(UpgradeManager.UpgradeWarmachine1);
+            Menu.AddMethod(UpgradeManager.UpgradeWarmachine2);
+            Menu.AddMethod(UpgradeManager.UpgradeHyperdrive);
+
+            Menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
+
+            MinimapFrame = Menu.GetFrame("frmMinimap");
 
             GameOver = false;
 
@@ -159,15 +173,16 @@ namespace GameCore
             EntityData.Load();
             WorldData.Load();
 
-            _lblProductionQueue = _menu.GetWidget<PUIWLabel>("lblProductionQueue");
-            _lblMetal = _menu.GetWidget<PUIWLabel>("lblMetal");
-            _lblGas = _menu.GetWidget<PUIWLabel>("lblGas");
-            _lblWater = _menu.GetWidget<PUIWLabel>("lblWater");
-            _lblCrystal = _menu.GetWidget<PUIWLabel>("lblCrystal");
-            _lblUranium = _menu.GetWidget<PUIWLabel>("lblUranium");
+            _lblProductionQueue = Menu.GetWidget<PUIWLabel>("lblProductionQueue");
+            _lblMetal = Menu.GetWidget<PUIWLabel>("lblMetal");
+            _lblGas = Menu.GetWidget<PUIWLabel>("lblGas");
+            _lblWater = Menu.GetWidget<PUIWLabel>("lblWater");
+            _lblCrystal = Menu.GetWidget<PUIWLabel>("lblCrystal");
+            _lblUranium = Menu.GetWidget<PUIWLabel>("lblUranium");
+            _lblUpgradesTitle = Menu.GetWidget<PUIWLabel>("lblUpgradesTitle");
 
-            _btnIdleMiners = _menu.GetWidget<PUIWBasicButton>("btnIdleMiners");
-            _btnUpgrades = _menu.GetWidget<PUIWBasicButton>("btnUpgrades");
+            _btnIdleMiners = Menu.GetWidget<PUIWBasicButton>("btnIdleMiners");
+            _btnUpgrades = Menu.GetWidget<PUIWBasicButton>("btnUpgrades");
 
             // create build menu tooltips
             foreach (var kvp in EntityData.ShipTypes)
@@ -175,7 +190,7 @@ namespace GameCore
                 if (!kvp.Value.CanBuild)
                     continue;
 
-                var button = _menu.GetWidget<PUIWBasicButton>("btnBuild" + kvp.Value.ShipType.ToString());
+                var button = Menu.GetWidget<PUIWBasicButton>("btnBuild" + kvp.Value.ShipType.ToString());
 
                 _sbGeneral.Clear();
 
@@ -216,9 +231,10 @@ namespace GameCore
             WorldManager = new WorldManager();
             ProjectileManager = new ProjectileManager();
             EnemyWaveManager = new EnemyWaveManager();
-            UpgradeManager = new UpgradeManager();
 
-            UnitManager.Setup(graphics, _menu);
+            UpgradeManager.Load();
+
+            UnitManager.Setup(graphics, Menu);
             WorldManager.Setup(graphics);
             EnemyWaveManager.Start();
 
@@ -245,7 +261,7 @@ namespace GameCore
             if (_lockCamera)
                 Camera.CenterPosition(WorldManager.PlayerEntity.Position);
 
-            _menu.GetWidget<PUIWLabel>("lblDebug").Text =
+            Menu.GetWidget<PUIWLabel>("lblDebug").Text =
                 Camera.GetViewRect().ToString() + " : " + Camera.Zoom + "\n" +
                 "Asteroids: " + (WorldManager.Asteroids.LastActiveIndex + 1) + "\n" +
                 mouseWorldPos.ToString() + "\n" +
@@ -271,17 +287,17 @@ namespace GameCore
 
             _lblProductionQueue.Text = _sbGeneral.ToString();
 
-            _menu.Update(gameTime);
+            Menu.Update(gameTime);
             WorldManager.Update(gameTime);
             UnitManager.Update(gameTime);
             ProjectileManager.Update(gameTime);
             EffectsManager.Update(gameTime);
             EnemyWaveManager.Update(gameTime);
 
-            _menu.GetWidget<PUIWLabel>("lblNextEnemyWaveTimer").Text = "Next Enemy Wave: " + (EnemyWaveManager.NextWaveTimer / 1000.0f).ToString("0");
-            _menu.GetWidget<PUIWLabel>("lblNextEnemyWavePosition").Text = "Next Wave Spawn: " + EnemyWaveManager.NextWavePosition.Name;
-            _menu.GetWidget<PUIWLabel>("lblEnemyCount").Text = "Enemies Alive: " + WorldManager.EnemyShips.Count.ToString();
-            _menu.GetWidget<PUIWLabel>("lblMinerCount").Text = "Miners: " + WorldManager.Miners.Count.ToString() + " / " + Config.BaseMinerLimit.ToString();
+            Menu.GetWidget<PUIWLabel>("lblNextEnemyWaveTimer").Text = "Next Enemy Wave: " + (EnemyWaveManager.NextWaveTimer / 1000.0f).ToString("0");
+            Menu.GetWidget<PUIWLabel>("lblNextEnemyWavePosition").Text = "Next Wave Spawn: " + EnemyWaveManager.NextWavePosition.Name;
+            Menu.GetWidget<PUIWLabel>("lblEnemyCount").Text = "Enemies Alive: " + WorldManager.EnemyShips.Count.ToString();
+            Menu.GetWidget<PUIWLabel>("lblMinerCount").Text = "Miners: " + WorldManager.Miners.Count.ToString() + " / " + Config.BaseMinerLimit.ToString();
 
             var idleMiners = 0;
 
@@ -318,6 +334,7 @@ namespace GameCore
             _lblUranium.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Uranium].ToString() + " (" + MinerResourceCounts[ResourceType.Uranium].ToString() + ")";
 
             _btnUpgrades.ButtonText = "Upgrades (" + UpgradeManager.UpgradePoints.ToString() + ")";
+            _lblUpgradesTitle.Text = "Upgrades (" + UpgradeManager.UpgradePoints.ToString() + " points)";
 
             return _nextGameState;
         }
@@ -346,7 +363,7 @@ namespace GameCore
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
             {
                 UnitManager.DrawScreen(spriteBatch);
-                _menu.Draw(spriteBatch);
+                Menu.Draw(spriteBatch);
                 PUITooltipManager.Draw(spriteBatch);
             }
             spriteBatch.End();
@@ -356,9 +373,9 @@ namespace GameCore
         {
             var mousePosition = MouseManager.GetMousePosition();
 
-            _menu.OnMouseMoved(originalPosition, gameTime);
+            Menu.OnMouseMoved(originalPosition, gameTime);
 
-            if (!_menu.Focused)
+            if (!Menu.Focused)
             {
                 if (_mouseDragging)
                 {
@@ -376,9 +393,9 @@ namespace GameCore
         {
             var mousePosition = MouseManager.GetMousePosition();
             
-            _menu.OnMouseDown(button, gameTime);
+            Menu.OnMouseDown(button, gameTime);
 
-            if (!_menu.Focused)
+            if (!Menu.Focused)
             {
                 if (!_mouseDragging && button == MouseButtonID.Middle)
                 {
@@ -394,9 +411,9 @@ namespace GameCore
         {
             var mousePosition = MouseManager.GetMousePosition();
 
-            _menu.OnMouseClicked(button, gameTime);
+            Menu.OnMouseClicked(button, gameTime);
 
-            if (!_menu.Focused)
+            if (!Menu.Focused)
             {
                 if (_mouseDragging && button == MouseButtonID.Middle)
                     _mouseDragging = false;
@@ -407,9 +424,9 @@ namespace GameCore
 
         public override void OnMouseScroll(MouseScrollDirection direction, int scrollValue, GameTime gameTime)
         {
-            if (_menu.Focused)
+            if (Menu.Focused)
             {
-                _menu.OnMouseScroll(direction, scrollValue, gameTime);
+                Menu.OnMouseScroll(direction, scrollValue, gameTime);
                 return;
             }
 
@@ -437,14 +454,14 @@ namespace GameCore
 
         public override void OnKeyPressed(Keys key, GameTime gameTime, CurrentKeyState currentKeyState)
         {
-            _menu.OnKeyPressed(key, gameTime, currentKeyState);
+            Menu.OnKeyPressed(key, gameTime, currentKeyState);
         }
 
         public override void OnKeyReleased(Keys key, GameTime gameTime, CurrentKeyState currentKeyState)
         {
-            if (_menu.Focused)
+            if (Menu.Focused)
             {
-                _menu.OnKeyReleased(key, gameTime, currentKeyState);
+                Menu.OnKeyReleased(key, gameTime, currentKeyState);
                 return;
             }
 
@@ -452,8 +469,8 @@ namespace GameCore
             {
 #if DEBUG
                 ShowDebug = !ShowDebug;
-                _menu.GetFrame("debugFrame").Visible = ShowDebug;
-                _menu.GetFrame("debugFrame").Active = ShowDebug;
+                Menu.GetFrame("debugFrame").Visible = ShowDebug;
+                Menu.GetFrame("debugFrame").Active = ShowDebug;
 #endif
             }
             else if (key == Keys.Space)
@@ -469,21 +486,21 @@ namespace GameCore
             }
             else if (key == Keys.B)
             {
-                var productionFrame = _menu.GetFrame("frmProduction");
+                var productionFrame = Menu.GetFrame("frmProduction");
 
                 productionFrame.Visible = !productionFrame.Visible;
                 productionFrame.Active = productionFrame.Visible;
             }
             else if (key == Keys.Tab)
             {
-                var helpFrame = _menu.GetFrame("frmHelp");
+                var helpFrame = Menu.GetFrame("frmHelp");
 
                 helpFrame.Visible = !helpFrame.Visible;
                 helpFrame.Active = helpFrame.Visible;
             }
             else if (key == Keys.U)
             {
-                var upgradesFrame = _menu.GetFrame("frmUpgrades");
+                var upgradesFrame = Menu.GetFrame("frmUpgrades");
 
                 upgradesFrame.Visible = !upgradesFrame.Visible;
                 upgradesFrame.Active = upgradesFrame.Visible;
@@ -493,9 +510,9 @@ namespace GameCore
 
         public override void OnKeyDown(Keys key, GameTime gameTime, CurrentKeyState currentKeyState)
         {
-            if (_menu.Focused)
+            if (Menu.Focused)
             {
-                _menu.OnKeyDown(key, gameTime, currentKeyState);
+                Menu.OnKeyDown(key, gameTime, currentKeyState);
                 return;
             }
 
@@ -525,7 +542,7 @@ namespace GameCore
 
         public override void OnTextInput(TextInputEventArgs e, GameTime gameTime, CurrentKeyState currentKeyState)
         {
-            _menu.OnTextInput(e, gameTime, currentKeyState);
+            Menu.OnTextInput(e, gameTime, currentKeyState);
         }
     }
 }

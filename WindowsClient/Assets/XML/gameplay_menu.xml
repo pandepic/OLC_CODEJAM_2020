@@ -456,6 +456,116 @@
           </Position>
           <Color>#FFFFFF</Color>
         </Label>
+
+        <Button Name="btnUpgradeMinerCap1" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+5 Max Miners</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeMinerCap1Clicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>80</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeMinerCap2" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+10 Max Miners</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeMinerCap2Clicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>160</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeMiningRate1" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+5 Mining Rate</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeMiningRate1Clicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>240</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeMiningRate2" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+5 Mining Rate</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeMiningRate2Clicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>320</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeRepairRate" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+10 Repair Rate</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeRepairRateClicked</OnClick>
+          <Position>
+            <X>60</X>
+            <Y>400</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeShieldRegen1" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+5 Shield Regen</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeShieldRegen1Clicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>80</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeShieldRegen2" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+10 Shield Regen</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeShieldRegen2Clicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>160</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeWarmachine1" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+ Warmachine beams</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeWarmachine1Clicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>240</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeWarmachine2" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>+ Warmachine missiles</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeWarmachine2Clicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>320</Y>
+          </Position>
+        </Button>
+
+        <Button Name="btnUpgradeHyperdrive" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Fix Hyperdrive (Victory)</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradeHyperdriveClicked</OnClick>
+          <Position>
+            <X>410</X>
+            <Y>400</Y>
+          </Position>
+        </Button>
       </Widgets>
     </Frame>
 

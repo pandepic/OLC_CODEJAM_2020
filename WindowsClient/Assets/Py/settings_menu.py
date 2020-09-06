@@ -2,6 +2,9 @@
     def __init__(selt):
         pass
 
+    def updateDifficulty(instance, diff):
+        updateDifficulty(diff)
+
     def updateMusicVolume(instance, volume):
         updateMusicVolume(volume)
 
