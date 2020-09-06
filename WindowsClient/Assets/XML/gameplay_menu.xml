@@ -94,6 +94,21 @@
           </Offset>
         </Label>
 
+        <Button Name="btnQuit" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Quit to Menu</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.ExitToMenuClicked</OnClick>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-300</Y>
+          </Offset>
+        </Button>
+        
         <Button Name="btnHelp" Template="StandardButton" Visible="true" Active="true">
           <Label>
             <Text>Help</Text>
@@ -503,7 +518,7 @@
 
         <Button Name="btnUpgradeRepairRate" Template="StandardButton" Visible="true" Active="true">
           <Label>
-            <Text>+10 Repair Rate</Text>
+            <Text>+25 Repair Rate</Text>
           </Label>
           <OnClick>GameplayMenuScript.GameplayMenu.UpgradeRepairRateClicked</OnClick>
           <Position>

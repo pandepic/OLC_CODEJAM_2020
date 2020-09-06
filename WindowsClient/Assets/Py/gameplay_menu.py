@@ -70,3 +70,6 @@
 
     def UpgradeHyperdriveClicked(instance):
         UpgradeHyperdrive(None)
+
+    def ExitToMenuClicked(instance):
+        ExitToMenu(None)

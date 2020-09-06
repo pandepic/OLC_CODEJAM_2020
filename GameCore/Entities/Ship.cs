@@ -187,7 +187,7 @@ namespace GameCore.Entities
                     DeactivateShield();
                 }
 
-                CurrentShieldHP += CurrentShieldRegenRate * delta;
+                CurrentShieldHP += (CurrentShieldRegenRate + GameplayState.UpgradeManager.BonusShieldRegen) * delta;
                 if (CurrentShieldHP > BaseShieldHP)
                     CurrentShieldHP = BaseShieldHP;
             }

@@ -32,6 +32,17 @@
           <Color>#FFFFFF</Color>
           <UpdateMethod></UpdateMethod>
         </Label>
+
+        <Button Name="btnBackToMenu" Template="StandardButton">
+          <Label>
+            <Text>BACK</Text>
+          </Label>
+          <OnClick>GameOverMenuScript.GameOverMenu.ExitClicked</OnClick>
+          <Position>
+            <X>center</X>
+            <Y>750</Y>
+          </Position>
+        </Button>
       </Widgets>
     </Frame>
   </Scene>

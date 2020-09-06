@@ -79,7 +79,7 @@ namespace GameCore.Entities
                         minersInQueue += 1;
                 }
 
-                if (GameplayState.WorldManager.Miners.Count + minersInQueue + 1 > Config.BaseMinerLimit)
+                if (GameplayState.WorldManager.Miners.Count + minersInQueue + 1 > (Config.BaseMinerLimit + GameplayState.UpgradeManager.BonusMaxMiners))
                     return false;
             }
 

@@ -82,8 +82,8 @@ namespace PandaMonogame.UI
         {
             Init(parent, el);
             
-            var sliderTexture = ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, GetXMLElement("AssetNameSlider").Value);
-            var sliderTextureHover = ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, GetXMLElement("AssetNameSliderHover").Value);
+            var sliderTexture = ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, GetXMLElement("AssetNameSlider").Value, true);
+            var sliderTextureHover = ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, GetXMLElement("AssetNameSliderHover").Value, true);
             _slider = new AnimatedSprite(sliderTexture, sliderTexture.Width, sliderTexture.Height);
             _sliderHover = new AnimatedSprite(sliderTextureHover, sliderTextureHover.Width, sliderTextureHover.Height);
 
@@ -91,9 +91,9 @@ namespace PandaMonogame.UI
             var backgroundElRight = GetXMLElement("Background", "Right");
             var backgroundElCenter = GetXMLElement("Background", "Center");
 
-            var textureLeft = backgroundElLeft == null ? null : (string.IsNullOrWhiteSpace(backgroundElLeft.Value) ? null : ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, backgroundElLeft.Value));
-            var textureRight = backgroundElRight == null ? null : (string.IsNullOrWhiteSpace(backgroundElRight.Value) ? null : ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, backgroundElRight.Value));
-            var textureCenter = backgroundElCenter == null ? null : (string.IsNullOrWhiteSpace(backgroundElCenter.Value) ? null : ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, backgroundElCenter.Value));
+            var textureLeft = backgroundElLeft == null ? null : (string.IsNullOrWhiteSpace(backgroundElLeft.Value) ? null : ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, backgroundElLeft.Value, true));
+            var textureRight = backgroundElRight == null ? null : (string.IsNullOrWhiteSpace(backgroundElRight.Value) ? null : ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, backgroundElRight.Value, true));
+            var textureCenter = backgroundElCenter == null ? null : (string.IsNullOrWhiteSpace(backgroundElCenter.Value) ? null : ModManager.Instance.AssetManager.LoadTexture2D(parent.CommonWidgetResources.Graphics, backgroundElCenter.Value, true));
 
             var bgWidth = int.Parse(GetXMLElement("Background", "Width").Value);
             var backgroundTexture = new RenderTarget2D(parent.CommonWidgetResources.Graphics, bgWidth, textureCenter.Height);

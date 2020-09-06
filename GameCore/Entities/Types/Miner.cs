@@ -21,7 +21,7 @@ namespace GameCore.Entities
 
             LoadData();
 
-            GatherRate = int.Parse(SpecialAttributes["GatherRate"]);
+            GatherRate = int.Parse(SpecialAttributes["GatherRate"]) + GameplayState.UpgradeManager.BonusMiningRate;
 
             Inventory = new Inventory();
 

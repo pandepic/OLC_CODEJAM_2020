@@ -20,7 +20,7 @@ namespace GameCore
     {
         protected int _nextGameState = (int)GameStateType.None;
 
-        public static PUIMenu Menu = new PUIMenu();
+        public static PUIMenu Menu;
         public static PUIFrame MinimapFrame;
 
         public static BasicCamera2D Camera;
@@ -39,6 +39,7 @@ namespace GameCore
         protected bool _lockCamera = false;
         public static bool ShowDebug = false;
         public static bool GameOver = false;
+        public static bool GameWon = false;
 
         protected float ScrollSpeed = 1500.0f;
 
@@ -130,13 +131,22 @@ namespace GameCore
             helpFrame.Visible = !helpFrame.Visible;
             helpFrame.Active = helpFrame.Visible;
         }
+
+        protected void ExitToMenu(params object[] args)
+        {
+            _nextGameState = (int)GameStateType.Menu;
+        }
         #endregion
 
         public override void Load(ContentManager Content, GraphicsDevice graphics)
         {
+            GameWon = false;
+            GameOver = false;
+
             Graphics = graphics;
 
             UpgradeManager = new UpgradeManager();
+            Menu = new PUIMenu();
 
             Menu.AddMethod(BuildMiner);
             Menu.AddMethod(BuildFighter);
@@ -151,6 +161,7 @@ namespace GameCore
             Menu.AddMethod(IdleMiners);
             Menu.AddMethod(Upgrades);
             Menu.AddMethod(Help);
+            Menu.AddMethod(ExitToMenu);
 
             Menu.AddMethod(UpgradeManager.UpgradeMinerCap1);
             Menu.AddMethod(UpgradeManager.UpgradeMinerCap2);
@@ -249,7 +260,7 @@ namespace GameCore
 
         public override int Update(GameTime gameTime)
         {
-            if (GameOver)
+            if (GameOver || GameWon)
             {
                 return (int)GameStateType.GameOver;
             }
@@ -297,7 +308,7 @@ namespace GameCore
             Menu.GetWidget<PUIWLabel>("lblNextEnemyWaveTimer").Text = "Next Enemy Wave: " + (EnemyWaveManager.NextWaveTimer / 1000.0f).ToString("0");
             Menu.GetWidget<PUIWLabel>("lblNextEnemyWavePosition").Text = "Next Wave Spawn: " + EnemyWaveManager.NextWavePosition.Name;
             Menu.GetWidget<PUIWLabel>("lblEnemyCount").Text = "Enemies Alive: " + WorldManager.EnemyShips.Count.ToString();
-            Menu.GetWidget<PUIWLabel>("lblMinerCount").Text = "Miners: " + WorldManager.Miners.Count.ToString() + " / " + Config.BaseMinerLimit.ToString();
+            Menu.GetWidget<PUIWLabel>("lblMinerCount").Text = "Miners: " + WorldManager.Miners.Count.ToString() + " / " + (Config.BaseMinerLimit + UpgradeManager.BonusMaxMiners).ToString();
 
             var idleMiners = 0;
 

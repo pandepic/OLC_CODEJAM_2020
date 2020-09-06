@@ -1,4 +1,5 @@
-﻿using PandaMonogame.UI;
+﻿using GameCore.Entities;
+using PandaMonogame.UI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,15 +25,15 @@ namespace GameCore
         public Dictionary<UpgradeType, int> UpgradeCosts = new Dictionary<UpgradeType, int>()
         {
             { UpgradeType.MinerCap1, 100 },
-            { UpgradeType.MinerCap2, 500 },
-            { UpgradeType.MiningRate1, 200 },
-            { UpgradeType.MiningRate2, 500 },
+            { UpgradeType.MinerCap2, 250 },
+            { UpgradeType.MiningRate1, 150 },
+            { UpgradeType.MiningRate2, 300 },
             { UpgradeType.RepairRate, 200 },
             { UpgradeType.ShieldRegen1, 200 },
-            { UpgradeType.ShieldRegen2, 500 },
-            { UpgradeType.Warmachine1, 500 },
-            { UpgradeType.Warmachine2, 1000 },
-            { UpgradeType.Hyperdrive, 2000 },
+            { UpgradeType.ShieldRegen2, 250 },
+            { UpgradeType.Warmachine1, 250 },
+            { UpgradeType.Warmachine2, 250 },
+            { UpgradeType.Hyperdrive, 500 },
         };
 
         public Dictionary<UpgradeType, bool> UpgradesUnlocked = new Dictionary<UpgradeType, bool>()
@@ -108,6 +109,7 @@ namespace GameCore
         public int BonusMaxMiners;
         public int BonusMiningRate;
         public float BonusRepairRate;
+        public float BonusShieldRegen;
 
         public UpgradeManager()
         {
@@ -127,8 +129,147 @@ namespace GameCore
 
         public void UnlockUpgrade(UpgradeType type)
         {
+            if (UpgradePoints < UpgradeCosts[type])
+                return;
+
             switch (type)
             {
+                case UpgradeType.MinerCap1:
+                    {
+                        BonusMaxMiners += 5;
+                    }
+                    break;
+
+                case UpgradeType.MinerCap2:
+                    {
+                        BonusMaxMiners += 10;
+                    }
+                    break;
+
+                case UpgradeType.MiningRate1:
+                    {
+                        BonusMiningRate += 5;
+
+                        foreach (Miner miner in GameplayState.WorldManager.Miners)
+                        {
+                            miner.GatherRate += 5;
+                        }
+                    }
+                    break;
+
+                case UpgradeType.MiningRate2:
+                    {
+                        BonusMiningRate += 5;
+
+                        foreach (Miner miner in GameplayState.WorldManager.Miners)
+                        {
+                            miner.GatherRate += 5;
+                        }
+                    }
+                    break;
+
+                case UpgradeType.RepairRate:
+                    {
+                        BonusRepairRate += 25;
+
+                        foreach (var ship in GameplayState.WorldManager.PlayerShips)
+                        {
+                            if (ship is RepairShip repairShip)
+                            {
+                                repairShip.RepairRate += 25;
+                            }
+                        }
+                    }
+                    break;
+
+                case UpgradeType.ShieldRegen1:
+                    {
+                        BonusShieldRegen += 5;
+                    }
+                    break;
+
+                case UpgradeType.ShieldRegen2:
+                    {
+                        BonusShieldRegen += 10;
+                    }
+                    break;
+
+                case UpgradeType.Warmachine1:
+                    {
+                        var warmachine = GameplayState.WorldManager.PlayerEntity;
+                        var newWeapons = new List<Weapon>();
+
+                        foreach (var weapon in warmachine.Weapons)
+                        {
+                            if (weapon.ProjectileType.Contains("Laser"))
+                            {
+                                newWeapons.Add(new Weapon()
+                                {
+                                    ProjectileType = weapon.ProjectileType,
+                                    MountType = weapon.MountType,
+                                    TargetType = weapon.TargetType,
+                                    Range = weapon.Range,
+                                    Cooldown = weapon.Cooldown,
+                                    Damage = weapon.Damage,
+                                    MaxAngle = weapon.MaxAngle,
+                                });
+
+                                newWeapons.Add(new Weapon()
+                                {
+                                    ProjectileType = weapon.ProjectileType,
+                                    MountType = weapon.MountType,
+                                    TargetType = weapon.TargetType,
+                                    Range = weapon.Range,
+                                    Cooldown = weapon.Cooldown,
+                                    Damage = weapon.Damage,
+                                    MaxAngle = weapon.MaxAngle,
+                                });
+                            }
+                        }
+
+                        foreach (var weapon in newWeapons)
+                            warmachine.Weapons.Add(weapon);
+                    }
+                    break;
+
+                case UpgradeType.Warmachine2:
+                    {
+                        var warmachine = GameplayState.WorldManager.PlayerEntity;
+                        var newWeapons = new List<Weapon>();
+
+                        foreach (var weapon in warmachine.Weapons)
+                        {
+                            if (weapon.ProjectileType.Contains("Torpedo"))
+                            {
+                                newWeapons.Add(new Weapon()
+                                {
+                                    ProjectileType = weapon.ProjectileType,
+                                    MountType = weapon.MountType,
+                                    TargetType = weapon.TargetType,
+                                    Range = weapon.Range,
+                                    Cooldown = weapon.Cooldown,
+                                    Damage = weapon.Damage,
+                                    MaxAngle = weapon.MaxAngle,
+                                });
+
+                                newWeapons.Add(new Weapon()
+                                {
+                                    ProjectileType = weapon.ProjectileType,
+                                    MountType = weapon.MountType,
+                                    TargetType = weapon.TargetType,
+                                    Range = weapon.Range,
+                                    Cooldown = weapon.Cooldown,
+                                    Damage = weapon.Damage,
+                                    MaxAngle = weapon.MaxAngle,
+                                });
+                            }
+                        }
+
+                        foreach (var weapon in newWeapons)
+                            warmachine.Weapons.Add(weapon);
+                    }
+                    break;
+
                 case UpgradeType.Hyperdrive:
                     {
                         var otherUpgrades = true;
@@ -142,10 +283,12 @@ namespace GameCore
                         if (!otherUpgrades)
                             return;
 
-                        // TODO : WIN!
+                        GameplayState.GameWon = true;
                     }
                     break;
             }
+
+            UpgradePoints -= UpgradeCosts[type];
 
             UpgradesUnlocked[type] = true;
             UpgradeButtons[type].Visible = false;

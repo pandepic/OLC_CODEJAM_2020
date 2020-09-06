@@ -20,7 +20,7 @@ namespace GameCore.Entities
 
             LoadData();
 
-            RepairRate = float.Parse(SpecialAttributes["RepairRate"]);
+            RepairRate = float.Parse(SpecialAttributes["RepairRate"]) + GameplayState.UpgradeManager.BonusRepairRate;
 
             StateMachine.RegisterState(new ShipFollowingState(this));
             StateMachine.RegisterState(new ShipFollowPositionState(this));
