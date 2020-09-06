@@ -8,7 +8,7 @@
 
     <ArmourHP>50000</ArmourHP>
     <ShieldHP>50000</ShieldHP>
-    <ShieldRegenRate>50</ShieldRegenRate>
+    <ShieldRegenRate>75</ShieldRegenRate>
 
     <Weapons>
       <Weapon ProjectileType="MediumLaser" Mount="Turret" TargetType="Small" Range="2000" Cooldown="500" Damage="40" MaxAngle="360" />
