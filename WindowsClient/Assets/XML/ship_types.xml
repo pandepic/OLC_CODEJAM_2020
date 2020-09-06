@@ -19,8 +19,8 @@
   <Type Name="Miner" Sprite="Alien1" Scale="1" TargetType="Small">
     <Description>Gather resources from asteroids.</Description>
 
-    <MoveSpeed>200</MoveSpeed>
-    <TurnSpeed>75</TurnSpeed>
+    <MoveSpeed>250</MoveSpeed>
+    <TurnSpeed>120</TurnSpeed>
 
     <ArmourHP>75</ArmourHP>
     <ShieldHP>75</ShieldHP>
