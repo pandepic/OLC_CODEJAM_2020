@@ -34,19 +34,19 @@ namespace GameCore
             SpawnPositions.Add(new WaveSpawnPosition()
             {
                 Name = "North West",
-                Position = new Vector2(Config.WorldWidth, Config.WorldHeight),//Position = new Vector2(0, 0),
+                Position = new Vector2(0, 0),
             });
 
             SpawnPositions.Add(new WaveSpawnPosition()
             {
                 Name = "North East",
-                Position = new Vector2(Config.WorldWidth, Config.WorldHeight),//Position = new Vector2(Config.WorldWidth, 0),
+                Position = new Vector2(Config.WorldWidth, 0),
             });
 
             SpawnPositions.Add(new WaveSpawnPosition()
             {
                 Name = "South West",
-                Position = new Vector2(Config.WorldWidth, Config.WorldHeight),//Position = new Vector2(0, Config.WorldHeight),
+                Position = new Vector2(0, Config.WorldHeight),
             });
 
             SpawnPositions.Add(new WaveSpawnPosition()
