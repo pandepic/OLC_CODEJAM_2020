@@ -229,16 +229,15 @@ namespace GameCore.AI
         public static float GetAngleToTarget(Vector2 position, float rotation, Vector2 target)
         {
             var angle = MathHelper.ToDegrees(MathF.Atan2((target.X - position.X), (position.Y - target.Y)));
-            var distance = Math.Abs(rotation - angle);
 
-            var angle360 = angle;
-            if (angle360 < 0)
-                angle360 = 180.0f + (180.0f + angle360);
-
-            var distance360 = Math.Abs(rotation - angle360);
-
-            if (distance360 < distance)
-                angle = angle360;
+            if (angle < 0.0f)
+            {
+                angle += 360.0f;
+            }
+            else if (angle > 360.0f)
+            {
+                angle -= 360.0f;
+            }
 
             return angle;
         } // GetAngleToTarget

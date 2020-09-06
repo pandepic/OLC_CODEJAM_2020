@@ -66,20 +66,46 @@ namespace GameCore.Entities
 
             if (Rotation != TargetRotation)
             {
-                if (TargetRotation > Rotation)
+                if (Math.Abs(Rotation - TargetRotation) < 1.0f)
                 {
-                    Rotation += TurnSpeed * delta;
-                    if (Rotation > TargetRotation)
-                        Rotation = TargetRotation;
+                    Rotation = TargetRotation;
                 }
                 else
                 {
-                    Rotation -= TurnSpeed * delta;
                     if (Rotation < TargetRotation)
-                        Rotation = TargetRotation;
+                    {
+                        if (Math.Abs(Rotation - TargetRotation) < 180.0f)
+                        {
+                            Rotation += TurnSpeed * delta;
+                        }
+                        else
+                        {
+                            Rotation -= TurnSpeed * delta;
+                        }
+                    }
+                    else
+                    {
+                        if (Math.Abs(Rotation - TargetRotation) < 180.0f)
+                        {
+                            Rotation -= TurnSpeed * delta;
+                        }
+                        else
+                        {
+                            Rotation += TurnSpeed * delta;
+                        }
+                    }
+                }
+
+                if (Rotation < 0.0f)
+                {
+                    Rotation += 360.0f;
+                }
+                else if (Rotation > 360.0f)
+                {
+                    Rotation -= 360.0f;
                 }
             }
-
+                            
             var forwardVector = new Vector2(0f, -1f);
             var rotaterMatrix = Matrix.CreateRotationZ(MathHelper.ToRadians(Rotation));
             forwardVector = Vector2.TransformNormal(forwardVector, rotaterMatrix);

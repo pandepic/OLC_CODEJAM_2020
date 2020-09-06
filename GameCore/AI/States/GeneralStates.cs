@@ -126,8 +126,6 @@ namespace GameCore.AI
     {
         public Ship Target;
         public Vector2 RandomOffset;
-        public float DelayDuration;
-        public float CurrentDelayDuration;
 
         public ShipPatrolFollowState(Ship parentShip) : base("PatrolFollow", parentShip) { }
 
@@ -135,24 +133,11 @@ namespace GameCore.AI
         {
             RandomOffset = new Vector2(WorldData.RNG.Next(-50, 50), WorldData.RNG.Next(-50, 50));
             ParentShip.SetDestination(Target.Position + RandomOffset);
-
-            if (Target.TargetType == TargetType.Large)
-                DelayDuration = 20;
-            else
-                DelayDuration = 0;
-
-            CurrentDelayDuration = DelayDuration;
         }
 
         public override void Update(GameTime gameTime)
         {
-            CurrentDelayDuration -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-            if (CurrentDelayDuration <= 0)
-            {
-                ParentShip.SetDestination(Target.Position + RandomOffset);
-                CurrentDelayDuration = DelayDuration;
-            }
+            ParentShip.SetDestination(Target.Position + RandomOffset);
         }
     }
 
