@@ -162,12 +162,14 @@ namespace GameCore
             
             foreach (var ship in DeadShips)
                 GameplayState.UnitManager.DestroyShip(ship);
+
+            PlayerEntity.Update(gameTime);
         }
 
         public void DrawWorld(SpriteBatch spriteBatch)
         {
-            var camPos = GameplayState.Camera.GetPosition() + GameplayState.Camera.GetOrigin();
-            var viewDistance = Graphics.PresentationParameters.BackBufferWidth / GameplayState.Camera.Zoom;
+            var camPos = Camera.GetPosition() + Camera.GetOrigin();
+            var viewDistance = Graphics.PresentationParameters.BackBufferWidth / (Camera.Zoom * Camera.GetZoomFromZ(Camera.Z, 0f));
 
             for (var i = 0; i <= Asteroids.LastActiveIndex; i++)
             {
@@ -192,7 +194,7 @@ namespace GameCore
             }
         }
 
-        public void DrawScreen(SpriteBatch spriteBatch)
+        public void DrawScreen(SpriteBatch spriteBatch, float z)
         {
             // todo : fix bg not lining up at right edge
             var worldSize = new Vector2(Config.WorldWidth, Config.WorldHeight);
@@ -321,6 +323,19 @@ namespace GameCore
             }
 
             return null;
+            // 5f is furthest Z defined in _zLevels;
+            float backRatio = 1f / (5f - z + 1);
+            Vector2 screenHalf = new Vector2(Graphics.PresentationParameters.BackBufferWidth / 2, Graphics.PresentationParameters.BackBufferHeight / 2);
+            Vector2 topLeft = new Vector2(-screenHalf.X / backRatio, -screenHalf.Y / backRatio);
+            Vector2 bottomRight = new Vector2(WorldWidth + screenHalf.X / backRatio, WorldHeight + screenHalf.Y / backRatio);
+            int width = (int)(bottomRight.X - topLeft.X);
+            int height = (int)(bottomRight.Y - topLeft.Y);
+            int maxSize = Math.Max(width, height); // Preserve square.
+            spriteBatch.Draw(
+                Background,
+                new Rectangle((int)topLeft.X, (int)topLeft.Y, maxSize, maxSize),
+                Color.White
+            );
         }
     }
 }
