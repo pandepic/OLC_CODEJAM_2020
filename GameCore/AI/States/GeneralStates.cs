@@ -34,7 +34,7 @@ namespace GameCore.AI
     {
         public Ship Target;
         public float FollowDistance;
-        public bool Waiting = false;
+        public Vector2 RandomOffset;
 
         public ShipFollowingState(Ship parentShip) : base("Following", parentShip) { }
 
@@ -43,36 +43,34 @@ namespace GameCore.AI
             if (FollowDistance == 0)
                 FollowDistance = Target.ShieldRadius * 4.0f;
 
-            ParentShip.SetDestination(Target.Position);
+            RandomOffset = new Vector2(WorldData.RNG.Next(-50, 50), WorldData.RNG.Next(-50, 50));
+            ParentShip.SetDestination(Target.Position + RandomOffset);
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (Vector2.Distance(Target.Position, ParentShip.Position) <= FollowDistance)
+            if (Vector2.Distance(Target.Position + RandomOffset, ParentShip.Position) <= FollowDistance)
             {
-                ParentShip.StopMovement();
-                Waiting = true;
-            }
-            else
-            {
-                if (Waiting)
+                if (Target.IsMoving)
                 {
-                    if (Vector2.Distance(Target.Position, ParentShip.Position) >= FollowDistance * 2)
-                    {
-                        Waiting = false;
-                    }
+                    ParentShip.MoveSpeed = Target.MoveSpeed;
+                    ParentShip.SetDestination(Target.Position + RandomOffset);
                 }
                 else
                 {
-                    ParentShip.SetDestination(Target.Position);
+                    ParentShip.StopMovement();
                 }
+            }
+            else
+            {
+                ParentShip.MoveSpeed = ParentShip.BaseMoveSpeed;
+                ParentShip.SetDestination(Target.Position + RandomOffset);
             }
         }
 
         public override void End()
         {
-            FollowDistance = 0;
-            Waiting = false;
+            ParentShip.MoveSpeed = ParentShip.BaseMoveSpeed;
         }
     } // ShipFollowingState
 
@@ -81,6 +79,7 @@ namespace GameCore.AI
         public Vector2 Target;
         public float FollowDistance;
         public bool Waiting = false;
+        public Vector2 RandomOffset;
 
         public ShipFollowPositionState(Ship parentShip) : base("FollowPosition", parentShip) { }
 
@@ -89,12 +88,13 @@ namespace GameCore.AI
             if (FollowDistance == 0)
                 FollowDistance = 50.0f + WorldData.RNG.Next(0, 50);
 
-            ParentShip.SetDestination(Target);
+            RandomOffset = new Vector2(WorldData.RNG.Next(-50, 50), WorldData.RNG.Next(-50, 50));
+            ParentShip.SetDestination(Target + RandomOffset);
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (Vector2.Distance(Target, ParentShip.Position) <= FollowDistance)
+            if (Vector2.Distance(Target + RandomOffset, ParentShip.Position) <= FollowDistance)
             {
                 ParentShip.StopMovement();
                 Waiting = true;
@@ -103,14 +103,14 @@ namespace GameCore.AI
             {
                 if (Waiting)
                 {
-                    if (Vector2.Distance(Target, ParentShip.Position) >= FollowDistance * 2)
+                    if (Vector2.Distance(Target + RandomOffset, ParentShip.Position) >= FollowDistance * 2)
                     {
                         Waiting = false;
                     }
                 }
                 else
                 {
-                    ParentShip.SetDestination(Target);
+                    ParentShip.SetDestination(Target + RandomOffset);
                 }
             }
         }
