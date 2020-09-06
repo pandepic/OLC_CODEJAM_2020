@@ -9,6 +9,7 @@ namespace GameCore.AI
     public class MinerTravelingState : ShipStateBase
     {
         public Asteroid Target;
+        public Vector2 RandomOffset;
 
         public MinerTravelingState(Ship parentShip) : base("Traveling", parentShip) { }
 
@@ -17,7 +18,9 @@ namespace GameCore.AI
             var ship = (Miner)ParentShip;
             ship.CurrentMiningTarget = Target;
 
-            ParentShip.SetDestination(Target.Position);
+            RandomOffset = new Vector2(WorldData.RNG.Next(-25, 25), WorldData.RNG.Next(-25, 25));
+
+            ParentShip.SetDestination(Target.Position + RandomOffset);
         }
 
         public override void End()
@@ -26,15 +29,17 @@ namespace GameCore.AI
 
         public override void Update(GameTime gameTime)
         {
-            if (ParentShip.CollisionRect.Intersects(Target.CollisionRect))
+            if (Vector2.Distance(ParentShip.Position, Target.Position + RandomOffset) <= 50)
             {
                 ParentShip.StopMovement();
                 Parent.GetState<MinerMiningState>().Target = Target;
                 Parent.SetState<MinerMiningState>();
+
+                GameplayState.EffectsManager.AddExplosion(Target.Position + RandomOffset, Color.OrangeRed, 1.0f, 3000);
             }
             else
             {
-                ParentShip.SetDestination(Target.Position);
+                ParentShip.SetDestination(Target.Position + RandomOffset);
             }
         }
     }
@@ -63,13 +68,15 @@ namespace GameCore.AI
     public class MinerReturningState : ShipStateBase
     {
         public Ship Target;
+        public Vector2 RandomOffset;
 
         public MinerReturningState(Ship parentShip) : base("Returning", parentShip) { }
 
         public override void Begin()
         {
+            RandomOffset = new Vector2(WorldData.RNG.Next(-50, 50), WorldData.RNG.Next(-50, 50));
             Target = ParentShip.Owner;
-            ParentShip.SetDestination(Target.Position);
+            ParentShip.SetDestination(Target.Position + RandomOffset);
         }
 
         public override void End()
@@ -78,14 +85,14 @@ namespace GameCore.AI
 
         public override void Update(GameTime gameTime)
         {
-            if (Vector2.Distance(ParentShip.Position, Target.Position) <= 100)
+            if (Vector2.Distance(ParentShip.Position, Target.Position + RandomOffset) <= 50)
             {
                 ParentShip.StopMovement();
                 Parent.SetState<MinerDepositingState>();
             }
             else
             {
-                ParentShip.SetDestination(Target.Position);
+                ParentShip.SetDestination(Target.Position + RandomOffset);
             }
         }
     }

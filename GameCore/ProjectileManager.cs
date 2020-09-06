@@ -159,7 +159,7 @@ namespace GameCore.Combat
                 if (projectile.DeathType == ProjectileDeathType.Explosion)
                     GameplayState.EffectsManager.AddExplosion(projectile, anchor, 4.0f);
                 else
-                    GameplayState.EffectsManager.AddExplosion(projectile, Color.Cyan, anchor, 1.5f, 600.0f);
+                    GameplayState.EffectsManager.AddExplosion(projectile, Color.Cyan, anchor, 1.5f, 800.0f);
 
                 Projectiles.Delete(projectile);
             }

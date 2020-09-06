@@ -178,6 +178,8 @@ namespace GameCore
                     asteroid.Draw(spriteBatch);
             }
 
+            GameplayState.EffectsManager.Draw(spriteBatch);
+
             for (var i = 0; i < Ships.Count; i++)
             {
                 var ship = Ships[i];

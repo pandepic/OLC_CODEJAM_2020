@@ -51,7 +51,7 @@ namespace GameCore
                 explosion.Duration -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
                 if (!explosion.Sprite.IsFading)
-                    explosion.Sprite.BeginFadeEffect(0, (ExplosionDuration / 2));
+                    explosion.Sprite.BeginFadeEffect(0, (explosion.Duration / 2));
 
                 if (explosion.Duration <= 0)
                     DeadExplosionEffects.Add(explosion);
@@ -81,6 +81,23 @@ namespace GameCore
             }
         }
 
+        public void AddExplosion(Vector2 position, Color color, float explosionSize, float duration)
+        {
+            var newExplosion = ExplosionEffects.New();
+            newExplosion.Sprite = new Sprite(ExplosionSprite.Texture);
+            newExplosion.Duration = duration;
+            newExplosion.Scale = explosionSize;
+            newExplosion.Position = position;
+            newExplosion.Anchor = null;
+
+            newExplosion.Sprite.SourceRect = ExplosionSprite.SourceRect;
+            newExplosion.Sprite.Center = new Vector2(ExplosionSprite.SourceRect.Width / 2, ExplosionSprite.SourceRect.Height / 2);
+            newExplosion.Sprite.Colour = color;
+            newExplosion.Sprite.Colour.A = 0;
+
+            newExplosion.Sprite.BeginFadeEffect(200, (newExplosion.Duration / 2));
+        }
+
         public void AddExplosion(Entity entity, Entity anchor = null, float explosionSize = 6.0f, float duration = 800.0f)
         {
             AddExplosion(entity, Color.OrangeRed, anchor, explosionSize, duration);
@@ -96,7 +113,7 @@ namespace GameCore
 
             var newExplosion = ExplosionEffects.New();
             newExplosion.Sprite = new Sprite(ExplosionSprite.Texture);
-            newExplosion.Duration = ExplosionDuration;
+            newExplosion.Duration = duration;
             newExplosion.Scale = scaleBy / (float)ExplosionSprite.SourceRect.Width;
             newExplosion.Position = entity.Position;
             newExplosion.Anchor = anchor;
@@ -109,7 +126,7 @@ namespace GameCore
             if (anchor != null)
                 newExplosion.AnchorOffset = newExplosion.Position - anchor.Position;
 
-            newExplosion.Sprite.BeginFadeEffect(200, (ExplosionDuration / 2));
+            newExplosion.Sprite.BeginFadeEffect(200, (newExplosion.Duration / 2));
         }
     }
 }

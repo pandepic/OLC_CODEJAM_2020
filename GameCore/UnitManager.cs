@@ -305,7 +305,7 @@ namespace GameCore
             if (ship is Carrier carrier)
                 carrier.ReparentChildren();
 
-            GameplayState.EffectsManager.AddExplosion(ship, null, 15.0f, 5000.0f);
+            GameplayState.EffectsManager.AddExplosion(ship, null, 15.0f, 2000.0f);
 
             if (ship.IsSelected)
             {
@@ -475,6 +475,16 @@ namespace GameCore
                                                 var returning = miner.GetState<MinerReturningState>();
                                                 returning.Target = miner.Owner;
                                                 miner.SetState(returning);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foreach (Miner miner in kvp.Value)
+                                            {
+                                                miner.CurrentMiningTarget = null;
+                                                var followPosition = miner.GetState<ShipPatrolPositionState>();
+                                                followPosition.Target = mouseWorldPos;
+                                                miner.SetState(followPosition);
                                             }
                                         }
                                     }

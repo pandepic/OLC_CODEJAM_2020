@@ -32,6 +32,7 @@ namespace GameCore.Entities
             StateMachine.RegisterState(new MinerDepositingState(this));
             StateMachine.RegisterState(new ShipFollowingState(this));
             StateMachine.RegisterState(new ShipPatrolFollowState(this));
+            StateMachine.RegisterState(new ShipPatrolPositionState(this));
 
             var patrolFollow = StateMachine.GetState<ShipPatrolFollowState>();
             patrolFollow.Target = Owner;

@@ -255,7 +255,6 @@ namespace GameCore
             // world space
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp, transformMatrix: Camera.GetViewMatrix());
             {
-                EffectsManager.Draw(spriteBatch);
                 WorldManager.DrawWorld(spriteBatch);
                 UnitManager.DrawWorld(spriteBatch);
                 ProjectileManager.Draw(spriteBatch);
