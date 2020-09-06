@@ -21,6 +21,7 @@ namespace GameCore
         protected PUIMenu Menu;
 
         public bool Dragging = false;
+        public bool MinimapDragging = false;
         public Vector2 DragStart = Vector2.Zero;
         public Rectangle DragRect = Rectangle.Empty;
         public Rectangle DragRectWorldSpace = Rectangle.Empty;
@@ -322,7 +323,25 @@ namespace GameCore
         {
             var mousePosition = MouseManager.GetMousePosition();
 
-            if (Dragging)
+            if (MinimapDragging)
+            {
+                if (GameplayState.MinimapFrame.PointInsideFrame(mousePosition))
+                {
+                    var relativeMousePos = mousePosition - GameplayState.MinimapFrame.Position;
+
+                    var worldSize = new Vector2(Config.WorldWidth, Config.WorldHeight);
+                    var minimapSize = new Vector2(GameplayState.MinimapFrame.Width, GameplayState.MinimapFrame.Height);
+                    var minimapRatio = minimapSize / worldSize;
+
+                    var minimapWorldMousePos = relativeMousePos / minimapRatio;
+                    GameplayState.Camera.CenterPosition(minimapWorldMousePos);
+                }
+                else
+                {
+                    MinimapDragging = false;
+                }
+            }
+            else if (Dragging)
             {
                 var left = DragStart.X;
                 var top = DragStart.Y;
@@ -363,7 +382,11 @@ namespace GameCore
 
             if (button == MouseButtonID.Left)
             {
-                if (!Dragging)
+                if (GameplayState.MinimapFrame.PointInsideFrame(mousePosition))
+                {
+                    MinimapDragging = true;
+                }
+                else if (!Dragging)
                 {
                     Dragging = true;
                     DragStart = mousePosition;
@@ -376,13 +399,14 @@ namespace GameCore
 
         public void OnMouseClicked(MouseButtonID button, GameTime gameTime)
         {
+            var mousePosition = MouseManager.GetMousePosition();
+
             if (button == MouseButtonID.Left && Dragging)
             {
                 Dragging = false;
 
                 if (DragRectWorldSpace.Width == 0 && DragRectWorldSpace.Height == 0)
                 {
-                    var mousePosition = MouseManager.GetMousePosition();
                     var mouseWorldPos = GameplayState.Camera.ScreenToWorldPosition(mousePosition);
 
                     DragRectWorldSpace.X = (int)mouseWorldPos.X;
@@ -396,10 +420,23 @@ namespace GameCore
                 if (SelectedShips.Count == 0)
                     SelectHomeShip();
             }
+            
+            if (button == MouseButtonID.Left && MinimapDragging)
+            {
+                var relativeMousePos = mousePosition - GameplayState.MinimapFrame.Position;
+
+                var worldSize = new Vector2(Config.WorldWidth, Config.WorldHeight);
+                var minimapSize = new Vector2(GameplayState.MinimapFrame.Width, GameplayState.MinimapFrame.Height);
+                var minimapRatio = minimapSize / worldSize;
+
+                var minimapWorldMousePos = relativeMousePos / minimapRatio;
+                GameplayState.Camera.CenterPosition(minimapWorldMousePos);
+
+                MinimapDragging = false;
+            }
 
             if (button == MouseButtonID.Right)
             {
-                var mousePosition = MouseManager.GetMousePosition();
                 var mouseWorldPos = GameplayState.Camera.ScreenToWorldPosition(mousePosition);
 
                 if (SelectedShips.Count == 0)

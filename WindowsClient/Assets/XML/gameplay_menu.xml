@@ -483,7 +483,7 @@ Enemies will come from the closest corner of the map to the War Machine.</Text>
       </Widgets>
     </Frame> <!-- frmHelp -->
 
-    <Frame Name="frmMinimap" DrawOrder="3" Visible="true" Active="true" Draggable="true">
+    <Frame Name="frmMinimap" DrawOrder="3" Visible="true" Active="true" Draggable="false">
       <Position>
         <X>right</X>
         <Y>top</Y>
