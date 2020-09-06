@@ -86,12 +86,15 @@ namespace GameCore
         public void DrawScreen(SpriteBatch spriteBatch)
         {
             SBSelection.Clear();
+            SBSelection.Append("Selected: ");
+            var shipsSelected = false;
             foreach (var kvp in SelectedShipTypes)
             {
                 SBSelection.Append("[" + kvp.Key.ToString() + " x" + kvp.Value.Count.ToString() + "] ");
+                shipsSelected = true;
             }
 
-            if (SBSelection.Length == 0)
+            if (!shipsSelected)
                 SBSelection.Append("[War Machine]");
 
             Menu.GetWidget<PUIWLabel>("lblSelection").Text = SBSelection.ToString();
@@ -353,6 +356,16 @@ namespace GameCore
             if (ship.ShipType == ShipType.HomeShip)
             {
                 GameplayState.GameOver = true;
+            }
+
+            if (!ship.IsPlayerShip)
+            {
+                var data = EntityData.ShipTypes[ship.ShipType];
+
+                if (data.WaveValue > -1)
+                {
+                    GameplayState.UpgradeManager.UpgradePoints += data.WaveValue;
+                }
             }
         }
 

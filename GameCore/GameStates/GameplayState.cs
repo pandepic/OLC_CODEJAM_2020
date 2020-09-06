@@ -29,6 +29,7 @@ namespace GameCore
         public static ProjectileManager ProjectileManager;
         public static EffectsManager EffectsManager;
         public static EnemyWaveManager EnemyWaveManager;
+        public static UpgradeManager UpgradeManager;
 
         public static GraphicsDevice Graphics;
 
@@ -53,7 +54,7 @@ namespace GameCore
 
         protected PUIWLabel _lblProductionQueue;
         protected PUIWLabel _lblMetal, _lblGas, _lblWater, _lblCrystal, _lblUranium;
-        protected PUIWBasicButton _btnIdleMiners;
+        protected PUIWBasicButton _btnIdleMiners, _btnUpgrades;
 
         protected Dictionary<ResourceType, int> MinerResourceCounts;
 
@@ -112,6 +113,22 @@ namespace GameCore
         {
             UnitManager.SelectIdleMiners = true;
         }
+
+        protected void Upgrades(params object[] args)
+        {
+            var upgradesFrame = _menu.GetFrame("frmUpgrades");
+
+            upgradesFrame.Visible = !upgradesFrame.Visible;
+            upgradesFrame.Active = upgradesFrame.Visible;
+        }
+
+        protected void Help(params object[] args)
+        {
+            var helpFrame = _menu.GetFrame("frmHelp");
+
+            helpFrame.Visible = !helpFrame.Visible;
+            helpFrame.Active = helpFrame.Visible;
+        }
         #endregion
 
         public override void Load(ContentManager Content, GraphicsDevice graphics)
@@ -129,6 +146,8 @@ namespace GameCore
             _menu.AddMethod(BuildBattleship);
             _menu.AddMethod(BuildCarrier);
             _menu.AddMethod(IdleMiners);
+            _menu.AddMethod(Upgrades);
+            _menu.AddMethod(Help);
 
             _menu.Load(graphics, "GameplayMenuDefinition", "UITemplates");
 
@@ -146,7 +165,9 @@ namespace GameCore
             _lblWater = _menu.GetWidget<PUIWLabel>("lblWater");
             _lblCrystal = _menu.GetWidget<PUIWLabel>("lblCrystal");
             _lblUranium = _menu.GetWidget<PUIWLabel>("lblUranium");
+
             _btnIdleMiners = _menu.GetWidget<PUIWBasicButton>("btnIdleMiners");
+            _btnUpgrades = _menu.GetWidget<PUIWBasicButton>("btnUpgrades");
 
             // create build menu tooltips
             foreach (var kvp in EntityData.ShipTypes)
@@ -195,6 +216,7 @@ namespace GameCore
             WorldManager = new WorldManager();
             ProjectileManager = new ProjectileManager();
             EnemyWaveManager = new EnemyWaveManager();
+            UpgradeManager = new UpgradeManager();
 
             UnitManager.Setup(graphics, _menu);
             WorldManager.Setup(graphics);
@@ -294,6 +316,8 @@ namespace GameCore
             _lblWater.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Water].ToString() + " (" + MinerResourceCounts[ResourceType.Water].ToString() + ")";
             _lblCrystal.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Crystal].ToString() + " (" + MinerResourceCounts[ResourceType.Crystal].ToString() + ")";
             _lblUranium.Text = WorldManager.PlayerEntity.Inventory.Resources[ResourceType.Uranium].ToString() + " (" + MinerResourceCounts[ResourceType.Uranium].ToString() + ")";
+
+            _btnUpgrades.ButtonText = "Upgrades (" + UpgradeManager.UpgradePoints.ToString() + ")";
 
             return _nextGameState;
         }

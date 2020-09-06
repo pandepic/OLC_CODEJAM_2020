@@ -34,3 +34,9 @@
 
     def IdleMinersClicked(instance):
         IdleMiners(None)
+
+    def UpgradesClicked(instance):
+        Upgrades(None)
+
+    def HelpClicked(instance):
+        Help(None)

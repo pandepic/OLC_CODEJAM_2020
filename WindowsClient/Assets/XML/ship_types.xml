@@ -17,7 +17,7 @@
   </Type>
   
   <Type Name="Miner" Sprite="Alien1" Scale="1" TargetType="Small">
-    <Description>Gather resources from asteroids.</Description>
+    <Description>Gather resources from asteroids.\nYou have an upgradeable max number of miners\nthat you can check in the top left of the screen.</Description>
 
     <MoveSpeed>250</MoveSpeed>
     <TurnSpeed>120</TurnSpeed>

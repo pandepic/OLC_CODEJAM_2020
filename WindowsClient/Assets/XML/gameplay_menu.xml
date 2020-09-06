@@ -94,6 +94,36 @@
           </Offset>
         </Label>
 
+        <Button Name="btnHelp" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Help</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.HelpClicked</OnClick>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-225</Y>
+          </Offset>
+        </Button>
+
+        <Button Name="btnUpgrades" Template="StandardButton" Visible="true" Active="true">
+          <Label>
+            <Text>Upgrades</Text>
+          </Label>
+          <OnClick>GameplayMenuScript.GameplayMenu.UpgradesClicked</OnClick>
+          <Position>
+            <X>left</X>
+            <Y>bottom</Y>
+          </Position>
+          <Offset>
+            <X>25</X>
+            <Y>-150</Y>
+          </Offset>
+        </Button>
+
         <Button Name="btnIdleMiners" Template="StandardButton" Visible="true" Active="true">
           <Label>
             <Text>Idle Miners</Text>
