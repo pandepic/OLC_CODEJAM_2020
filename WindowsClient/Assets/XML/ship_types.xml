@@ -43,7 +43,7 @@
     <ShieldHP>200</ShieldHP>
     <ShieldRegenRate>2</ShieldRegenRate>
 
-    <BuildCost Metal="200" Gas="100" Uranium="25" />
+    <BuildCost Metal="100" Gas="75" Uranium="25" />
     <BuildTime>3000</BuildTime>
 
     <Weapons>
@@ -97,8 +97,8 @@
     <MoveSpeed>180</MoveSpeed>
     <TurnSpeed>70</TurnSpeed>
 
-    <ArmourHP>200</ArmourHP>
-    <ShieldHP>200</ShieldHP>
+    <ArmourHP>1000</ArmourHP>
+    <ShieldHP>1000</ShieldHP>
     <ShieldRegenRate>2</ShieldRegenRate>
 
     <BuildCost Metal="750" Gas="500" Water="200" Uranium="200" />
