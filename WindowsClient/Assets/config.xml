@@ -9,7 +9,7 @@
   
   <!-- Battle testing for debugging, if you uncomment this, these will spawn at the start of the game -->
   <TestShips>
-    <Ship Type="MissileFrigate" Player="true" Count="1" />
+    <!--<Ship Type="MissileFrigate" Player="true" Count="1" />
     <Ship Type="BeamFrigate" Player="true" Count="1" />
     <Ship Type="SupportCruiser" Player="true" Count="1" />
     <Ship Type="HeavyCruiser" Player="true" Count="1" />
@@ -21,6 +21,6 @@
     <Ship Type="SupportCruiser" Player="false" Count="1" />
     <Ship Type="HeavyCruiser" Player="false" Count="1" />
     <Ship Type="Battleship" Player="false" Count="1" />
-    <Ship Type="Carrier" Player="false" Count="1" />
+    <Ship Type="Carrier" Player="false" Count="1" />-->
   </TestShips>
 </Config>
